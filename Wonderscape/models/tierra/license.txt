@@ -1,0 +1,11 @@
+Model Information:
+* title:	planeta tierra
+* source:	https://sketchfab.com/3d-models/planeta-tierra-ba1fe34d4659498a8043cf543ca146c0
+* author:	lechmk (https://sketchfab.com/lechmk)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "planeta tierra" (https://sketchfab.com/3d-models/planeta-tierra-ba1fe34d4659498a8043cf543ca146c0) by lechmk (https://sketchfab.com/lechmk) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

@@ -1,0 +1,35 @@
+# Archivos y carpetas generados por Visual Studio
+.vs/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Compilados y temporales
+*.obj
+*.exe
+*.dll
+*.lib
+*.ipch
+*.aps
+*.ncb
+*.sdf
+*.opensdf
+*.tlog
+*.VC.db
+*.VC.VC.opendb
+
+# Carpeta de compilación
+Debug/
+Release/
+x64/
+x86/
+
+# Otros
+*.tmp
+*.bak
+*.db
+*.log
+*.pdb
+*.shm
+*.wal
