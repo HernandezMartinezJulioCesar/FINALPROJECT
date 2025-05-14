@@ -53,6 +53,7 @@
     <None Include="default.vert">
       <Filter>Archivos de recursos\Shaders</Filter>
     </None>
+    <None Include=".gitignore" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EBO.cpp">

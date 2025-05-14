@@ -150,6 +150,7 @@
     <ClInclude Include="VBO.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".gitignore" />
     <None Include="default.frag" />
     <None Include="default.vert" />
   </ItemGroup>
