@@ -75,8 +75,12 @@
     <LibraryPath>C:\Users\KARINA MERCEDES\Documents\GitHub\PROJECTPG\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\KARINA MERCEDES\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\KARINA MERCEDES\Documents\GitHub\PROJECTPG\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;C:\Users\KARINA MERCEDES\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\lib;C:\Users\KARINA MERCEDES\Documents\GitHub\PROJECTPG\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <IncludePath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
+    <LibraryPath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -136,36 +140,52 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib%(AditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Dependencies\include\stb\stb_image.h" />
     <ClInclude Include="EBO.h" />
+    <ClInclude Include="EBOmp.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="shaderClass.h" />
+    <ClInclude Include="shaderClassmp.h" />
     <ClInclude Include="Texture.h" />
+    <ClInclude Include="Texturemp.h" />
     <ClInclude Include="VAO.h" />
+    <ClInclude Include="VAOmp.h" />
     <ClInclude Include="VBO.h" />
+    <ClInclude Include="VBOmp.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
     <None Include="default.frag" />
     <None Include="default.vert" />
+    <None Include="defaultmp.frag" />
+    <None Include="defaultmp.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\GLAD\src\glad.c" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="EBO.cpp" />
+    <ClCompile Include="EBOmp.cpp" />
+    <ClCompile Include="glad.c" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="shaderClass.cpp" />
+    <ClCompile Include="shaderClassmp.cpp" />
     <ClCompile Include="stb.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="Texturemp.cpp" />
     <ClCompile Include="VAO.cpp" />
+    <ClCompile Include="VAOmp.cpp" />
     <ClCompile Include="VBO.cpp" />
+    <ClCompile Include="VBOmp.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\..\..\..\source\repos\Lab4\Menu.jpg" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
