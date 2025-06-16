@@ -1,6 +1,6 @@
 #include"shaderClassmp.h"
 
-std::string get_file_contents(const char* filename)
+std::string get_file_content(const char* filename)
 {
 	std::ifstream in(filename, std::ios::binary);
 	if (in)
@@ -21,8 +21,8 @@ std::string get_file_contents(const char* filename)
 
 Shadermp::Shadermp(const char* vertexFile, const char* fragmentFile)
 {
-	std::string vertexCode = get_file_contents(vertexFile);
-	std::string fragmentCode = get_file_contents(fragmentFile);
+	std::string vertexCode = get_file_content(vertexFile);
+	std::string fragmentCode = get_file_content(fragmentFile);
 
 	const char* vertexSource = vertexCode.c_str();
 	const char* fragmentSource = fragmentCode.c_str();

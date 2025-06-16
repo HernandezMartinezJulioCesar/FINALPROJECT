@@ -141,7 +141,7 @@ int main()
 		glfwPollEvents();
 	}
 
-
+	  
 
 	// Delete all the objects we've created
 	VAO1.Delete();

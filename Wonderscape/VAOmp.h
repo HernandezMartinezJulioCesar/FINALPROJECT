@@ -13,7 +13,7 @@ public:
 	VAOmp();
 
 	// Links a VBO Attribute such as a position or color to the VAO
-	void LinkAttrib(VBO& VBO, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset);
+	void LinkAttrib(VBOmp& VBOmp, GLuint layout, GLuint numComponents, GLenum type, GLsizeiptr stride, void* offset);
 	// Binds the VAO
 	void Bind();
 	// Unbinds the VAO

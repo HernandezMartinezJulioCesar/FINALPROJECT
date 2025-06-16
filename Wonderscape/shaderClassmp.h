@@ -1,5 +1,5 @@
-#ifndef SHADER_CLASS_H
-#define SHADER_CLASS_H
+#ifndef SHADER_CLASSMP_H
+#define SHADER_CLASSMP_H
 
 #include<glad/glad.h>
 #include<iostream>
@@ -8,7 +8,7 @@
 #include<iostream>
 #include<cerrno>
 
-std::string get_file_contents(const char* filename);
+std::string get_file_content(const char* filename);
 
 class Shadermp {
 
