@@ -63,7 +63,7 @@ void Model::traverseNode(unsigned int nextNode, glm::mat4 matrix)
 		translation = glm::make_vec3(transValues);
 	}
 	// Get quaternion if it exists
-	glm::quat rotation = glm::quat(1.0f, 0.0f, 0.0f, 0.0f);
+	glm::quat rotation = glm::quat(0.0f, 1.0f, 0.0f, 0.0f);
 	if (node.find("rotation") != node.end())
 	{
 		float rotValues[4] =
