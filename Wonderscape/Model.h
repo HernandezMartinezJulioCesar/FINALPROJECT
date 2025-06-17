@@ -15,7 +15,7 @@ public:
 
 	void Draw(Shader& shader, Camera& camera);
 
-private:
+public:
 	// Variables for easy access
 	const char* file;
 	std::vector<unsigned char> data;
