@@ -14,6 +14,7 @@ public:
 	Model(const char* file);
 
 	void Draw(Shader& shader, Camera& camera);
+	void DrawRotation(Shader& shader, Camera& camera, glm::mat4 extraTransform);
 
 public:
 	// Variables for easy access
