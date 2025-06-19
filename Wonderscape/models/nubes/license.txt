@@ -1,0 +1,11 @@
+Model Information:
+* title:	Nubes Ta
+* source:	https://sketchfab.com/3d-models/nubes-ta-1aaa78ac705b448083b3c66e0d1f1fbc
+* author:	Design Factory (https://sketchfab.com/SrColmillo)
+
+Model License:
+* license type:	CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
+* requirements:	Author must be credited. No commercial use.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Nubes Ta" (https://sketchfab.com/3d-models/nubes-ta-1aaa78ac705b448083b3c66e0d1f1fbc) by Design Factory (https://sketchfab.com/SrColmillo) licensed under CC-BY-NC-4.0 (http://creativecommons.org/licenses/by-nc/4.0/)
