@@ -23,6 +23,9 @@ public:
 	// Prevents the camera from jumping around when first clicking left click
 	bool firstClick = true;
 
+	// Controls whether camera inputs are processed
+	bool inputsEnabled = true;
+
 	// Stores the width and height of the window
 	int width;
 	int height;

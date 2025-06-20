@@ -1,47 +1,34 @@
+#include <glad/glad.h>
+#include <GLFW/glfw3.h>
+#include <GLFW/glfw3native.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <stb/stb_image.h>
+
+#include "Config.h"
 #include "MenuPrincipal.h"
+#include "UI_TIERRA.h"
 
 #include "VAOF.h"
 #include "VBOF.h"
 #include "EBOF.h"
 #include "Model.h"
 #include "Camera.h"
+#include "shaderClass.h"
 #include "shaderClassF.h"
 #include "TextRenderer.h"
 #include "Circle.h"
 #include "Button.h"
+#include "Texture.h"
 #include "TextureF.h"
 #include "AudioManager.h"
-
-#include <GLFW/glfw3.h>
-#include <GLFW/glfw3native.h>
-#include <glad/glad.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-#include <stb/stb_image.h>
 
 #include <iostream>
 #include <vector>
 #include <cstdlib>
 #include <ctime>
 #include <Windows.h>
-
-const unsigned int width = 1920;
-const unsigned int height = 1080;
-
-enum AppState {
-    MENU_PRINCIPAL,
-    PANTALLA_EXPLORAR,
-    PANTALLA_CREDITOS,
-    PANTALLA_AYUDA,
-    PANTALLA_VIAJAR
-};
-
-struct ButtonClick {
-    int index = -1;
-    double clickTime = 0.0;
-    bool waiting = false;
-};
 
 float rgb(int color) {
     return color / 255.0f;
@@ -135,7 +122,7 @@ int MenuPrincipal() {
     modelShader.Activate();
     glUniform4f(glGetUniformLocation(modelShader.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 
-    Camera camera(width, height, glm::vec3(0.0f, 0.0f, 0.0f));
+    Camera camera(width, height, glm::vec3(0.0f));
     Model earth("models/tierra/scene.gltf");
     Model clouds("models/nubes/scene.gltf");
     Model uni("models/ModelUni/UNI.gltf");
@@ -155,7 +142,7 @@ int MenuPrincipal() {
     };
 
     // Boton de Ayuda y Creditos
-    Button botonSalir = Button(glm::vec2(20, 1000), glm::vec2(235, 75), "Atras");
+    Button botonAtras = Button(glm::vec2(20, 1000), glm::vec2(235, 75), "Atras");
 
     // Estado del menu
     AppState estadoActual = MENU_PRINCIPAL;
@@ -253,8 +240,7 @@ int MenuPrincipal() {
             circle.Draw(circleShader);
             glEnable(GL_DEPTH_TEST);
 
-            glm::vec3 earthPosition = glm::vec3(-2.0f, 0.0f, 3.7f);
-            glm::mat4 earthTransform = glm::translate(glm::mat4(1.0f), earthPosition);
+            glm::mat4 earthTransform = glm::translate(glm::mat4(1.0f), glm::vec3(-2.0f, 0.0f, 3.7f));
             earthTransform = glm::rotate(earthTransform, glm::radians(time * 20.0f), glm::vec3(1.0f, 1.0f, 1.0f));
             earth.DrawRotation(modelShader, camera, earthTransform);
 
@@ -293,7 +279,7 @@ int MenuPrincipal() {
                     case 0: estadoActual = PANTALLA_EXPLORAR; break;
                     case 1: estadoActual = PANTALLA_AYUDA; break;
                     case 2: estadoActual = PANTALLA_CREDITOS; break;
-                    case 3: glfwSetWindowShouldClose(window, true); break;
+                    case 3: estadoActual = PANTALLA_SALIR; break;
                     }
                     clickState.waiting = false;
                 }
@@ -311,10 +297,10 @@ int MenuPrincipal() {
             glEnable(GL_DEPTH_TEST);
 
             // Boton
-            bool hovered = botonSalir.isHovered(mouseX, mouseY);
+            bool hovered = botonAtras.isHovered(mouseX, mouseY);
             bool clicked = false;
             glDisable(GL_DEPTH_TEST);
-            botonSalir.render(buttonRenderer, height, hovered, clickState.waiting);
+            botonAtras.render(buttonRenderer, height, hovered, clickState.waiting);
             glEnable(GL_DEPTH_TEST);
 
             if (hovered && mousePressed && !clickState.waiting) {
@@ -356,6 +342,14 @@ int MenuPrincipal() {
             else if (estadoActual == PANTALLA_AYUDA) {
 
             }
+        }
+        else if (estadoActual == PANTALLA_EXPLORAR) {
+            UI_Tierra(window, camera, modelShader, earth, buttonRenderer, audio);
+            camera = Camera(width, height, glm::vec3(0.0f));
+            estadoActual = MENU_PRINCIPAL;
+        }
+        else if (estadoActual == PANTALLA_SALIR) {
+            break;
         }
 
         glEnable(GL_DEPTH_TEST);
