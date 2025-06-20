@@ -1,6 +1,4 @@
-#include"Camera.h"
-
-
+#include "Camera.h"
 
 Camera::Camera(int width, int height, glm::vec3 position)
 {
@@ -30,10 +28,15 @@ void Camera::Matrix(Shader& shader, const char* uniform)
 	glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(cameraMatrix));
 }
 
-
-
 void Camera::Inputs(GLFWwindow* window)
 {
+	if (!inputsEnabled) {
+		// Restore cursor if inputs are disabled
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		firstClick = true;
+		return;
+	}
+
 	// Handles key inputs
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
 	{
