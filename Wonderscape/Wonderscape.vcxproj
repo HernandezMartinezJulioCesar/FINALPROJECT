@@ -75,12 +75,12 @@
     <LibraryPath>C:\Users\KARINA MERCEDES\Documents\GitHub\PROJECTPG\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\KARINA MERCEDES\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\KARINA MERCEDES\Documents\GitHub\PROJECTPG\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(VC_IncludePath);$(WindowsSDK_IncludePath);</IncludePath>
-    <LibraryPath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\lib;$(VC_LibraryPath_x64);$(WindowsSDK_LibraryPath_x64)</LibraryPath>
+    <IncludePath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -121,9 +121,9 @@
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib%(AditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;freetype.lib;irrKlang.lib;%(AditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -136,56 +136,74 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib%(AditionalDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;freetype.lib;irrKlang.lib;%(AditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="AudioManager.h" />
+    <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="Circle.h" />
+    <ClInclude Include="Config.h" />
     <ClInclude Include="Dependencies\include\stb\stb_image.h" />
     <ClInclude Include="EBO.h" />
-    <ClInclude Include="EBOmp.h" />
+    <ClInclude Include="EBOF.h" />
+    <ClInclude Include="MenuPrincipal.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
     <ClInclude Include="shaderClass.h" />
-    <ClInclude Include="shaderClassmp.h" />
+    <ClInclude Include="shaderClassF.h" />
+    <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Texture.h" />
-    <ClInclude Include="Texturemp.h" />
+    <ClInclude Include="TextureF.h" />
+    <ClInclude Include="UI_TIERRA.h" />
     <ClInclude Include="VAO.h" />
-    <ClInclude Include="VAOmp.h" />
+    <ClInclude Include="VAOF.h" />
     <ClInclude Include="VBO.h" />
-    <ClInclude Include="VBOmp.h" />
+    <ClInclude Include="VBOF.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
+    <None Include="background.frag" />
+    <None Include="background.vert" />
+    <None Include="circle.frag" />
+    <None Include="circle.vert" />
     <None Include="default.frag" />
     <None Include="default.vert" />
-    <None Include="defaultmp.frag" />
-    <None Include="defaultmp.vert" />
+    <None Include="defaultModel.frag" />
+    <None Include="text.frag" />
+    <None Include="text.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AudioManager.cpp" />
+    <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Circle.cpp" />
     <ClCompile Include="EBO.cpp" />
-    <ClCompile Include="EBOmp.cpp" />
+    <ClCompile Include="EBOF.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Main.cpp" />
+    <ClCompile Include="MenuPrincipal.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
     <ClCompile Include="shaderClass.cpp" />
-    <ClCompile Include="shaderClassmp.cpp" />
+    <ClCompile Include="shaderClassF.cpp" />
     <ClCompile Include="stb.cpp" />
+    <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Texturemp.cpp" />
+    <ClCompile Include="TextureF.cpp" />
+    <ClCompile Include="UI_TIERRA.cpp" />
     <ClCompile Include="VAO.cpp" />
-    <ClCompile Include="VAOmp.cpp" />
+    <ClCompile Include="VAOF.cpp" />
     <ClCompile Include="VBO.cpp" />
-    <ClCompile Include="VBOmp.cpp" />
+    <ClCompile Include="VBOF.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\source\repos\Lab4\Menu.jpg" />
+    <ResourceCompile Include="icono.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

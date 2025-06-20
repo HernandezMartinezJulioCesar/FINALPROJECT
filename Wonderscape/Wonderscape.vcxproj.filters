@@ -48,19 +48,40 @@
     <ClInclude Include="Model.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="EBOmp.h">
+    <ClInclude Include="AudioManager.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="shaderClassmp.h">
+    <ClInclude Include="Button.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="Texturemp.h">
+    <ClInclude Include="Circle.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="VBOmp.h">
+    <ClInclude Include="EBOF.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
-    <ClInclude Include="VAOmp.h">
+    <ClInclude Include="MenuPrincipal.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="shaderClassF.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRenderer.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureF.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="VAOF.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="VBOF.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_TIERRA.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Config.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
   </ItemGroup>
@@ -72,10 +93,25 @@
       <Filter>Archivos de recursos\Shaders</Filter>
     </None>
     <None Include=".gitignore" />
-    <None Include="defaultmp.frag">
+    <None Include="defaultModel.frag">
       <Filter>Archivos de recursos\Shaders</Filter>
     </None>
-    <None Include="defaultmp.vert">
+    <None Include="circle.frag">
+      <Filter>Archivos de recursos\Shaders</Filter>
+    </None>
+    <None Include="circle.vert">
+      <Filter>Archivos de recursos\Shaders</Filter>
+    </None>
+    <None Include="background.frag">
+      <Filter>Archivos de recursos\Shaders</Filter>
+    </None>
+    <None Include="background.vert">
+      <Filter>Archivos de recursos\Shaders</Filter>
+    </None>
+    <None Include="text.frag">
+      <Filter>Archivos de recursos\Shaders</Filter>
+    </None>
+    <None Include="text.vert">
       <Filter>Archivos de recursos\Shaders</Filter>
     </None>
   </ItemGroup>
@@ -113,25 +149,43 @@
     <ClCompile Include="glad.c">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="EBOmp.cpp">
+    <ClCompile Include="AudioManager.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="shaderClassmp.cpp">
+    <ClCompile Include="Button.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="Texturemp.cpp">
+    <ClCompile Include="Circle.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="VBOmp.cpp">
+    <ClCompile Include="EBOF.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
-    <ClCompile Include="VAOmp.cpp">
+    <ClCompile Include="MenuPrincipal.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="shaderClassF.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="TextRenderer.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureF.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="VAOF.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="VBOF.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_TIERRA.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\..\..\..\source\repos\Lab4\Menu.jpg">
-      <Filter>Archivos de recursos\Textures</Filter>
-    </Image>
+    <ResourceCompile Include="icono.rc">
+      <Filter>Archivos de recursos</Filter>
+    </ResourceCompile>
   </ItemGroup>
 </Project>

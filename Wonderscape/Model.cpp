@@ -23,6 +23,15 @@ void Model::Draw(Shader& shader, Camera& camera)
 	}
 }
 
+void Model::DrawRotation(Shader& shader, Camera& camera, glm::mat4 extraTransform)
+{
+	for (unsigned int i = 0; i < meshes.size(); i++)
+	{
+		glm::mat4 finalModel = extraTransform * matricesMeshes[i];
+		meshes[i].Mesh::Draw(shader, camera, finalModel);
+	}
+}
+
 void Model::loadMesh(unsigned int indMesh)
 {
 	// Get all accessor indices
