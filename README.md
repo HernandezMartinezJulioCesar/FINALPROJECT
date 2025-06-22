@@ -24,5 +24,6 @@ Wonder Scape arises as an academic project of the subject “Graphic Programming
 
 ## 👻 Preview
 
+<img width="80px" src="Pictures/Gift1.gif"/>
 
 
