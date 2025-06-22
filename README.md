@@ -23,7 +23,6 @@ Project realized in C++ using OpenGl, it is based on a virtual walk in the 7 won
 Wonder Scape arises as an academic project of the subject “Graphic Programming” that combines the C++ language with the OpenGl standard specification. The objective is to make a virtual walk through the 7 wonders of the modern world using a simple graphics engine.
 
 ## 👻 Preview
-
-<img width="80px" src="Pictures/Gift1.gif"/>
+<img src="Pictures/Gift1.gif" width="400"/>
 
 
