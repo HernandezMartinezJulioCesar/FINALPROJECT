@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+ï»¿#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -17,6 +17,56 @@
 #include "VBOF.h"
 #include "EBOF.h"
 
+std::vector<std::string> nombreMaravillas = {
+    "PETRA",
+    "TAJ MAHAL",
+    "CHICHEN ITZA",
+    "MACHU PICCHU",
+    "ROMAN COLOSSEUM",
+    "GREAT WALL OF CHINA",
+    "CHRIST THE REDEEMER"
+};
+
+std::vector<std::string> direccionMaravillas = {
+    "images/petra.jpg",
+    "images/taj.jpg",
+    "images/chichen.jpg",
+    "images/machu.jpg",
+    "images/coliseo.jpg",
+    "images/wall.jpg",
+    "images/cristo.jpg"
+};
+
+std::vector<glm::vec3> posicionCamara = {
+    glm::vec3(-2.61041f, 1.9169f, 1.78921f),
+    glm::vec3(-1.20549f, 1.69786f, 3.05844f),
+    glm::vec3(-0.100319f, 1.33823f, -3.44805f),
+    glm::vec3(-0.98453f, -0.707171f, -3.4958f),
+    glm::vec3(-2.65715f, 2.51288f, 0.561229f),
+    glm::vec3(1.18042f, 2.40114f, 2.55561f),
+    glm::vec3(-2.33769f, -1.48195f, -2.45541f)
+};
+
+std::vector<glm::vec3> posicionLocation = {
+    glm::vec3(0.84862f, -0.66570f, -0.58028f),
+    glm::vec3(0.39097f, -0.57766f, -0.99193f),
+    glm::vec3(0.01854f, -0.47502f, 1.11829f),
+    glm::vec3(0.31231f, 0.18535f, 1.13377f),
+    glm::vec3(0.86178f, -0.86699f, -0.18202f),
+    glm::vec3(-0.38284f, -0.84575f, -0.82885f),
+    glm::vec3(0.75817f, 0.42663f, 0.79635f)
+};
+
+std::vector<glm::vec3> rotacionLocation = {
+    glm::vec3(-22.4f, -58.2997f, -14.1f),
+    glm::vec3(-31.1f, -22.7f, -11.1f),
+    glm::vec3(26.5f, 3.8f, -1.9f),
+    glm::vec3(-10.5f, 12.2f, 0.8f),
+    glm::vec3(-1.8f, -79.3994f, -1.1f),
+    glm::vec3(-34.1f, 11.3f, 14.8f),
+    glm::vec3(-11.2f, 41.8f, 8.9f)
+};
+
 float rgb1(int color) {
     return color / 255.0f;
 }
@@ -25,21 +75,76 @@ std::wstring convertirAWideString(const std::string& str) {
     return std::wstring(str.begin(), str.end());
 }
 
-AppState mostrarVistaPrevia(GLFWwindow* window, Camera& camera, Shader& modelShader, Model& earth,
-    TextRenderer& textRenderer, ShaderF& backgroundShader, VAOF& vaoF,
-    AudioManager& audio, const std::string& titulo, const std::string& imagenPath, glm::vec3 rotacionFija)
+float pos(int point, float base) {
+    return (point / base) * 2.0f - 1.0f;
+}
+
+void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& lupaModel, Model& animation)
 {
-    // Imagen de fondo
-    TextureF previewImage(imagenPath.c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
+    // background audio
+    AudioManager audio;
+    audio.playBackgroundMusic("media/outer space.mp3");
+    audio.setMusicVolume(0.1f);
+    audio.setEffectsVolume(0.4f);
 
-    // Botones
-    Button botonExplorar(glm::vec2(750, 20), glm::vec2(200, 60), "Explore");
-    Button botonAtras(glm::vec2(20, 20), glm::vec2(200, 60), "Back");
+    // Load text
+    TextRenderer textRenderer(width, height), buttonRenderer(width, height), principalRenderer(width, height);
+    textRenderer.Load("fonts/Crushed.ttf", 55);
+    buttonRenderer.Load("fonts/Crushed.ttf", 35);
+    principalRenderer.Load("fonts/JungleAdventurer.ttf", 100);
 
-    ButtonClick clickState, clickBack;
-    bool mousePressed = false;
+    // Image for previews
+    unsigned int Indices[] = {
+        0, 1, 2,
+        2, 3, 0
+    };
 
-    // Cargar modelo de localización
+    // Image panel
+    ShaderF panelShader("panel.vert", "panel.frag");
+
+    float panelVertices[] = {
+        pos(20, width), pos(820, height),
+        pos(20, width), pos(260, height),
+        pos(580, width), pos(260, height),
+        pos(580, width), pos(820, height)
+    };
+
+    VAOF panelVAO;
+    panelVAO.Bind();
+    VBOF panelVBO(panelVertices, sizeof(panelVertices));
+    EBOF panelEBO(Indices, sizeof(Indices));
+
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+
+    panelVAO.Unbind();
+    panelVBO.Unbind();
+    panelEBO.Unbind();
+
+    // Image
+    ShaderF imageShader("background.vert", "background.frag");
+
+    float imageVertices[] = {
+        pos(60, width), pos(780, height), 0.0f, 1.0f,
+        pos(60, width), pos(300, height), 0.0f, 0.0f,
+        pos(540, width), pos(300, height), 1.0f, 0.0f,
+        pos(540, width), pos(780, height), 1.0f, 1.0f
+    };
+
+    VAOF imagevaoF;
+    imagevaoF.Bind();
+    VBOF imagevboF(imageVertices, sizeof(imageVertices));
+    EBOF imageeboF(Indices, sizeof(Indices));
+
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    imagevaoF.Unbind(); imagevboF.Unbind(); imageeboF.Unbind();
+    TextureF previewImage(direccionMaravillas[0].c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
+
+    // Load localization model
     Model location("models/LocationIcon/scene.gltf");
     Texture Textura("models/LocationIcon/textures/rojo.jpg", "albedo", 0);
     for (auto& mesh : location.meshes)
@@ -48,151 +153,64 @@ AppState mostrarVistaPrevia(GLFWwindow* window, Camera& camera, Shader& modelSha
         mesh.textures.push_back(Textura);
     }
 
-    // Loop de renderizado
-    while (!glfwWindowShouldClose(window)) {
-        float deltaTime = 0.016f;
-        glfwPollEvents();
+    // Botones de la pantalla Explore
+    std::vector<Button> botonesExplore = {
+        Button(glm::vec2(20, 780), glm::vec2(190, 55), nombreMaravillas[0]),
+        Button(glm::vec2(20, 680), glm::vec2(320, 55), nombreMaravillas[1]),
+        Button(glm::vec2(20, 580), glm::vec2(382, 55), nombreMaravillas[2]),
+        Button(glm::vec2(20, 480), glm::vec2(410, 55), nombreMaravillas[3]),
+        Button(glm::vec2(20, 380), glm::vec2(550, 55), nombreMaravillas[4]),
+        Button(glm::vec2(20, 280), glm::vec2(615, 55), nombreMaravillas[5]),
+        Button(glm::vec2(20, 180), glm::vec2(632, 55), nombreMaravillas[6]),
+        Button(glm::vec2(20, 20), glm::vec2(200, 65), "Back"),
+    };
 
-        // Entrada de mouse
-        double mouseX, mouseY;
-        glfwGetCursorPos(window, &mouseX, &mouseY);
-        mouseY = height - mouseY;
-        mousePressed = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS;
+    // Botones de la pantalla Vista Previa
+    std::vector<Button> botonesPrevia = {
+        Button(glm::vec2(1484, 436), glm::vec2(200, 74), "Back"),
+        Button(glm::vec2(1429, 570), glm::vec2(310, 74), "Explore")
+    };
 
-        // Limpiar pantalla
-        glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        // Actualizar cámara
-        camera.Inputs(window);
-        camera.updateMatrix(45.0f, 0.1f, 100.0f);
-
-        // Dibujar Tierra orientada a la maravilla
-        glm::mat4 earthTransform = glm::translate(glm::mat4(1.0f), glm::vec3(-1.0f, 0.2f, 3.7f));
-        earthTransform = glm::rotate(earthTransform, rotacionFija.x, glm::vec3(1.0f, 0.0f, 0.0f));
-        earthTransform = glm::rotate(earthTransform, rotacionFija.y, glm::vec3(0.0f, 1.0f, 0.0f));
-        earthTransform = glm::rotate(earthTransform, rotacionFija.z, glm::vec3(0.0f, 0.0f, 1.0f));
-        earth.DrawRotation(modelShader, camera, earthTransform);
-
-        // Dibujar marcador de ubicación en la Tierra
-        glm::mat4 locationTransform = glm::translate(glm::mat4(1.0f), glm::vec3(-0.3f, -0.25f, 1.0f));
-        locationTransform = glm::scale(locationTransform, glm::vec3(0.025f)); // tamaño pequeño
-        modelShader.Activate();
-        location.DrawRotation(modelShader, camera, locationTransform);
-
-        // Dibujar imagen de fondo
-        glDisable(GL_DEPTH_TEST);
-        backgroundShader.Activate();
-        vaoF.Bind();
-        previewImage.Bind();
-        previewImage.texUnit(backgroundShader.ID, "backgroundTexture", 0);
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-        glEnable(GL_DEPTH_TEST);
-
-        // Dibujar título
-        glDisable(GL_DEPTH_TEST);
-        textRenderer.RenderText(convertirAWideString(titulo), 500.0f, height - 100.0f, 1.0f, glm::vec3(rgb1(230), rgb1(57), rgb1(70)));
-        glEnable(GL_DEPTH_TEST);
-
-        // Botón "Explore"
-        bool hoveredExplore = botonExplorar.isHovered(mouseX, mouseY);
-        botonExplorar.render(textRenderer, height, hoveredExplore, false);
-        if (hoveredExplore && mousePressed && !clickState.waiting) {
-            audio.playClickSound();
-            clickState.clickTime = glfwGetTime();
-            clickState.waiting = true;
-        }
-        if (clickState.waiting && (glfwGetTime() - clickState.clickTime >= 0.3)) {
-            clickState.waiting = false;
-            return PANTALLA_EXPLORAR;
-        }
-
-        // Botón "Back"
-        bool hoveredBack = botonAtras.isHovered(mouseX, mouseY);
-        botonAtras.render(textRenderer, height, hoveredBack, false);
-        if (hoveredBack && mousePressed && !clickBack.waiting) {
-            audio.playClickSound();
-            clickBack.clickTime = glfwGetTime();
-            clickBack.waiting = true;
-        }
-        if (clickBack.waiting && (glfwGetTime() - clickBack.clickTime >= 0.3)) {
-            clickBack.waiting = false;
-            return PANTALLA_EXPLORAR;
-        }
-
-        // Mostrar frame
-        glfwSwapBuffers(window);
-    }
-
-    return PANTALLA_EXPLORAR;
-}
-
-
-void UI_Tierra(GLFWwindow* window, Camera& camera, Shader& modelShader, Model& earth, TextRenderer& buttonRenderer, AudioManager& audio)
-{
     // Estado del panel
-    AppState estadoActual = PANTALLA_EXPLORAR, siguientePantalla = MENU_PRINCIPAL;
-
-    // Boton de click
+    AppState estadoActual = PANTALLA_EXPLORAR;
     ButtonClick clickState;
     bool mousePressed = false;
     bool mouseReleased = false;
 
-    // Botones del Menu Principal
-    std::vector<Button> botonesMaravillas = {
-        Button(glm::vec2(20, 700), glm::vec2(850, 75), "Great Wall of China"),
-        Button(glm::vec2(20, 600), glm::vec2(230, 75), "Petra"),
-        Button(glm::vec2(20, 500), glm::vec2(840, 75), "Christ the Redeemer"),
-        Button(glm::vec2(20, 400), glm::vec2(600, 75), "Machu Picchu"),
-        Button(glm::vec2(20, 300), glm::vec2(520, 75), "Chichen Itza"),
-        Button(glm::vec2(20, 200), glm::vec2(730, 75), "Roman Colosseum"),
-        Button(glm::vec2(20, 100), glm::vec2(430, 75), "Taj Mahal")
-    };
+    std::string titulo, rutaImagen;
+    glm::vec3 posCamara = glm::vec3(0.0f);
+    int maravillaSeleccionada = 0;
 
-    ShaderF backgroundShader("background.vert", "background.frag");
+    // Camara orbital
+    Camera camera(width, height, glm::vec3(0.0f));
+    camera.Position = glm::vec3(0.0f, 0.0f, camera.orbitRadius);
 
-    float backgroundVertices[] = {
-    -0.8333f,  0.7407f,  0.0f, 1.0f,
-    -0.8333f, -0.7407f,  0.0f, 0.0f,
-    -0.1667f, -0.7407f,  1.0f, 0.0f,
-    -0.1667f,  0.7407f,  1.0f, 1.0f
-    };
-    unsigned int backgroundIndices[] = {
-        0, 1, 2,
-        2, 3, 0
-    };
+    // Animacion inmersion
+    bool animacionIniciada = false;
+    float tiempoInicioAnimacion = 0.0f;
+    float lastFrame = 0.0f;
 
+    // Tierra
+    float duracionTierra = 2.0f;
+    float escalaTierraInicial = 1.0f;
+    float escalaTierraFinal = 3.6f;
+    float progresoTierra = escalaTierraInicial;
 
-    VAOF vaoF;
-    vaoF.Bind();
-    VBOF vboF(backgroundVertices, sizeof(backgroundVertices));
-    EBOF eboF(backgroundIndices, sizeof(backgroundIndices));
+    // Nubes
+    float duracionNubes = 1.0f;
+    float escalaNubesInicial = 0.007f;
+    float escalaNubesFinal = 0.009f;
+    float progresoNube = escalaNubesInicial;
 
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    vaoF.Unbind();
-
-
-    // Cargar texto
-    TextRenderer textRenderer(width, height);
-    textRenderer.Load("fonts/River Adventurer.ttf", 100);
-
-    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
     while (true)
     {
-        // Detectar si se presionó ESC para volver al menú
+        // Detectar si se presionï¿½ ESC para volver al menï¿½
         glfwPollEvents();
-        if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-            estadoActual = MENU_PRINCIPAL;
-            break;
-        }
 
         // Tiempo
         float time = glfwGetTime();
-        float deltaTime = 0.016f;
+        float deltaTime = time - lastFrame;  // Tiempo real entre frames
+        lastFrame = time;
 
         // Mouse
         static bool wasMousePressed = false;
@@ -213,81 +231,194 @@ void UI_Tierra(GLFWwindow* window, Camera& camera, Shader& modelShader, Model& e
         glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Título
-        glDisable(GL_DEPTH_TEST);
-        textRenderer.RenderText(L"The 7 Wonders of", 88.0f, height - 219.0f + 100.0f, 1.04f, glm::vec3(0.2f));
-        textRenderer.RenderText(L"the Modern World", 88.0f, height - 399.0f + 160.0f, 1.04f, glm::vec3(0.2f));
-        textRenderer.RenderText(L"The 7 Wonders of", 100.0f, height - 220.0f + 100.0f, 1.0f, glm::vec3(rgb1(230), rgb1(57), rgb1(70)));
-        textRenderer.RenderText(L"the Modern World", 100.0f, height - 400.0f + 160.0f, 1.0f, glm::vec3(rgb1(244), rgb1(162), rgb1(97)));
-        glEnable(GL_DEPTH_TEST);
-
-        // Botones de maravillas
-        glDisable(GL_DEPTH_TEST);
-        for (int i = 0; i < botonesMaravillas.size(); ++i) {
-            bool hovered = botonesMaravillas[i].isHovered(mouseX, mouseY);
-            bool clicked = false;
-            botonesMaravillas[i].render(buttonRenderer, height, hovered, false);
-
-            if (hovered && mousePressed && !clickState.waiting) {
-                clicked = true;
-                audio.playClickSound();
-                clickState.index = i;
-                clickState.clickTime = glfwGetTime();
-                clickState.waiting = true;
-            }
-
-            botonesMaravillas[i].render(buttonRenderer, height, hovered, (clickState.waiting == true && clickState.index == i) ? true : clicked);
+        // Tï¿½tulo
+        if (estadoActual != PANTALLA_VIAJAR) {
+            glDisable(GL_DEPTH_TEST);
+            textRenderer.RenderText(L"THE 7 WONDERS OF THE MODERN WEST", 110.0f, height - 120.0f, 1.0f, glm::vec3(1.0f));
+            glEnable(GL_DEPTH_TEST);
         }
-        glEnable(GL_DEPTH_TEST);
 
-        if (clickState.waiting) {
-            double elapsed = glfwGetTime() - clickState.clickTime;
+        if (estadoActual == PANTALLA_EXPLORAR) {
+            camera.inputsEnabled = true;
 
-            if (elapsed >= 0.3) {
-                std::string titulo, rutaImagen;
-                glm::vec3 rotacionMaravilla;
+            // Botones de maravillas
+            glDisable(GL_DEPTH_TEST);
+            for (int i = 0; i < botonesExplore.size(); ++i) {
+                if (i != 7) botonesExplore[i].position.y -= 12;
+                bool hovered = botonesExplore[i].isHovered(mouseX, mouseY);
+                if (i != 7) botonesExplore[i].position.y += 12;
+                bool clicked = false;
+                botonesExplore[i].render(((i == 7) ? principalRenderer : buttonRenderer), hovered, false);
+
+                if (hovered) {
+                    camera.inputsEnabled = false;
+
+                    if (mousePressed && !clickState.waiting) {
+                        clicked = true;
+                        audio.playClickSound("media/click.mp3");
+                        clickState.index = i;
+                        clickState.clickTime = glfwGetTime();
+                        clickState.waiting = true;
+                    }
+                }
+
+                botonesExplore[i].render(((i == 7) ? principalRenderer : buttonRenderer), hovered, (clickState.waiting == true && clickState.index == i) ? true : clicked);
+            }
+            glEnable(GL_DEPTH_TEST);
+
+            if (clickState.waiting && (glfwGetTime() - clickState.clickTime) >= 0.3) {
+                camera.inputsEnabled = false;
 
                 switch (clickState.index) {
-                case 0: titulo = "Great Wall of China"; rutaImagen = "images/wall.jpg"; rotacionMaravilla = glm::vec3(0.0f, glm::radians(-30.0f), 0.0f); break;
-                case 1: titulo = "Petra"; rutaImagen = "images/petra.jpg"; rotacionMaravilla = glm::vec3(0.0f, glm::radians(70.0f), 0.0f); break;
-                case 2: titulo = "Christ the Redeemer"; rutaImagen = "images/cristo.jpg"; rotacionMaravilla = glm::vec3(0.0f, glm::radians(120.0f), 0.0f); break;
-                case 3: titulo = "Machu Picchu"; rutaImagen = "images/machu.jpg"; rotacionMaravilla = glm::vec3(0.0f, glm::radians(150.0f), 0.0f); break;
-                case 4: titulo = "Chichen Itza"; rutaImagen = "images/chichen.jpg"; rotacionMaravilla = glm::vec3(0.0f, glm::radians(170.0f), 0.0f); break;
-                case 5: titulo = "Roman Colosseum"; rutaImagen = "images/coliseo.jpg"; rotacionMaravilla = glm::vec3(0.0f, glm::radians(15.0f), 0.0f); break;
-                case 6: titulo = "Taj Mahal"; rutaImagen = "images/taj.jpg"; rotacionMaravilla = glm::vec3(0.0f, glm::radians(0.0f), 0.0f); break;
+                case 0: titulo = nombreMaravillas[0]; rutaImagen = direccionMaravillas[0]; posCamara = posicionCamara[0]; break;
+                case 1: titulo = nombreMaravillas[1]; rutaImagen = direccionMaravillas[1]; posCamara = posicionCamara[1]; break;
+                case 2: titulo = nombreMaravillas[2]; rutaImagen = direccionMaravillas[2]; posCamara = posicionCamara[2]; break;
+                case 3: titulo = nombreMaravillas[3]; rutaImagen = direccionMaravillas[3]; posCamara = posicionCamara[3]; break;
+                case 4: titulo = nombreMaravillas[4]; rutaImagen = direccionMaravillas[4]; posCamara = posicionCamara[4]; break;
+                case 5: titulo = nombreMaravillas[5]; rutaImagen = direccionMaravillas[5]; posCamara = posicionCamara[5]; break;
+                case 6: titulo = nombreMaravillas[6]; rutaImagen = direccionMaravillas[6]; posCamara = posicionCamara[6]; break;
                 }
-
-                AppState nuevoEstado = mostrarVistaPrevia(window, camera, modelShader, earth, textRenderer, backgroundShader, vaoF, audio, titulo, rutaImagen, rotacionMaravilla);
                 clickState.waiting = false;
-                if (nuevoEstado == MENU_PRINCIPAL) {
-                    estadoActual = MENU_PRINCIPAL;
-                    break;
+
+                if (clickState.index == 7) break;
+
+                previewImage = TextureF(rutaImagen.c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
+                estadoActual = PANTALLA_VISTA_PREVIA;
+                maravillaSeleccionada = clickState.index;
+            }
+
+            // Dibujar Tierra
+            glm::mat4 earthTransform = glm::mat4(1.0f);
+            earthTransform = glm::rotate(earthTransform, glm::radians(time * 20.0f), glm::vec3(0.0f, 0.8f, 0.1f));
+            earthTransform = glm::translate(earthTransform, glm::vec3(0.0f));
+            earthTransform = glm::scale(earthTransform, glm::vec3(1.0f));
+            earth.DrawRotation(modelShader, camera, earthTransform);
+
+            // Actualizar camara
+            camera.OrbitInputs(window);
+            camera.updateMatrixExplore(45.0f, 0.1f, 100.0f);
+        }
+        else if (estadoActual == PANTALLA_VISTA_PREVIA) {
+            // Actualizar camara
+            camera.Position = posCamara;
+            camera.OrbitInputs(window);
+            camera.updateMatrixExplore(45.0f, 0.1f, 100.0f);
+
+            // Dibujar Tierra
+            modelShader.Activate();
+            glm::mat4 earthTransform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f));
+            earth.DrawRotation(modelShader, camera, earthTransform);
+
+            // Dibujar marcador de ubicaciï¿½n en la Tierra
+            glm::mat4 locationTransform = glm::translate(glm::mat4(1.0f), posicionLocation[maravillaSeleccionada]);
+
+            locationTransform = glm::rotate(locationTransform, glm::radians(rotacionLocation[maravillaSeleccionada].x), glm::vec3(1.0f, 0.0f, 0.0f));
+            locationTransform = glm::rotate(locationTransform, glm::radians(rotacionLocation[maravillaSeleccionada].y), glm::vec3(0.0f, 1.0f, 0.0f));
+            locationTransform = glm::rotate(locationTransform, glm::radians(rotacionLocation[maravillaSeleccionada].z), glm::vec3(0.0f, 0.0f, 1.0f));
+
+            locationTransform = glm::scale(locationTransform, glm::vec3(0.025f));
+            location.DrawRotation(modelShader, camera, locationTransform);
+
+            // Dibujar tï¿½tulo
+            float here = 1248.0f + ((672.0f - botonesExplore[maravillaSeleccionada].size.x) / 2);
+            glDisable(GL_DEPTH_TEST);
+            buttonRenderer.RenderText(convertirAWideString(titulo), here, 770.0f, 1.0f, glm::vec3(1.0f));
+            glEnable(GL_DEPTH_TEST);
+
+            // Logica de botones
+            glDisable(GL_DEPTH_TEST);
+            for (int i = 0; i < botonesPrevia.size(); ++i) {
+                bool hovered = botonesPrevia[i].isHovered(mouseX, mouseY);
+                bool clicked = false;
+                botonesPrevia[i].render(principalRenderer, hovered, false);
+
+                if (hovered && mousePressed && !clickState.waiting) {
+                    clicked = true;
+                    audio.playClickSound((i == 0) ? "media/click.mp3" : "media/clickViaje.mp3");
+                    clickState.index = i;
+                    clickState.clickTime = glfwGetTime();
+                    clickState.waiting = true;
                 }
+
+                botonesPrevia[i].render(principalRenderer, hovered, (clickState.waiting == true && clickState.index == i) ? true : clicked);
+            }
+            glEnable(GL_DEPTH_TEST);
+
+            if (clickState.waiting && (glfwGetTime() - clickState.clickTime) >= 0.3) {
+                switch (clickState.index) {
+                case 0: estadoActual = PANTALLA_EXPLORAR; break;
+                case 1: estadoActual = PANTALLA_VIAJAR; break;
+                }
+                camera = Camera(width, height, glm::vec3(0.0f));
+                camera.Position = glm::vec3(0.0f, 0.0f, camera.orbitRadius);
+                clickState.waiting = false;
             }
 
+            // Dibujar panel de fondo (transparente) detrï¿½s de la imagen
+            glDisable(GL_DEPTH_TEST);
+            panelShader.Activate();
+            panelVAO.Bind();
+            glUniform4f(glGetUniformLocation(panelShader.ID, "panelColor"), 0.0f, 0.0f, 0.0f, 0.55f);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
 
+            // Dibujar imagen de la maravilla
+            imageShader.Activate();
+            imagevaoF.Bind();
+            previewImage.Bind();
+            previewImage.texUnit(imageShader.ID, "backgroundTexture", 0);
+            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            glEnable(GL_DEPTH_TEST);
         }
+        else if (estadoActual == PANTALLA_VIAJAR) {
+            if (!animacionIniciada) {
+                animacionIniciada = true;
+                tiempoInicioAnimacion = glfwGetTime();
+                progresoTierra = escalaTierraInicial;
+                progresoNube = escalaNubesInicial;
+            }
 
-        // Habilitar entrada de cámara cuando no se está sobre un botón
-        bool estaSobreUnBoton = false;
-        for (auto& boton : botonesMaravillas) {
-            if (boton.isHovered(mouseX, mouseY)) {
-                estaSobreUnBoton = true;
-                break;
+            // Actualizar camara
+            camera.Position = posCamara;
+            camera.OrbitInputs(window);
+            camera.updateMatrixExplore(45.0f, 0.1f, 100.0f);
+
+            float tiempoActual = glfwGetTime() - tiempoInicioAnimacion;
+
+            // Animacion de la Tierra
+            if (tiempoActual <= duracionTierra) {
+                progresoTierra = escalaTierraInicial + (escalaTierraFinal - escalaTierraInicial) * (tiempoActual / duracionTierra);
+                glm::mat4 earthTransform = glm::mat4(1.0f);
+                earthTransform = glm::scale(earthTransform, glm::vec3(progresoTierra));
+                earth.DrawRotation(modelShader, camera, earthTransform);
+            }
+
+            // Animacion de las nubes
+            if (tiempoActual > duracionTierra && tiempoActual < (duracionTierra + duracionNubes)) {
+                float tiempoNubes = tiempoActual - duracionTierra;
+                progresoNube = escalaNubesInicial + (escalaNubesFinal - escalaNubesInicial) * (tiempoNubes / duracionNubes);
+                glm::mat4 animationTransform = glm::mat4(1.0f);
+                animationTransform = glm::scale(animationTransform, glm::vec3(progresoNube));
+                animation.DrawRotation(modelShader, camera, animationTransform);
+            }
+
+            // Finalizar animacion despues de los segundos
+            if (tiempoActual >= duracionTierra + duracionNubes) {
+                audio.stopBackgroundMusic();
+                PantallaCarga(window, modelShader, lupaModel, 5.0f);
+
+                // Funcion de Joan
+
+                animacionIniciada = false;
+                estadoActual = PANTALLA_EXPLORAR;
+                camera = Camera(width, height, glm::vec3(0.0f));
+                camera.Position = glm::vec3(0.0f, 0.0f, camera.orbitRadius);
+                audio.playBackgroundMusic("media/outer space.mp3");
             }
         }
 
-        camera.inputsEnabled = !estaSobreUnBoton;
-
-        // Actualizar cámara
-        camera.Inputs(window);
-        camera.updateMatrix(45.0f, 0.1f, 100.0f);
-
-        // Dibujar Tierra y ubicación
-        glm::mat4 earthTransform = glm::translate(glm::mat4(1.0f), glm::vec3(-1.0f, 0.2f, 3.7f));
-        earthTransform = glm::rotate(earthTransform, glm::radians(time * 20.0f), glm::vec3(0.1f, 0.8f, 0.0f));
-        earth.DrawRotation(modelShader, camera, earthTransform);
-
+        glEnable(GL_DEPTH_TEST);
         glfwSwapBuffers(window);
     }
+
+    audio.stopBackgroundMusic();
 }

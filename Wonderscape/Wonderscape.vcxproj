@@ -175,6 +175,8 @@
     <None Include="default.frag" />
     <None Include="default.vert" />
     <None Include="defaultModel.frag" />
+    <None Include="panel.frag" />
+    <None Include="panel.vert" />
     <None Include="text.frag" />
     <None Include="text.vert" />
   </ItemGroup>
@@ -183,6 +185,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="Config.cpp" />
     <ClCompile Include="EBO.cpp" />
     <ClCompile Include="EBOF.cpp" />
     <ClCompile Include="glad.c" />
