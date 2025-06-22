@@ -1,4 +1,4 @@
-#include "Camera.h"
+﻿#include "Camera.h"
 
 Camera::Camera(int width, int height, glm::vec3 position)
 {
@@ -19,6 +19,18 @@ void Camera::updateMatrix(float FOVdeg, float nearPlane, float farPlane)
 	projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
 
 	// Sets new camera matrix
+	cameraMatrix = projection * view;
+}
+
+void Camera::updateMatrixExplore(float FOVdeg, float nearPlane, float farPlane) {
+	// Initializes matrices since otherwise they will be the null matrix
+	glm::mat4 view = glm::mat4(1.0f);
+	glm::mat4 projection = glm::mat4(1.0f);
+
+	// Orientaci�n siempre hacia el targetPoint
+	Orientation = glm::normalize(targetPoint - Position);
+	view = glm::lookAt(Position, Position + Orientation, Up);
+	projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
 	cameraMatrix = projection * view;
 }
 
@@ -117,5 +129,41 @@ void Camera::Inputs(GLFWwindow* window)
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		// Makes sure the next time the camera looks around it doesn't jump
 		firstClick = true;
+	}
+}
+
+void Camera::OrbitInputs(GLFWwindow* window) {
+	if (!inputsEnabled) {
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		return;
+	}
+
+	// Solo procesar si el bot�n izquierdo est� presionado
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
+		double mouseX, mouseY;
+		glfwGetCursorPos(window, &mouseX, &mouseY);
+
+		// Calcular movimiento del rat�n
+		orbitAngleY -= sensitivity * (float)(mouseY - (height / 2)) / height;
+		orbitAngleX += sensitivity * (float)(mouseX - (width / 2)) / width;
+
+		// Limitar �ngulo vertical para evitar volteretas
+		orbitAngleY = glm::clamp(orbitAngleY, -89.0f, 89.0f);
+
+		// Calcular nueva posici�n orbital
+		Position.x = targetPoint.x + orbitRadius * cos(glm::radians(orbitAngleY)) * sin(glm::radians(orbitAngleX));
+		Position.y = targetPoint.y + orbitRadius * sin(glm::radians(orbitAngleY));
+		Position.z = targetPoint.z + orbitRadius * cos(glm::radians(orbitAngleY)) * cos(glm::radians(orbitAngleX));
+
+		// Orientaci�n siempre hacia el punto objetivo
+		Orientation = glm::normalize(targetPoint - Position);
+
+		// Centrar cursor
+		glfwSetCursorPos(window, width / 2, height / 2);
+	}
+	else {
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 }

@@ -1,4 +1,4 @@
-#include <glad/glad.h>
+ï»¿#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
 #include <glm/glm.hpp>
@@ -54,7 +54,7 @@ int MenuPrincipal() {
     gladLoadGL();
     glViewport(0, 0, width, height);
 
-    // Cargar ícono de la ventana
+    // Cargar ï¿½cono de la ventana
     int iconWidth, iconHeight, channels;
     unsigned char* iconPixels = stbi_load("icono.png", &iconWidth, &iconHeight, &channels, 4);
     if (iconPixels) {
@@ -71,7 +71,7 @@ int MenuPrincipal() {
 
     // Cargar audio
     AudioManager audio;
-    audio.playBackgroundMusic();
+    audio.playBackgroundMusic("media/environment.mp3");
     audio.setMusicVolume(1.0f);
     audio.setEffectsVolume(0.4f);
 
@@ -111,7 +111,7 @@ int MenuPrincipal() {
     TextureF backgroundMenu("fondoMenu.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
     TextureF backgroundCH("Creditshelp.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
 
-    // Círculo base para la Tierra
+    // Cï¿½rculo base para la Tierra
     ShaderF circleShader("circle.vert", "circle.frag");
     Circle circle(1.38f, 0.0f, 0.80f);
 
@@ -126,19 +126,26 @@ int MenuPrincipal() {
     Model earth("models/tierra/scene.gltf");
     Model clouds("models/nubes/scene.gltf");
     Model uni("models/ModelUni/UNI.gltf");
+    Model lupa("models/MagnifyingGlass/scene.gltf");
+    Model animation("models/LoadingScreen/scene.gltf");
 
     Texture Textura("models/ModelUni/textures/Image_0.jpg", "albedo", 0);
     for (auto& mesh : uni.meshes) {
         mesh.textures.clear();
         mesh.textures.push_back(Textura);
     }
+    Textura = Texture("models/MagnifyingGlass/texture/Image_0.jpg", "albedo", 0);
+    for (auto& mesh : lupa.meshes) {
+        mesh.textures.clear();
+        mesh.textures.push_back(Textura);
+    }
 
     // Botones del Menu Principal
     std::vector<Button> botonesMenu = {
-        Button(glm::vec2(170, 500), glm::vec2(370, 75), "Explorar"),
-        Button(glm::vec2(170, 400), glm::vec2(240, 75), "Ayuda"),
-        Button(glm::vec2(170, 300), glm::vec2(345, 75), "Creditos"),
-        Button(glm::vec2(170, 200), glm::vec2(215, 75), "Salir")
+        Button(glm::vec2(170, 500), glm::vec2(370, 74), "Explorar"),
+        Button(glm::vec2(170, 400), glm::vec2(240, 74), "Ayuda"),
+        Button(glm::vec2(170, 300), glm::vec2(345, 74), "Creditos"),
+        Button(glm::vec2(170, 200), glm::vec2(215, 74), "Salir")
     };
 
     // Boton de Ayuda y Creditos
@@ -154,7 +161,7 @@ int MenuPrincipal() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // Lógica de las nubes
+    // Lï¿½gica de las nubes
     bool nubeArrastrando = false;
     glm::vec3 nubeOffset; // Por si quieres permitir un arrastre con desfase
 
@@ -171,7 +178,7 @@ int MenuPrincipal() {
         glm::vec3(0.0f, 0.8f, 4.0f)     // centro abajo
     };
 
-    // Posición inicial y objetivo de la nube
+    // Posiciï¿½n inicial y objetivo de la nube
     glm::vec3 nubePos = posicionesFijas[rand() % posicionesFijas.size()];
     glm::vec3 nubeTargetPos = posicionesFijas[rand() % posicionesFijas.size()];
     float nubeVelocidad = 0.05f;
@@ -181,7 +188,15 @@ int MenuPrincipal() {
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Botones y Mouse
+        // Camara y modelos
+        modelShader.Activate();
+        camera.updateMatrix(45.0f, 0.1f, 100.0f);
+
+        // Tiempo
+        float time = glfwGetTime();
+        float deltaTime = 0.016f; // Aproximadamente 60 FPS
+
+        // Mouse
         static bool wasMousePressed = false;
         int state = glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT);
         mousePressed = (state == GLFW_PRESS && !wasMousePressed);
@@ -196,10 +211,6 @@ int MenuPrincipal() {
         float normalizedY = (mouseY / height) * 2.0f - 1.0f;
         glm::vec3 mouseWorldPos = glm::vec3(-normalizedX * (float)width / height * 3.0f, -normalizedY * 3.0f, 1.0f);
 
-        // Tiempo
-        float time = glfwGetTime();
-        float deltaTime = 0.016f; // Aproximadamente 60 FPS
-
         if (estadoActual == MENU_PRINCIPAL) {
 
             // Fondo con textura
@@ -210,10 +221,6 @@ int MenuPrincipal() {
             backgroundMenu.texUnit(backgroundShader.ID, "backgroundTexture", 0);
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
             glEnable(GL_DEPTH_TEST);
-
-            // Camara y modelos
-            modelShader.Activate();
-            camera.updateMatrix(45.0f, 0.1f, 100.0f);
 
             // Nubes
             glm::vec3 direction = nubeTargetPos - nubePos;
@@ -244,7 +251,7 @@ int MenuPrincipal() {
             earthTransform = glm::rotate(earthTransform, glm::radians(time * 20.0f), glm::vec3(1.0f, 1.0f, 1.0f));
             earth.DrawRotation(modelShader, camera, earthTransform);
 
-            // Título
+            // Tï¿½tulo
             glDisable(GL_DEPTH_TEST);
             textRenderer.RenderText(L"Wonder", 138.0f, height - 219.0f, 1.04f, glm::vec3(0.2f));
             textRenderer.RenderText(L"Scapes", 138.0f, height - 399.0f, 1.04f, glm::vec3(0.2f));
@@ -257,32 +264,28 @@ int MenuPrincipal() {
             for (int i = 0; i < botonesMenu.size(); ++i) {
                 bool hovered = botonesMenu[i].isHovered(mouseX, mouseY);
                 bool clicked = false;
-                botonesMenu[i].render(buttonRenderer, height, hovered, false);
+                botonesMenu[i].render(buttonRenderer, hovered, false);
 
                 if (hovered && mousePressed && !clickState.waiting) {
                     clicked = true;
-                    audio.playClickSound();
+                    audio.playClickSound("media/click.mp3");
                     clickState.index = i;
                     clickState.clickTime = glfwGetTime();
                     clickState.waiting = true;
                 }
 
-                botonesMenu[i].render(buttonRenderer, height, hovered, (clickState.waiting == true && clickState.index == i) ? true : clicked);
+                botonesMenu[i].render(buttonRenderer, hovered, (clickState.waiting == true && clickState.index == i) ? true : clicked);
             }
             glEnable(GL_DEPTH_TEST);
 
-            if (clickState.waiting) {
-                double elapsed = glfwGetTime() - clickState.clickTime;
-
-                if (elapsed >= 0.3) {
-                    switch (clickState.index) {
-                    case 0: estadoActual = PANTALLA_EXPLORAR; break;
-                    case 1: estadoActual = PANTALLA_AYUDA; break;
-                    case 2: estadoActual = PANTALLA_CREDITOS; break;
-                    case 3: estadoActual = PANTALLA_SALIR; break;
-                    }
-                    clickState.waiting = false;
+            if (clickState.waiting && (glfwGetTime() - clickState.clickTime) >= 0.3) {
+                switch (clickState.index) {
+                case 0: estadoActual = PANTALLA_EXPLORAR; break;
+                case 1: estadoActual = PANTALLA_AYUDA; break;
+                case 2: estadoActual = PANTALLA_CREDITOS; break;
+                case 3: estadoActual = PANTALLA_SALIR; break;
                 }
+                clickState.waiting = false;
             }
         }
         else if (estadoActual == PANTALLA_AYUDA || estadoActual == PANTALLA_CREDITOS) {
@@ -300,23 +303,19 @@ int MenuPrincipal() {
             bool hovered = botonAtras.isHovered(mouseX, mouseY);
             bool clicked = false;
             glDisable(GL_DEPTH_TEST);
-            botonAtras.render(buttonRenderer, height, hovered, clickState.waiting);
+            botonAtras.render(buttonRenderer, hovered, clickState.waiting);
             glEnable(GL_DEPTH_TEST);
 
             if (hovered && mousePressed && !clickState.waiting) {
                 clicked = true;
-                audio.playClickSound();
+                audio.playClickSound("media/click.mp3");
                 clickState.clickTime = glfwGetTime();
                 clickState.waiting = true;
             }
 
-            if (clickState.waiting) {
-                double elapsed = glfwGetTime() - clickState.clickTime;
-
-                if (elapsed >= 0.3) {
-                    estadoActual = MENU_PRINCIPAL;
-                    clickState.waiting = false;
-                }
+            if (clickState.waiting && (glfwGetTime() - clickState.clickTime) >= 0.3) {
+                estadoActual = MENU_PRINCIPAL;
+                clickState.waiting = false;
             }
 
             if (estadoActual == PANTALLA_CREDITOS) {
@@ -344,9 +343,10 @@ int MenuPrincipal() {
             }
         }
         else if (estadoActual == PANTALLA_EXPLORAR) {
-            UI_Tierra(window, camera, modelShader, earth, buttonRenderer, audio);
-            camera = Camera(width, height, glm::vec3(0.0f));
+            audio.stopBackgroundMusic();
+            UI_Tierra(window, modelShader, earth, lupa, animation);
             estadoActual = MENU_PRINCIPAL;
+            audio.playBackgroundMusic("media/environment.mp3");
         }
         else if (estadoActual == PANTALLA_SALIR) {
             break;

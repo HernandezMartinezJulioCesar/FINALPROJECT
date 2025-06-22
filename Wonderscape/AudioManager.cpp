@@ -15,11 +15,11 @@ AudioManager::~AudioManager() {
         engine->drop();
 }
 
-void AudioManager::playBackgroundMusic() {
+void AudioManager::playBackgroundMusic(std::string music) {
     if (!engine) return;
 
     if (!backgroundMusic) {
-        backgroundMusic = engine->play2D("media/environment.mp3", true, false, true);
+        backgroundMusic = engine->play2D(music.c_str(), true, false, true);
         if (backgroundMusic)
             backgroundMusic->setVolume(musicVolume);
     }
@@ -33,10 +33,10 @@ void AudioManager::stopBackgroundMusic() {
     }
 }
 
-void AudioManager::playClickSound() {
+void AudioManager::playClickSound(std::string sound) {
     if (!engine) return;
 
-    irrklang::ISound* clickSound = engine->play2D("media/click.mp3", false, false, true);
+    irrklang::ISound* clickSound = engine->play2D(sound.c_str(), false, false, true);
     if (clickSound)
         clickSound->setVolume(effectsVolume);
 }
