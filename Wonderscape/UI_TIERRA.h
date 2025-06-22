@@ -4,12 +4,9 @@
 #include <GLFW/glfw3.h>
 
 struct GLFWwindow;
-class Camera;
 class Shader;
 class Model;
-class TextRenderer;
-class AudioManager;
 
-void UI_Tierra(GLFWwindow* window, Camera& camera, Shader& modelShader, Model& earth, TextRenderer& buttonRenderer, AudioManager& audio);
+void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& lupaModel, Model& animation);
 
 #endif

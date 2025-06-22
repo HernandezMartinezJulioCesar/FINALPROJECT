@@ -75,8 +75,8 @@
     <LibraryPath>C:\Users\KARINA MERCEDES\Documents\GitHub\PROJECTPG\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\KARINA MERCEDES\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\KARINA MERCEDES\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <IncludePath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(IncludePath)</IncludePath>
@@ -175,6 +175,8 @@
     <None Include="default.frag" />
     <None Include="default.vert" />
     <None Include="defaultModel.frag" />
+    <None Include="panel.frag" />
+    <None Include="panel.vert" />
     <None Include="text.frag" />
     <None Include="text.vert" />
   </ItemGroup>
@@ -183,6 +185,7 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Circle.cpp" />
+    <ClCompile Include="Config.cpp" />
     <ClCompile Include="EBO.cpp" />
     <ClCompile Include="EBOF.cpp" />
     <ClCompile Include="glad.c" />

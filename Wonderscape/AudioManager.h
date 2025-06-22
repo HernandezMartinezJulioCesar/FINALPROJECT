@@ -1,16 +1,17 @@
-#ifndef AUDIOMANAGER_H
+ï»¿#ifndef AUDIOMANAGER_H
 #define AUDIOMANAGER_H
 
 #include <irrKlang/irrKlang.h>
+#include <iostream>
 
 class AudioManager {
 public:
     AudioManager();
     ~AudioManager();
 
-    void playBackgroundMusic();   // Reproduce música de fondo en bucle
-    void stopBackgroundMusic();   // Detiene la música de fondo
-    void playClickSound();        // Reproduce efecto de clic
+    void playBackgroundMusic(std::string music);   // Reproduce mï¿½sica de fondo en bucle
+    void stopBackgroundMusic();   // Detiene la mï¿½sica de fondo
+    void playClickSound(std::string sound);        // Reproduce efecto de clic
 
     void setMusicVolume(float volume);   // 0.0 a 1.0
     void setEffectsVolume(float volume); // 0.0 a 1.0

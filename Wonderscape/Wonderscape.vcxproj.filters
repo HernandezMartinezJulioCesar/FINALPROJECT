@@ -114,6 +114,12 @@
     <None Include="text.vert">
       <Filter>Archivos de recursos\Shaders</Filter>
     </None>
+    <None Include="panel.frag">
+      <Filter>Archivos de recursos\Shaders</Filter>
+    </None>
+    <None Include="panel.vert">
+      <Filter>Archivos de recursos\Shaders</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EBO.cpp">
@@ -180,6 +186,9 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="UI_TIERRA.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="Config.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
