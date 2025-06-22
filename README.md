@@ -37,11 +37,16 @@ Wonder Scape arises as an academic project of the subject “Graphic Programming
 
 #### 🔵 Windows
 
-1- Install [Visual Studio](https://visualstudio.microsoft.com/) with C++ support.
-2- Open visual studio and click on “Clone a repository”.
-3- In the Github repository click on “code” and copy the url provided by the page.
-4- Then paste the url in the “Repository location” field and click on “Clone”.
-5- Now the dependencies will be configured, for that see the images provided below
+1- Install [Visual Studio](https://visualstudio.microsoft.com/) with C++ support.<br>
+2- Open visual studio and click on “Clone a repository”.<br>
+3- In the Github repository click on “code” and copy the url provided by the page.<br>
+4- Then paste the url in the “Repository location” field and click on “Clone”.<br>
+5- Now the dependencies will be configured, for that see the images provided below<br>
+
+<div align="center">
+ <img src="Pictures/Pic1.jpg" width="700"/><br>
+ <h3>Right click where the red circle points</h3>
+</div>
 
 
 
