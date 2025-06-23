@@ -48,5 +48,48 @@ Wonder Scape arises as an academic project of the subject “Graphic Programming
  <h3>Right click where the red circle points</h3>
 </div>
 
+<div align="center">
+ <img src="Pictures/Pic2.jpg" width="700"/><br>
+ <h3>click on properties and you will see a pop-up window open.</h3>
+</div>
 
+<div align="center">
+ <img src="Pictures/Pic3.jpg" width="700"/><br>
+ <h3>Verify that the setting is “Active(Debug)” and platforms is “All platforms”, if so, then click on “VC++ Directories”.</h3>
+</div>
 
+<div align="center">
+ <img src="Pictures/pic4.jpg" width="700"/><br>
+ <h3>Go to the “Include Directories” section and click on “Edit”.</h3>
+</div>
+
+<div align="center">
+ <img src="Pictures/Pic5.jpg" width="700"/><br>
+ <h3>Click on the 3 points</h3>
+</div>
+
+<div align="center">
+ <img src="Pictures/Pic6.jpg" width="700"/><br>
+ <h3>Verify that the “Include” folder is selected, then click on select folder.
+Note: This is done to have the address of your computer.</h3>
+</div>
+
+<div align="center">
+ <img src="Pictures/Pic7.jpg" width="700"/><br>
+ <h3>Now go to the “Library Directories” section and click on “Edit”.</h3>
+</div>
+
+<div align="center">
+ <img src="Pictures/Pic8.jpg" width="700"/><br>
+ <h3>Click on the 3 points</h3>
+</div>
+
+<div align="center">
+ <img src="Pictures/Pic9.jpg" width="700"/><br>
+ <h3>Verify that the “Lib” folder is selected, then click on “Select folder”.</h3>
+</div>
+
+<div align="center">
+ <img src="Pictures/Pic10.jpg" width="700"/><br>
+ <h3>Verify that the addresses in the “Include Directories” and “Library Directories” fields match the names on your local disk, if so, click ‘Apply’ and “OK”.</h3>
+</div>
