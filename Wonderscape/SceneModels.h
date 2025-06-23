@@ -22,7 +22,7 @@ const char* Models[] = {
 };
 
 const char* Faces[] = {
-	"models/Skyboxes/FACES/MURALLACHINA.png",
+	"models/Skyboxes/FACES/MURALLACHINA.png",	
 	"models/Skyboxes/FACES/CIELOMURALLA.png",
 	"models/Skyboxes/FACES/PETRA.png",
 	"models/Skyboxes/FACES/CIELOPETRA.png",

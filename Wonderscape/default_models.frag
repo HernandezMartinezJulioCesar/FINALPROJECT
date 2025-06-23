@@ -84,53 +84,20 @@ vec4 pointLight() {
 }
 
 vec4 direcLight() {
-    // Aumentamos la luz ambiental para que el modelo nunca quede oscuro
-    float ambient = 0.77f;  // Intensidad máxima (antes era 0.4f)
-    
-    // Dirección de la luz (puedes ajustarla según necesites)
-    vec3 lightDirection = normalize(vec3(0.77f, 0.33f, 0.22f));
-    
-    // Componente difusa (suave para no saturar)
-    vec3 normal = normalize(Normal);
-    float diffuse = max(dot(normal, lightDirection), 0.0f) * 0.5f; // Reducimos difusa
-    
-    // Componente especular (opcional, para darle un poco de brillo)
-    float specularLight = 0.2f;  // Reducimos el brillo para no exagerar
-    vec3 viewDirection = normalize(camPos - crntPos);
-    vec3 reflectionDirection = reflect(-lightDirection, normal);
-    float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
-    float specular = specAmount * specularLight;
-    
-    // Resultado final (asegurando que la luz ambiental sea fuerte)
-    vec4 baseColor = getBaseTexture();
-    return baseColor * (diffuse + ambient) + texture(specular0, texCoord).r * specular;
+	float ambient = 0.21f;
+	vec3 normal = normalize(Normal);
+	vec3 lightDirection = normalize(vec3(1.0f, 1.0f, 1.0f));
+	float diffuse = max(dot(normal, lightDirection), 0.0f);
+
+	float specularLight = 0.55f;
+	vec3 viewDirection = normalize(camPos - crntPos);
+	vec3 reflectionDirection = reflect(lightDirection, normal);
+	float specAmount = pow(max(dot(viewDirection, reflectionDirection), 0.0f), 16);
+	float specular = specAmount * specularLight;
+
+	return (getBaseTexture() * diffuse + getBaseTexture() * ambient + texture(specular0, texCoord).r * specular) * lightColor;
 }
-vec4 flashlightEffectinitial() {
-    // --- Configuración fija (radio grande/intensidad alta) ---
-    float outerCutOff = cos(radians(70.0f));  // Ángulo muy amplio (70 grados)
-    float cutOff = cos(radians(70.0f));       // Ángulo aún más amplio
-    float intensity = 1.8;                    // Intensidad alta (para iluminar todo)
 
-    vec3 lightDir = normalize(vec3(-1.0, -1.0, -1.0)); // Dirección fija (hacia adelante/abajo)
-    
-    // --- Cálculo de la luz ---
-    vec3 lightToFragment = normalize(crntPos - flashlightPos);
-    float theta = dot(lightToFragment, lightDir);
-    float epsilon = cutOff - outerCutOff;
-    float attenuation = 1.0 / (1.2 + 0.002 * length(flashlightPos - crntPos)); // Atenuación mínima
-
-    // --- Iluminación difusa + especular (sin condiciones de corte) ---
-    vec3 normal = normalize(Normal);
-    float diffuse = max(dot(normal, -lightDir), 0.0);
-    vec3 viewDir = normalize(camPos - crntPos);
-    vec3 reflectDir = reflect(lightToFragment, normal);
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
-
-    // --- Resultado final (siempre aplicado, sin "if") ---
-    vec4 baseColor = getBaseTexture();
-    vec3 result = baseColor.rgb * diffuse * intensity * attenuation;
-    return vec4(result, baseColor.a);
-}
 vec4 flashlightEffect() {
     //float flashlightStrength = 4.0;
     vec3 lightToFragment = normalize(crntPos - flashlightPos);
@@ -164,8 +131,9 @@ vec4 flashlightEffect() {
     }
     return vec4(0.0);
 }
+
 void main() {
-    vec4 result = flashlightEffectinitial();
+    vec4 result = direcLight();
     
     if (flashlightOn) {
         result += flashlightEffect();

@@ -441,7 +441,11 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
             if (currentTime >= earthDuration + cloudDuration) {
                 audio.stopBackgroundMusic();
                 PantallaCarga(window, modelShader, glassModel, 5.0f);
+                glDisable(GL_BLEND);
+                glEnable(GL_DEPTH_TEST);
                 SceneModels(j, window, model);
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
                 animationStarted = false;
                 currentState = PANTALLA_EXPLORAR;
                 camera = Camera(width, height, glm::vec3(0.0f));
