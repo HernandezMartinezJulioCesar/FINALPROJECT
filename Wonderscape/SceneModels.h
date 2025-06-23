@@ -43,7 +43,7 @@ float RGB_Color(float color) { return color / 255.0f; }
 bool flashlightOn = false;
 float flashlightCutOff = cos(glm::radians(12.1f));
 float flashlightOuterCutOff = cos(glm::radians(17.1f));
-float flashlightIntensity = 2.0f;
+float flashlightIntensity = 2;
 int radieon = 1;
 int index = 0;
 
@@ -70,15 +70,13 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 		std::cout << "Linterna " << (flashlightOn ? "activada" : "desactivada") << std::endl;
 	}
 	if (key == GLFW_KEY_UP && action == GLFW_PRESS && flashlightOn) {
-		if (flashlightIntensity >= 2 && flashlightIntensity < 6) {
-			flashlightIntensity += 2;
-			std::cout << flashlightIntensity << std::endl;
+		if (flashlightIntensity < 5) {  
+			flashlightIntensity += 2;   
 		}
 	}
 	if (key == GLFW_KEY_DOWN && action == GLFW_PRESS && flashlightOn) {
-		if (flashlightIntensity > 2 && flashlightIntensity <= 6) {
-			flashlightIntensity -= 2;
-			std::cout << flashlightIntensity << std::endl;
+		if (flashlightIntensity > 1) {  
+			flashlightIntensity -= 2;    
 		}
 	}
 	if (key == GLFW_KEY_R && action == GLFW_PRESS && flashlightOn) {
@@ -251,7 +249,7 @@ bool SceneModels(int ResividaKey, GLFWwindow* window, Model& model) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 		cameras.Inputs(window);
 		model.Draw(shaderProgram_Scene, cameras);
-		cameras.updateMatrix(45.0f, 0.1f, 30.0f);
+		cameras.updateMatrix(45.0f, 0.1f, 20.0f);
 		if (ResividaKey == 1) {
 			renderParedes(Right_Maravilla1, 44, window, cameras, Faces[0]);
 			renderParedes(Left_Maravilla1, 44, window, cameras, Faces[0]);
@@ -391,7 +389,7 @@ bool SceneModels(int ResividaKey, GLFWwindow* window, Model& model) {
 			shaderProgram_Scene.Activate();
 			glUniform1f(glGetUniformLocation(shaderProgram_Scene.ID, "flashlightIntensity"), 0.0f);
 			inLimitedZone = false;
-			flashlightIntensity = 3.0f;
+			flashlightIntensity = 1.0f;
 			flashlightOn = false;
 			flashlightCutOff = cos(glm::radians(12.1f));
 			flashlightOuterCutOff = cos(glm::radians(17.1f));
@@ -414,7 +412,7 @@ bool SceneModels(int ResividaKey, GLFWwindow* window, Model& model) {
 			flashlightOuterCutOff = cos(glm::radians(17.1f));
 			radieon = 1;
 			index = 0;
-			flashlightIntensity = 3.0f;
+			flashlightIntensity = 1.0f;
 			shaderProgram_Scene.Activate();
 			glUniform1f(glGetUniformLocation(shaderProgram_Scene.ID, "flashlightIntensity"), 0.0f);
 		}
