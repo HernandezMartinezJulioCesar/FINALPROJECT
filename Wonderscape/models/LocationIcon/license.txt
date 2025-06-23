@@ -1,0 +1,11 @@
+Model Information:
+* title:	Map Pointer (3D Icon)
+* source:	https://sketchfab.com/3d-models/map-pointer-3d-icon-a30e2619537a425d90618ae5901c2989
+* author:	Alexander (https://sketchfab.com/pravdin)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Map Pointer (3D Icon)" (https://sketchfab.com/3d-models/map-pointer-3d-icon-a30e2619537a425d90618ae5901c2989) by Alexander (https://sketchfab.com/pravdin) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)

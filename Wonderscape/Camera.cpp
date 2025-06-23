@@ -1,6 +1,17 @@
-#include"Camera.h"
+﻿#include "Camera.h"
+#include <glm/gtx/norm.hpp> 
+#include <vector>
 
+//-----------------------
+struct CollisionObject {
+	glm::vec3 position;
+	float radius;
 
+	CollisionObject(glm::vec3 pos, float rad) : position(pos), radius(rad) {}
+};
+
+std::vector<CollisionObject> obstacles;
+float collisionRadius = 0.989f;
 
 Camera::Camera(int width, int height, glm::vec3 position)
 {
@@ -8,6 +19,60 @@ Camera::Camera(int width, int height, glm::vec3 position)
 	Camera::height = height;
 	Position = position;
 }
+
+void Camera::Object(glm::vec3 position, float radius) {
+	obstacles.push_back(CollisionObject(position, radius));
+}
+bool Camera::Verify(glm::vec3 newPosition) {
+	// Área aproximada de colisión (ajustar según escena)
+	const float APPROX_COLLISION_AREA = 10.1f * collisionRadius;
+	const float APPROX_COLLISION_AREA_SQ = APPROX_COLLISION_AREA * APPROX_COLLISION_AREA;
+
+	for (const auto& obstacle : obstacles) {
+		const glm::vec3 diff = newPosition - obstacle.position;
+		const float approxDistanceSq = diff.x * diff.x + diff.y * diff.y + diff.z * diff.z;
+
+		// Early exit para objetos muy lejanos
+		if (approxDistanceSq > APPROX_COLLISION_AREA_SQ) continue;
+
+		// Cálculo preciso solo para objetos cercanos
+		const float minDistance = obstacle.radius + collisionRadius + 0.001f;
+		const float minDistanceSq = minDistance * minDistance;
+
+		if (approxDistanceSq < minDistanceSq) {
+			return true;
+		}
+	}
+	return false;
+}
+glm::vec3 Camera::AdjustedPosition(glm::vec3 desiredPos) {
+	const float EPSILON = 0.001f;
+	glm::vec3 adjustedPos = desiredPos;
+
+	for (const auto& obstacle : obstacles) {
+		glm::vec3 diff = adjustedPos - obstacle.position;
+		float distanceSq = glm::dot(diff, diff);
+		float minDistance = obstacle.radius + collisionRadius + EPSILON;
+		float minDistanceSq = minDistance * minDistance;
+
+		if (distanceSq >= minDistanceSq) continue;
+
+		float distance = glm::sqrt(distanceSq);
+
+		glm::vec3 pushDir;
+		if (distance > EPSILON) {
+			pushDir = diff / distance;
+		}
+		else {
+			pushDir = glm::vec3(1.0f, 0.0f, 0.0f);
+		}
+		adjustedPos = obstacle.position + pushDir * minDistance;
+		diff = adjustedPos - obstacle.position;
+	}
+	return adjustedPos;
+}
+float Camera::clamp(float val, float minVal, float maxVal) { return (val < minVal) ? minVal : (val > maxVal) ? maxVal : val; }
+//----------------------------
 
 void Camera::updateMatrix(float FOVdeg, float nearPlane, float farPlane)
 {
@@ -24,50 +89,65 @@ void Camera::updateMatrix(float FOVdeg, float nearPlane, float farPlane)
 	cameraMatrix = projection * view;
 }
 
+void Camera::updateMatrixExplore(float FOVdeg, float nearPlane, float farPlane) {
+	// Initializes matrices since otherwise they will be the null matrix
+	glm::mat4 view = glm::mat4(1.0f);
+	glm::mat4 projection = glm::mat4(1.0f);
+
+	// Orientaci�n siempre hacia el targetPoint
+	Orientation = glm::normalize(targetPoint - Position);
+	view = glm::lookAt(Position, Position + Orientation, Up);
+	projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
+	cameraMatrix = projection * view;
+}
+
 void Camera::Matrix(Shader& shader, const char* uniform)
 {
 	// Exports camera matrix
 	glUniformMatrix4fv(glGetUniformLocation(shader.ID, uniform), 1, GL_FALSE, glm::value_ptr(cameraMatrix));
 }
 
-
-
 void Camera::Inputs(GLFWwindow* window)
 {
-	// Handles key inputs
+	if (!inputsEnabled) {
+		// Restore cursor if inputs are disabled
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		firstClick = true;
+		return;
+	}
+
+	// -----------------------------------------------------
+	glm::vec3 desiredPosition = Position;
+
+	// Movimiento WASD (igual que antes, pero guardamos en desiredPosition)
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-	{
-		Position += speed * Orientation;
-	}
+		desiredPosition += speed * Orientation;
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-	{
-		Position += speed * -glm::normalize(glm::cross(Orientation, Up));
-	}
+		desiredPosition += speed * -glm::normalize(glm::cross(Orientation, Up));
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-	{
-		Position += speed * -Orientation;
-	}
+		desiredPosition += speed * -Orientation;
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-	{
-		Position += speed * glm::normalize(glm::cross(Orientation, Up));
-	}
+		desiredPosition += speed * glm::normalize(glm::cross(Orientation, Up));
 	if (glfwGetKey(window, GLFW_KEY_SPACE) == GLFW_PRESS)
-	{
-		Position += speed * Up;
-	}
+		desiredPosition += speed * Up;
 	if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
-	{
-		Position += speed * -Up;
+		desiredPosition += speed * -Up;
+
+	if (Verify(desiredPosition)) {
+		Position = AdjustedPosition(desiredPosition);
 	}
+	else {
+		Position = desiredPosition; // Si no hay colisión, nos movemos libremente
+	}
+	//--------------------------------------------------------------
 	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 	{
-		speed = 0.001f;
+		speed = 0.0011f * 50;
 	}
 	else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
 	{
-		speed = 0.001f;
+		speed = 0.0011f * 25;
 	}
-
 
 	// Handles mouse inputs
 	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS)
@@ -114,5 +194,41 @@ void Camera::Inputs(GLFWwindow* window)
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		// Makes sure the next time the camera looks around it doesn't jump
 		firstClick = true;
+	}
+}
+
+void Camera::OrbitInputs(GLFWwindow* window) {
+	if (!inputsEnabled) {
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+		return;
+	}
+
+	// Solo procesar si el bot�n izquierdo est� presionado
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
+
+		double mouseX, mouseY;
+		glfwGetCursorPos(window, &mouseX, &mouseY);
+
+		// Calcular movimiento del rat�n
+		orbitAngleY -= sensitivity * (float)(mouseY - (height / 2)) / height;
+		orbitAngleX += sensitivity * (float)(mouseX - (width / 2)) / width;
+
+		// Limitar �ngulo vertical para evitar volteretas
+		orbitAngleY = glm::clamp(orbitAngleY, -89.0f, 89.0f);
+
+		// Calcular nueva posici�n orbital
+		Position.x = targetPoint.x + orbitRadius * cos(glm::radians(orbitAngleY)) * sin(glm::radians(orbitAngleX));
+		Position.y = targetPoint.y + orbitRadius * sin(glm::radians(orbitAngleY));
+		Position.z = targetPoint.z + orbitRadius * cos(glm::radians(orbitAngleY)) * cos(glm::radians(orbitAngleX));
+
+		// Orientaci�n siempre hacia el punto objetivo
+		Orientation = glm::normalize(targetPoint - Position);
+
+		// Centrar cursor
+		glfwSetCursorPos(window, width / 2, height / 2);
+	}
+	else {
+		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	}
 }

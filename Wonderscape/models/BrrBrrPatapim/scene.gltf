@@ -1,0 +1,592 @@
+{
+  "accessors": [
+    {
+      "bufferView": 2,
+      "componentType": 5126,
+      "count": 4938,
+      "max": [
+        0.5285691022872925,
+        0.40756604075431824,
+        1.0082335472106934
+      ],
+      "min": [
+        -0.5285691022872925,
+        -0.4084292948246002,
+        0.002605890389531851
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 59256,
+      "componentType": 5126,
+      "count": 4938,
+      "max": [
+        0.9995619654655457,
+        0.9999582767486572,
+        0.9986027479171753
+      ],
+      "min": [
+        -0.9995619654655457,
+        -0.9998102784156799,
+        -0.9999486207962036
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "componentType": 5126,
+      "count": 4938,
+      "max": [
+        1.0,
+        0.9988555908203125,
+        0.9999810457229614,
+        1.0
+      ],
+      "min": [
+        -0.9999971985816956,
+        -0.999001681804657,
+        -0.9944621920585632,
+        -1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "componentType": 5126,
+      "count": 4938,
+      "max": [
+        0.993382453918457,
+        0.9871079921722412
+      ],
+      "min": [
+        0.004198276903480291,
+        0.0041248993948102
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 39504,
+      "componentType": 5126,
+      "count": 4938,
+      "max": [
+        0.993382453918457,
+        0.9871079921722412
+      ],
+      "min": [
+        0.004198276903480291,
+        0.0041248993948102
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 79008,
+      "componentType": 5126,
+      "count": 4938,
+      "max": [
+        0.993382453918457,
+        0.9871079921722412
+      ],
+      "min": [
+        0.004198276903480291,
+        0.0041248993948102
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "componentType": 5125,
+      "count": 25290,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 118512,
+      "componentType": 5126,
+      "count": 1028,
+      "max": [
+        0.9999997019767761,
+        1.0,
+        1.306344985961914
+      ],
+      "min": [
+        -4.804909706115723,
+        -1.8954908847808838,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 130848,
+      "componentType": 5126,
+      "count": 1028,
+      "max": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "min": [
+        -1.0,
+        -1.0,
+        -1.0
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 3,
+      "byteOffset": 79008,
+      "componentType": 5126,
+      "count": 1028,
+      "max": [
+        0.7445878386497498,
+        0.995916485786438,
+        0.9991504549980164,
+        1.0
+      ],
+      "min": [
+        -0.9460254311561584,
+        -0.25548380613327026,
+        -0.9989594221115112,
+        -1.0
+      ],
+      "type": "VEC4"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 118512,
+      "componentType": 5126,
+      "count": 1028,
+      "max": [
+        1.5745282173156738,
+        0.6437612771987915
+      ],
+      "min": [
+        0.33531099557876587,
+        0.4140206277370453
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 126736,
+      "componentType": 5126,
+      "count": 1028,
+      "max": [
+        1.5745282173156738,
+        0.6437612771987915
+      ],
+      "min": [
+        0.33531099557876587,
+        0.4140206277370453
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 134960,
+      "componentType": 5126,
+      "count": 1028,
+      "max": [
+        1.5745282173156738,
+        0.6437612771987915
+      ],
+      "min": [
+        0.33531099557876587,
+        0.4140206277370453
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 101160,
+      "componentType": 5125,
+      "count": 5760,
+      "type": "SCALAR"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 143184,
+      "componentType": 5126,
+      "count": 3507,
+      "max": [
+        0.28654253482818604,
+        0.2964903712272644,
+        0.2585276663303375
+      ],
+      "min": [
+        -0.5794081091880798,
+        -0.49717003107070923,
+        -0.46381086111068726
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 2,
+      "byteOffset": 185268,
+      "componentType": 5126,
+      "count": 3507,
+      "max": [
+        0.9990411400794983,
+        0.9872490167617798,
+        0.9999524354934692
+      ],
+      "min": [
+        -0.999222993850708,
+        -0.9999306797981262,
+        -0.9999552965164185
+      ],
+      "type": "VEC3"
+    },
+    {
+      "bufferView": 1,
+      "byteOffset": 143184,
+      "componentType": 5126,
+      "count": 3507,
+      "max": [
+        0.9417556524276733,
+        0.4348973035812378
+      ],
+      "min": [
+        0.8105906844139099,
+        0.304212749004364
+      ],
+      "type": "VEC2"
+    },
+    {
+      "bufferView": 0,
+      "byteOffset": 124200,
+      "componentType": 5125,
+      "count": 9018,
+      "type": "SCALAR"
+    }
+  ],
+  "asset": {
+    "extras": {
+      "author": "Alex CGW (https://sketchfab.com/alex.cgwarrior)",
+      "license": "CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)",
+      "source": "https://sketchfab.com/3d-models/brr-brr-patapim-game-ready-3d-model-free-72219842318c491a90032ad903f6bbcc",
+      "title": "Brr Brr Patapim Game Ready 3D model FREE"
+    },
+    "generator": "Sketchfab-16.65.0",
+    "version": "2.0"
+  },
+  "bufferViews": [
+    {
+      "buffer": 0,
+      "byteLength": 160272,
+      "name": "floatBufferViews",
+      "target": 34963
+    },
+    {
+      "buffer": 0,
+      "byteLength": 171240,
+      "byteOffset": 160272,
+      "byteStride": 8,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 227352,
+      "byteOffset": 331512,
+      "byteStride": 12,
+      "name": "floatBufferViews",
+      "target": 34962
+    },
+    {
+      "buffer": 0,
+      "byteLength": 95456,
+      "byteOffset": 558864,
+      "byteStride": 16,
+      "name": "floatBufferViews",
+      "target": 34962
+    }
+  ],
+  "buffers": [
+    {
+      "byteLength": 654320,
+      "uri": "scene.bin"
+    }
+  ],
+  "images": [
+    {
+      "uri": "textures/Patapim_baseColor.png"
+    },
+    {
+      "uri": "textures/Patapim_metallicRoughness.png"
+    },
+    {
+      "uri": "textures/Patapim_normal.png"
+    },
+    {
+      "uri": "textures/stylized_bush_baseColor.png"
+    }
+  ],
+  "materials": [
+    {
+      "doubleSided": true,
+      "name": "Patapim",
+      "normalTexture": {
+        "index": 2
+      },
+      "occlusionTexture": {
+        "index": 1
+      },
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 0
+        },
+        "metallicFactor": 0.0,
+        "metallicRoughnessTexture": {
+          "index": 1
+        },
+        "roughnessFactor": 0.7908595530957808
+      }
+    },
+    {
+      "alphaMode": "BLEND",
+      "doubleSided": true,
+      "name": "stylized_bush",
+      "pbrMetallicRoughness": {
+        "baseColorTexture": {
+          "index": 3
+        },
+        "metallicFactor": 0.0,
+        "roughnessFactor": 0.8381377647539535
+      }
+    }
+  ],
+  "meshes": [
+    {
+      "name": "Body_LP_Patapim_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 1,
+            "POSITION": 0,
+            "TANGENT": 2,
+            "TEXCOORD_0": 3,
+            "TEXCOORD_1": 4,
+            "TEXCOORD_2": 5
+          },
+          "indices": 6,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "Yeye_LP_Patapim_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 8,
+            "POSITION": 7,
+            "TANGENT": 9,
+            "TEXCOORD_0": 10,
+            "TEXCOORD_1": 11,
+            "TEXCOORD_2": 12
+          },
+          "indices": 13,
+          "material": 0,
+          "mode": 4
+        }
+      ]
+    },
+    {
+      "name": "stylized bush.002_stylized bush_0",
+      "primitives": [
+        {
+          "attributes": {
+            "NORMAL": 15,
+            "POSITION": 14,
+            "TEXCOORD_0": 16
+          },
+          "indices": 17,
+          "material": 1,
+          "mode": 4
+        }
+      ]
+    }
+  ],
+  "nodes": [
+    {
+      "children": [
+        1
+      ],
+      "matrix": [
+        1.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        2.220446049250313e-16,
+        -1.0,
+        0.0,
+        0.0,
+        1.0,
+        2.220446049250313e-16,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Sketchfab_model"
+    },
+    {
+      "children": [
+        2
+      ],
+      "matrix": [
+        0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.009999999776482582,
+        0.0,
+        0.0,
+        -0.009999999776482582,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "902cc063122c419bbc55660f0fea6dc4.fbx"
+    },
+    {
+      "children": [
+        3,
+        5,
+        7
+      ],
+      "name": "RootNode"
+    },
+    {
+      "children": [
+        4
+      ],
+      "matrix": [
+        100.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -1.629206793918314e-05,
+        -99.99999999999868,
+        0.0,
+        0.0,
+        99.99999999999868,
+        -1.629206793918314e-05,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        1.0
+      ],
+      "name": "Body_LP"
+    },
+    {
+      "mesh": 0,
+      "name": "Body_LP_Patapim_0"
+    },
+    {
+      "children": [
+        6
+      ],
+      "matrix": [
+        2.1558016922155794,
+        -0.5119779410929329,
+        0.1635279008733039,
+        0.0,
+        0.5085608605833813,
+        2.161854054724351,
+        0.06399656563209614,
+        0.0,
+        -0.17386366962982688,
+        -0.024664821515393173,
+        2.214837631570449,
+        0.0,
+        4.36032247543335,
+        81.67386627197266,
+        -0.8021230697631836,
+        1.0
+      ],
+      "name": "Yeye_LP"
+    },
+    {
+      "mesh": 1,
+      "name": "Yeye_LP_Patapim_0"
+    },
+    {
+      "children": [
+        8
+      ],
+      "matrix": [
+        2.502890670278035e-06,
+        57.25946268889828,
+        81.98385454892819,
+        0.0,
+        89.33475483545989,
+        -36.84079333938883,
+        25.730478515035855,
+        0.0,
+        44.93664302781473,
+        73.24008599748866,
+        -51.152609340581854,
+        0.0,
+        13.328038215637207,
+        67.60154724121094,
+        -5.194092750549316,
+        1.0
+      ],
+      "name": "stylized bush.002"
+    },
+    {
+      "mesh": 2,
+      "name": "stylized bush.002_stylized bush_0"
+    }
+  ],
+  "samplers": [
+    {
+      "magFilter": 9729,
+      "minFilter": 9987,
+      "wrapS": 10497,
+      "wrapT": 10497
+    }
+  ],
+  "scene": 0,
+  "scenes": [
+    {
+      "name": "Sketchfab_Scene",
+      "nodes": [
+        0
+      ]
+    }
+  ],
+  "textures": [
+    {
+      "sampler": 0,
+      "source": 0
+    },
+    {
+      "sampler": 0,
+      "source": 1
+    },
+    {
+      "sampler": 0,
+      "source": 2
+    },
+    {
+      "sampler": 0,
+      "source": 3
+    }
+  ]
+}
