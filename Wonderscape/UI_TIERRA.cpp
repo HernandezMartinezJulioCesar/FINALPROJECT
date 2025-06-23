@@ -4,7 +4,7 @@
 
 #include "Config.h"
 #include "UI_TIERRA.h"
-
+#include"SceneModels.h"
 #include "Model.h"
 #include "Camera.h"
 #include "shaderClass.h"
@@ -79,8 +79,9 @@ float pos(int point, float base) {
     return (point / base) * 2.0f - 1.0f;
 }
 
-void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& lupaModel, Model& animation)
-{
+void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& lupaModel, Model& animation, Model& model)
+{   
+    int maravilla = 0;
     // background audio
     AudioManager audio;
     audio.playBackgroundMusic("media/outer space.mp3");
@@ -145,7 +146,7 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& lup
     TextureF previewImage(direccionMaravillas[0].c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
 
     // Load localization model
-    Model location("models/LocationIcon/scene.gltf");
+    Model location("models/LocationIcon/scene.gltf", glm::vec3(1.0f));
     Texture Textura("models/LocationIcon/textures/rojo.jpg", "albedo", 0);
     for (auto& mesh : location.meshes)
     {
@@ -270,13 +271,13 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& lup
                 camera.inputsEnabled = false;
 
                 switch (clickState.index) {
-                case 0: titulo = nombreMaravillas[0]; rutaImagen = direccionMaravillas[0]; posCamara = posicionCamara[0]; break;
-                case 1: titulo = nombreMaravillas[1]; rutaImagen = direccionMaravillas[1]; posCamara = posicionCamara[1]; break;
-                case 2: titulo = nombreMaravillas[2]; rutaImagen = direccionMaravillas[2]; posCamara = posicionCamara[2]; break;
-                case 3: titulo = nombreMaravillas[3]; rutaImagen = direccionMaravillas[3]; posCamara = posicionCamara[3]; break;
-                case 4: titulo = nombreMaravillas[4]; rutaImagen = direccionMaravillas[4]; posCamara = posicionCamara[4]; break;
-                case 5: titulo = nombreMaravillas[5]; rutaImagen = direccionMaravillas[5]; posCamara = posicionCamara[5]; break;
-                case 6: titulo = nombreMaravillas[6]; rutaImagen = direccionMaravillas[6]; posCamara = posicionCamara[6]; break;
+                case 0: titulo = nombreMaravillas[0]; rutaImagen = direccionMaravillas[0]; posCamara = posicionCamara[0]; maravilla = 2; break;
+                case 1: titulo = nombreMaravillas[1]; rutaImagen = direccionMaravillas[1]; posCamara = posicionCamara[1]; maravilla = 7; break;
+                case 2: titulo = nombreMaravillas[2]; rutaImagen = direccionMaravillas[2]; posCamara = posicionCamara[2]; maravilla = 5; break;
+                case 3: titulo = nombreMaravillas[3]; rutaImagen = direccionMaravillas[3]; posCamara = posicionCamara[3]; maravilla = 4; break;
+                case 4: titulo = nombreMaravillas[4]; rutaImagen = direccionMaravillas[4]; posCamara = posicionCamara[4]; maravilla = 6; break;
+                case 5: titulo = nombreMaravillas[5]; rutaImagen = direccionMaravillas[5]; posCamara = posicionCamara[5]; maravilla = 1; break;
+                case 6: titulo = nombreMaravillas[6]; rutaImagen = direccionMaravillas[6]; posCamara = posicionCamara[6]; maravilla = 3; break;
                 }
                 clickState.waiting = false;
 
@@ -405,14 +406,15 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& lup
             if (tiempoActual >= duracionTierra + duracionNubes) {
                 audio.stopBackgroundMusic();
                 PantallaCarga(window, modelShader, lupaModel, 5.0f);
-
-                // Funcion de Joan
-
-                animacionIniciada = false;
-                estadoActual = PANTALLA_EXPLORAR;
-                camera = Camera(width, height, glm::vec3(0.0f));
-                camera.Position = glm::vec3(0.0f, 0.0f, camera.orbitRadius);
-                audio.playBackgroundMusic("media/outer space.mp3");
+                glEnable(GL_BLEND);
+                glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+                if (SceneModels(maravilla, window, model)) {
+                    animacionIniciada = false;
+                    estadoActual = PANTALLA_EXPLORAR;
+                    camera = Camera(width, height, glm::vec3(0.0f));
+                    camera.Position = glm::vec3(0.0f, 0.0f, camera.orbitRadius);
+                    audio.playBackgroundMusic("media/outer space.mp3");
+                }
             }
         }
 

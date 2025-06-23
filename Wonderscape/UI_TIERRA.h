@@ -7,6 +7,6 @@ struct GLFWwindow;
 class Shader;
 class Model;
 
-void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& lupaModel, Model& animation);
+void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& lupaModel, Model& animation, Model& model);
 
 #endif

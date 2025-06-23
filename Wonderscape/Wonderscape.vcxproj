@@ -75,12 +75,12 @@
     <LibraryPath>C:\Users\KARINA MERCEDES\Documents\GitHub\PROJECTPG\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\KARINA MERCEDES\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\KARINA MERCEDES\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Ulises\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Ulises\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\Ulises\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Ulises\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -121,7 +121,7 @@
       <LanguageStandard>Default</LanguageStandard>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalDependencies>glfw3.lib;opengl32.lib;User32.lib;Gdi32.lib;Shell32.lib;freetype.lib;irrKlang.lib;%(AditionalDependencies)</AdditionalDependencies>
     </Link>
@@ -136,7 +136,7 @@
       <ConformanceMode>true</ConformanceMode>
     </ClCompile>
     <Link>
-      <SubSystem>Windows</SubSystem>
+      <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
@@ -144,6 +144,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="ArraysFaces.h" />
     <ClInclude Include="AudioManager.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
@@ -155,11 +156,14 @@
     <ClInclude Include="MenuPrincipal.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
+    <ClInclude Include="Paredes.h" />
+    <ClInclude Include="SceneModels.h" />
     <ClInclude Include="shaderClass.h" />
     <ClInclude Include="shaderClassF.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureF.h" />
+    <ClInclude Include="Texture_Scene.h" />
     <ClInclude Include="UI_TIERRA.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VAOF.h" />
@@ -175,6 +179,10 @@
     <None Include="default.frag" />
     <None Include="default.vert" />
     <None Include="defaultModel.frag" />
+    <None Include="default_models.frag" />
+    <None Include="default_models.vert" />
+    <None Include="default_scenes.frag" />
+    <None Include="default_scenes.vert" />
     <None Include="panel.frag" />
     <None Include="panel.vert" />
     <None Include="text.frag" />
@@ -199,6 +207,7 @@
     <ClCompile Include="TextRenderer.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureF.cpp" />
+    <ClCompile Include="Texture_Scene.cpp" />
     <ClCompile Include="UI_TIERRA.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VAOF.cpp" />
