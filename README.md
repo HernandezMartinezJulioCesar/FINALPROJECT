@@ -103,8 +103,8 @@ Note: This is done to have the address of your computer.</h3>
  <h1 align="center" > 😸Developers<img width = "120px" src= "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmdjNmVtbXVucW8xZDNmbTFwYnZhNGUzeHo0bHJmOG9uZmFjY295diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/0luWy8p6oKImZt41tz/giphy.gif"/> </h1>
 
 
-| ![](Pictures/user1.png) | ![](Pictures/user2.png) | ![](Pictures/user3.png) |
-|-------------------------|-------------------------|-------------------------|
-| **Jessica Walles**      | **Paul Doe**            | **Nina Collins**        |
-| “Venus is the second planet from the Sun” | “Mercury is the closest planet to the Sun” | “Jupiter was named after a Roman god” |
+| ![](Pictures/Deve1.jpg) | ![](Pictures/Deve2.jpg) | ![](Pictures/Deve3.jpg) |![](Pictures/Deve4.jpg) |
+|-------------------------|-------------------------|-------------------------|-------------------------|
+| **Jessica Walles**      | **Paul Doe**            | **Nina Collins**        | **Paul Doe** 
+| “Venus is the second planet from the Sun” | “Mercury is the closest planet to the Sun” | “Jupiter was named after a Roman god” | “Mercury is the closest planet to the Sun” | 
 
