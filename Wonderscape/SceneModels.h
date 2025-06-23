@@ -1,5 +1,7 @@
 #include"Model.h"
 #include"Texture.h"
+#include"Paredes.h"
+#include"ArraysFaces.h"
 
 float r = 2.465f;
 bool inLimitedZone = false;
@@ -17,6 +19,23 @@ const char* Models[] = {
 	"models/maravillas/textures/Material.007_baseColor.png",//Petra
 	"models/maravillas/textures/Material.010_baseColor.png",//MurallaChina
 	"models/maravillas/textures/Material.016_baseColor.png"//ChichenItza
+};
+
+const char* Faces[] = {
+	"models/Skyboxes/FACES/MURALLACHINA.png",
+	"models/Skyboxes/FACES/CIELOMURALLA.png",
+	"models/Skyboxes/FACES/PETRA.png",
+	"models/Skyboxes/FACES/CIELOPETRA.png",
+	"models/Skyboxes/FACES/CRISTO.png",
+	"models/Skyboxes/FACES/CIELOCRISTO.png",
+	"models/Skyboxes/FACES/MACHUPICHU.png",
+	"models/Skyboxes/FACES/CIELOMACHU.png",
+	"models/Skyboxes/FACES/CHICHEN.png",
+	"models/Skyboxes/FACES/CIELOCHICHEN.png",
+	"models/Skyboxes/FACES/COLISEO.png",
+	"models/Skyboxes/FACES/CIELOCOLISEO.png",
+	"models/Skyboxes/FACES/TALMAJAL.png",
+	"models/Skyboxes/FACES/CIELOTALMAJAL.png"
 };
 
 float RGB_Color(float color) { return color / 255.0f; }
@@ -233,6 +252,55 @@ bool SceneModels(int ResividaKey, GLFWwindow* window, Model& model) {
 		cameras.Inputs(window);
 		model.Draw(shaderProgram_Scene, cameras);
 		cameras.updateMatrix(45.0f, 0.1f, 30.0f);
+		if (ResividaKey == GLFW_KEY_1) {
+			renderParedes(Right_Maravilla1, 44, window, cameras, Faces[0]);
+			renderParedes(Left_Maravilla1, 44, window, cameras, Faces[0]);
+			renderParedes(Front_Maravilla1, 44, window, cameras, Faces[0]);
+			renderParedes(Back_Maravilla1, 44, window, cameras, Faces[0]);
+			renderParedes(Top_Maravilla1, 44, window, cameras, Faces[1]);
+		}
+		if (ResividaKey == 2) {
+			renderParedes(Right_Maravilla2, 44, window, cameras, Faces[2]);
+			renderParedes(Left_Maravilla2, 44, window, cameras, Faces[2]);
+			renderParedes(Front_Maravilla2, 44, window, cameras, Faces[2]);
+			renderParedes(Back_Maravilla2, 44, window, cameras, Faces[2]);
+			renderParedes(Top_Maravilla2, 44, window, cameras, Faces[3]);
+		}
+		if (ResividaKey == 3) {
+			renderParedes(Right_Maravilla3, 44, window, cameras, Faces[4]);
+			renderParedes(Left_Maravilla3, 44, window, cameras, Faces[4]);
+			renderParedes(Front_Maravilla3, 44, window, cameras, Faces[4]);
+			renderParedes(Back_Maravilla3, 44, window, cameras, Faces[4]);
+			renderParedes(Top_Maravilla3, 44, window, cameras, Faces[5]);
+		}
+		if (ResividaKey == 4) {
+			renderParedes(Right_Maravilla4, 44, window, cameras, Faces[6]);
+			renderParedes(Left_Maravilla4, 44, window, cameras, Faces[6]);
+			renderParedes(Front_Maravilla4, 44, window, cameras, Faces[6]);
+			renderParedes(Back_Maravilla4, 44, window, cameras, Faces[6]);
+			renderParedes(Top_Maravilla4, 44, window, cameras, Faces[7]);
+		}
+		if (ResividaKey == 5) {
+			renderParedes(Right_Maravilla5, 44, window, cameras, Faces[8]);
+			renderParedes(Left_Maravilla5, 44, window, cameras, Faces[8]);
+			renderParedes(Front_Maravilla5, 44, window, cameras, Faces[8]);
+			renderParedes(Back_Maravilla5, 44, window, cameras, Faces[8]);
+			renderParedes(Top_Maravilla5, 44, window, cameras, Faces[9]);
+		}
+		if (ResividaKey == 6) {
+			renderParedes(Right_Maravilla6, 44, window, cameras, Faces[10]);
+			renderParedes(Left_Maravilla6, 44, window, cameras, Faces[10]);
+			renderParedes(Front_Maravilla6, 44, window, cameras, Faces[10]);
+			renderParedes(Back_Maravilla6, 44, window, cameras, Faces[10]);
+			renderParedes(Top_Maravilla6, 44, window, cameras, Faces[11]);
+		}
+		if (ResividaKey == 7) {
+			renderParedes(Right_Maravilla7, 44, window, cameras, Faces[12]);
+			renderParedes(Left_Maravilla7, 44, window, cameras, Faces[12]);
+			renderParedes(Front_Maravilla7, 44, window, cameras, Faces[12]);
+			renderParedes(Back_Maravilla7, 44, window, cameras, Faces[12]);
+			renderParedes(Top_Maravilla7, 44, window, cameras, Faces[13]);
+		}
 		//------------------------------------------------------------------------------
 		glDepthFunc(GL_LEQUAL);
 		glm::mat4 view = glm::mat4(0.1f);
