@@ -105,6 +105,6 @@ Note: This is done to have the address of your computer.</h3>
 
 | ![](Pictures/Deve1.jpg) | ![](Pictures/Deve2.jpg) | ![](Pictures/Deve3.jpg) |![](Pictures/Deve4.jpg) |
 |-------------------------|-------------------------|-------------------------|-------------------------|
-| **Jessica Walles**      | **Paul Doe**            | **Nina Collins**        | **Paul Doe** 
-| “Venus is the second planet from the Sun” | “Mercury is the closest planet to the Sun” | “Jupiter was named after a Roman god” | “Mercury is the closest planet to the Sun” | 
+| **Hernández Julio**      | **Guerrero Ulises**            | **Baltodano Carles*        | **Rodríguez Axel* 
+| “Interface and navigation system” | “Modeling and integration of wonders” | “Camera and environment programing” | “General desing and graphics optimization” | 
 

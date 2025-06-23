@@ -44,3 +44,11 @@ void PantallaCarga(GLFWwindow* window, Shader& modelShader, Model& lupaModel, fl
         glfwSwapBuffers(window);
     }
 }
+
+float rgb(int color) {
+    return color / 255.0f;
+}
+
+float pos(int point, float base) {
+    return (point / base) * 2.0f - 1.0f;
+}
