@@ -338,22 +338,22 @@
       "uri": "textures/Material.005_baseColor.png"
     },
     {
-      "uri": "textures/Material.003_baseColor.png"
+      "uri": "textures/Material.005_baseColor.png"
     },
     {
-      "uri": "textures/Material.002_baseColor.png"
+      "uri": "textures/Material.005_baseColor.png"
     },
     {
-      "uri": "textures/Material.016_baseColor.png"
+      "uri": "textures/Material.005_baseColor.png"
     },
     {
-      "uri": "textures/base_baseColor.png"
+      "uri": "textures/Material.005_baseColor.png"
     },
     {
-      "uri": "textures/Material.007_baseColor.png"
+      "uri": "textures/Material.005_baseColor.png"
     },
     {
-      "uri": "textures/Material.010_baseColor.png"
+      "uri": "textures/Material.005_baseColor.png"
     }
   ],
   "materials": [
@@ -373,7 +373,7 @@
       "name": "Material.003",
       "pbrMetallicRoughness": {
         "baseColorTexture": {
-          "index": 1
+          "index": 0
         },
         "metallicFactor": 0.0,
         "roughnessFactor": 0.4
@@ -384,7 +384,7 @@
       "name": "Material.002",
       "pbrMetallicRoughness": {
         "baseColorTexture": {
-          "index": 2
+          "index": 0
         },
         "metallicFactor": 0.0,
         "roughnessFactor": 0.4
@@ -395,7 +395,7 @@
       "name": "Material.016",
       "pbrMetallicRoughness": {
         "baseColorTexture": {
-          "index": 3
+          "index": 0
         },
         "metallicFactor": 0.0,
         "roughnessFactor": 0.4
@@ -406,7 +406,7 @@
       "name": "base",
       "pbrMetallicRoughness": {
         "baseColorTexture": {
-          "index": 4
+          "index": 0
         },
         "metallicFactor": 0.0,
         "roughnessFactor": 0.4
@@ -417,7 +417,7 @@
       "name": "Material.007",
       "pbrMetallicRoughness": {
         "baseColorTexture": {
-          "index": 5
+          "index": 0
         },
         "metallicFactor": 0.0,
         "roughnessFactor": 0.4
@@ -428,7 +428,7 @@
       "name": "Material.010",
       "pbrMetallicRoughness": {
         "baseColorTexture": {
-          "index": 6
+          "index": 0
         },
         "metallicFactor": 0.0,
         "roughnessFactor": 0.4
@@ -844,27 +844,27 @@
     },
     {
       "sampler": 0,
-      "source": 1
+      "source": 0
     },
     {
       "sampler": 0,
-      "source": 2
+      "source": 0
     },
     {
       "sampler": 0,
-      "source": 3
+      "source": 0
     },
     {
       "sampler": 0,
-      "source": 4
+      "source": 0
     },
     {
       "sampler": 0,
-      "source": 5
+      "source": 0
     },
     {
       "sampler": 0,
-      "source": 6
+      "source": 0
     }
   ]
 }

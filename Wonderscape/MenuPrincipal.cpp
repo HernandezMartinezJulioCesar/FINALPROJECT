@@ -30,10 +30,6 @@
 #include <ctime>
 #include <Windows.h>
 
-float rgb(int color) {
-    return color / 255.0f;
-}
-
 int MenuPrincipal() {
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
@@ -54,9 +50,9 @@ int MenuPrincipal() {
     gladLoadGL();
     glViewport(0, 0, width, height);
 
-    // Cargar �cono de la ventana
+    // Cargar icono de la ventana
     int iconWidth, iconHeight, channels;
-    unsigned char* iconPixels = stbi_load("icono.png", &iconWidth, &iconHeight, &channels, 4);
+    unsigned char* iconPixels = stbi_load("images/icono.png", &iconWidth, &iconHeight, &channels, 4);
     if (iconPixels) {
         GLFWimage icon;
         icon.width = iconWidth;
@@ -85,13 +81,12 @@ int MenuPrincipal() {
     ShaderF backgroundShader("background.vert", "background.frag");
 
     float backgroundVertices[] = {
-        // pos        // tex
         -1.0f,  1.0f,  0.0f, 1.0f,
         -1.0f, -1.0f,  0.0f, 0.0f,
          1.0f, -1.0f,  1.0f, 0.0f,
          1.0f,  1.0f,  1.0f, 1.0f
     };
-    unsigned int backgroundIndices[] = {
+    unsigned int backgroundIndexes[] = {
         0, 1, 2,
         2, 3, 0
     };
@@ -99,7 +94,7 @@ int MenuPrincipal() {
     VAOF vaoF;
     vaoF.Bind();
     VBOF vboF(backgroundVertices, sizeof(backgroundVertices));
-    EBOF eboF(backgroundIndices, sizeof(backgroundIndices));
+    EBOF eboF(backgroundIndexes, sizeof(backgroundIndexes));
 
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -108,10 +103,34 @@ int MenuPrincipal() {
 
     vaoF.Unbind(); vboF.Unbind(); eboF.Unbind();
 
-    TextureF backgroundMenu("fondoMenu.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
-    TextureF backgroundCH("Creditshelp.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
+    TextureF backgroundMenu("images/fondoMenu.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
+    TextureF backgroundHelp("images/fondoSecun.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
+    TextureF backgroundCredits("images/credits.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
 
-    // C�rculo base para la Tierra
+    // Imagen de ayuda
+    ShaderF imageShader("background.vert", "background.frag");
+
+    float imageVertices[] = {
+        pos(1109, width), pos(993, height), 0.0f, 1.0f,
+        pos(1109, width), pos(87, height), 0.0f, 0.0f,
+        pos(1771, width), pos(87, height), 1.0f, 0.0f,
+        pos(1771, width), pos(993, height), 1.0f, 1.0f
+    };
+
+    VAOF imagevaoF;
+    imagevaoF.Bind();
+    VBOF imagevboF(imageVertices, sizeof(imageVertices));
+    EBOF imageeboF(backgroundIndexes, sizeof(backgroundIndexes));
+
+    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
+    glEnableVertexAttribArray(1);
+
+    imagevaoF.Unbind(); imagevboF.Unbind(); imageeboF.Unbind();
+    TextureF imageHelp("images/help.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
+
+    // Circulo base para la Tierra
     ShaderF circleShader("circle.vert", "circle.frag");
     Circle circle(1.38f, 0.0f, 0.80f);
 
@@ -125,24 +144,25 @@ int MenuPrincipal() {
     Camera camera(width, height, glm::vec3(0.0f));
     Model earth("models/tierra/scene.gltf", glm::vec3(1.0f));
     Model clouds("models/nubes/scene.gltf", glm::vec3(1.0f));
+    Model brr("models/BrrBrrPatapim/scene.gltf", glm::vec3(1.0f));
     Model uni("models/ModelUni/UNI.gltf", glm::vec3(1.0f));
-    Model lupa("models/MagnifyingGlass/scene.gltf", glm::vec3(1.0f));
+    Model glass("models/MagnifyingGlass/scene.gltf", glm::vec3(1.0f));
     Model animation("models/LoadingScreen/scene.gltf", glm::vec3(1.0f));
-    Model model("models/maravillas2/scene.gltf", glm::vec3(0.45f));
+    Model model("models/maravillas/scene.gltf", glm::vec3(0.45f));
 
-    Texture Textura("models/ModelUni/textures/Image_0.jpg", "albedo", 0);
+    Texture texture("models/ModelUni/textures/Image_0.jpg", "albedo", 0);
     for (auto& mesh : uni.meshes) {
         mesh.textures.clear();
-        mesh.textures.push_back(Textura);
+        mesh.textures.push_back(texture);
     }
-    Textura = Texture("models/MagnifyingGlass/texture/Image_0.jpg", "albedo", 0);
-    for (auto& mesh : lupa.meshes) {
+    texture = Texture("models/MagnifyingGlass/texture/Image_0.jpg", "albedo", 0);
+    for (auto& mesh : glass.meshes) {
         mesh.textures.clear();
-        mesh.textures.push_back(Textura);
+        mesh.textures.push_back(texture);
     }
 
     // Botones del Menu Principal
-    std::vector<Button> botonesMenu = {
+    std::vector<Button> botonsMenu = {
         Button(glm::vec2(170, 500), glm::vec2(370, 74), "Explorar"),
         Button(glm::vec2(170, 400), glm::vec2(240, 74), "Ayuda"),
         Button(glm::vec2(170, 300), glm::vec2(345, 74), "Creditos"),
@@ -150,10 +170,10 @@ int MenuPrincipal() {
     };
 
     // Boton de Ayuda y Creditos
-    Button botonAtras = Button(glm::vec2(20, 1000), glm::vec2(235, 75), "Atras");
+    Button backButton = Button(glm::vec2(20, 1000), glm::vec2(235, 75), "Atras");
 
     // Estado del menu
-    AppState estadoActual = MENU_PRINCIPAL;
+    AppState currentStatus = MENU_PRINCIPAL;
     ButtonClick clickState;
     bool mousePressed = false;
     bool mouseReleased = false;
@@ -162,13 +182,10 @@ int MenuPrincipal() {
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    // L�gica de las nubes
-    bool nubeArrastrando = false;
-    glm::vec3 nubeOffset; // Por si quieres permitir un arrastre con desfase
-
+    // Logica de las nubes
     srand(static_cast<unsigned int>(time(0)));
 
-    std::vector<glm::vec3> posicionesFijas = {
+    std::vector<glm::vec3> fixedPositions = {
         glm::vec3(1.6f,  -0.8f, 4.0f),  // esquina superior izquierda
         glm::vec3(-1.6f,  -0.8f, 4.0f), // esquina superior derecha
         glm::vec3(1.6f, 0.8f, 4.0f),    // esquina inferior izquierda
@@ -179,10 +196,10 @@ int MenuPrincipal() {
         glm::vec3(0.0f, 0.8f, 4.0f)     // centro abajo
     };
 
-    // Posici�n inicial y objetivo de la nube
-    glm::vec3 nubePos = posicionesFijas[rand() % posicionesFijas.size()];
-    glm::vec3 nubeTargetPos = posicionesFijas[rand() % posicionesFijas.size()];
-    float nubeVelocidad = 0.05f;
+    // Posicion inicial y objetivo de la nube
+    glm::vec3 cloudPosition = fixedPositions[rand() % fixedPositions.size()];
+    glm::vec3 cloudEndPosition = fixedPositions[rand() % fixedPositions.size()];
+    float cloudSpeed = 0.05f;
 
     while (!glfwWindowShouldClose(window)) {
 
@@ -195,7 +212,7 @@ int MenuPrincipal() {
 
         // Tiempo
         float time = glfwGetTime();
-        float deltaTime = 0.016f; // Aproximadamente 60 FPS
+        float deltaTime = 0.016f;
 
         // Mouse
         static bool wasMousePressed = false;
@@ -212,9 +229,9 @@ int MenuPrincipal() {
         float normalizedY = (mouseY / height) * 2.0f - 1.0f;
         glm::vec3 mouseWorldPos = glm::vec3(-normalizedX * (float)width / height * 3.0f, -normalizedY * 3.0f, 1.0f);
 
-        if (estadoActual == MENU_PRINCIPAL) {
+        if (currentStatus == MENU_PRINCIPAL) {
 
-            // Fondo con textura
+            // Fondo con texture
             glDisable(GL_DEPTH_TEST);
             backgroundShader.Activate();
             vaoF.Bind();
@@ -224,16 +241,16 @@ int MenuPrincipal() {
             glEnable(GL_DEPTH_TEST);
 
             // Nubes
-            glm::vec3 direction = nubeTargetPos - nubePos;
+            glm::vec3 direction = cloudEndPosition - cloudPosition;
             float distance = glm::length(direction);
 
             if (distance < 0.1f)
-                nubeTargetPos = posicionesFijas[rand() % posicionesFijas.size()];
+                cloudEndPosition = fixedPositions[rand() % fixedPositions.size()];
 
             if (distance > 0.0f)
-                nubePos += glm::normalize(direction) * nubeVelocidad * deltaTime;
+                cloudPosition += glm::normalize(direction) * cloudSpeed * deltaTime;
 
-            glm::mat4 cloudTransform = glm::translate(glm::mat4(1.0f), nubePos);
+            glm::mat4 cloudTransform = glm::translate(glm::mat4(1.0f), cloudPosition);
             cloudTransform = glm::scale(cloudTransform, glm::vec3(0.5f));
 
             clouds.DrawRotation(modelShader, camera, cloudTransform);
@@ -252,7 +269,7 @@ int MenuPrincipal() {
             earthTransform = glm::rotate(earthTransform, glm::radians(time * 20.0f), glm::vec3(1.0f, 1.0f, 1.0f));
             earth.DrawRotation(modelShader, camera, earthTransform);
 
-            // T�tulo
+            // Titulo
             glDisable(GL_DEPTH_TEST);
             textRenderer.RenderText(L"Wonder", 138.0f, height - 219.0f, 1.04f, glm::vec3(0.2f));
             textRenderer.RenderText(L"Scapes", 138.0f, height - 399.0f, 1.04f, glm::vec3(0.2f));
@@ -262,10 +279,10 @@ int MenuPrincipal() {
 
             // Logica de botones
             glDisable(GL_DEPTH_TEST);
-            for (int i = 0; i < botonesMenu.size(); ++i) {
-                bool hovered = botonesMenu[i].isHovered(mouseX, mouseY);
+            for (int i = 0; i < botonsMenu.size(); ++i) {
+                bool hovered = botonsMenu[i].isHovered(mouseX, mouseY);
                 bool clicked = false;
-                botonesMenu[i].render(buttonRenderer, hovered, false);
+                botonsMenu[i].render(buttonRenderer, hovered, false);
 
                 if (hovered && mousePressed && !clickState.waiting) {
                     clicked = true;
@@ -275,36 +292,77 @@ int MenuPrincipal() {
                     clickState.waiting = true;
                 }
 
-                botonesMenu[i].render(buttonRenderer, hovered, (clickState.waiting == true && clickState.index == i) ? true : clicked);
+                botonsMenu[i].render(buttonRenderer, hovered, (clickState.waiting == true && clickState.index == i) ? true : clicked);
             }
             glEnable(GL_DEPTH_TEST);
 
             if (clickState.waiting && (glfwGetTime() - clickState.clickTime) >= 0.3) {
                 switch (clickState.index) {
-                case 0: estadoActual = PANTALLA_EXPLORAR; break;
-                case 1: estadoActual = PANTALLA_AYUDA; break;
-                case 2: estadoActual = PANTALLA_CREDITOS; break;
-                case 3: estadoActual = PANTALLA_SALIR; break;
+                case 0: currentStatus = PANTALLA_EXPLORAR; break;
+                case 1: currentStatus = PANTALLA_AYUDA; break;
+                case 2: currentStatus = PANTALLA_CREDITOS; break;
+                case 3: currentStatus = PANTALLA_SALIR; break;
                 }
                 clickState.waiting = false;
             }
         }
-        else if (estadoActual == PANTALLA_AYUDA || estadoActual == PANTALLA_CREDITOS) {
+        else if (currentStatus == PANTALLA_AYUDA || currentStatus == PANTALLA_CREDITOS) {
 
-            // Fondo con textura
-            glDisable(GL_DEPTH_TEST);
-            backgroundShader.Activate();
-            vaoF.Bind();
-            backgroundCH.Bind();
-            backgroundCH.texUnit(backgroundShader.ID, "backgroundTexture", 0);
-            glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-            glEnable(GL_DEPTH_TEST);
+            if (currentStatus == PANTALLA_AYUDA) {
+                // Fondo con texture
+                glDisable(GL_DEPTH_TEST);
+                backgroundShader.Activate();
+                vaoF.Bind();
+                backgroundHelp.Bind();
+                backgroundHelp.texUnit(backgroundShader.ID, "backgroundTexture", 0);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+                glEnable(GL_DEPTH_TEST);
+
+                // Imagen de ayuda
+                glDisable(GL_DEPTH_TEST);
+                imageShader.Activate();
+                imagevaoF.Bind();
+                imageHelp.Bind();
+                imageHelp.texUnit(imageShader.ID, "backgroundTexture", 0);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+                glEnable(GL_DEPTH_TEST);
+
+                // Modelo de ayuda
+                glm::mat4 brrTransform = glm::translate(glm::mat4(1.0f), glm::vec3(0.3f, 0.3f, 1.0f));
+                brrTransform = glm::rotate(brrTransform, glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+                brrTransform = glm::scale(brrTransform, glm::vec3(0.4f));
+                brr.DrawRotation(modelShader, camera, brrTransform);
+
+                // Texto de bienvenida
+                glDisable(GL_DEPTH_TEST);
+                creditsRenderer.RenderText(L"Hello, I'm Brr Brr Patapim,", 50.0f, height - 200.0f, 0.7f, glm::vec3(0.0f));
+                creditsRenderer.RenderText(L"Welcome to the help section!", 50.0f, height - 280.0f, 0.7f, glm::vec3(0.0f));
+                creditsRenderer.RenderText(L"Here you will find guidance for your adventure", 50.0f, height - 360.0f, 0.5f, glm::vec3(0.0f));
+                glEnable(GL_DEPTH_TEST);
+            }
+            else if (currentStatus == PANTALLA_CREDITOS) {
+                // Fondo con texture
+                glDisable(GL_DEPTH_TEST);
+                backgroundShader.Activate();
+                vaoF.Bind();
+                backgroundCredits.Bind();
+                backgroundCredits.texUnit(backgroundShader.ID, "backgroundTexture", 0);
+                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+                glEnable(GL_DEPTH_TEST);
+
+                // Modelo del logo
+                float angleDegrees = sin(time * 1.5f) * 25.0f;
+                glm::mat4 uniTransform = glm::translate(glm::mat4(1.0f), glm::vec3(-0.2f, 0.0f, 4.0f));
+                uniTransform = glm::rotate(uniTransform, glm::radians(angleDegrees), glm::vec3(0.0f, 1.0f, 0.0f));
+                uniTransform = glm::scale(uniTransform, glm::vec3(0.5f));
+                uni.DrawRotation(modelShader, camera, uniTransform);
+            }
 
             // Boton
-            bool hovered = botonAtras.isHovered(mouseX, mouseY);
+            bool hovered = backButton.isHovered(mouseX, mouseY);
             bool clicked = false;
             glDisable(GL_DEPTH_TEST);
-            botonAtras.render(buttonRenderer, hovered, clickState.waiting);
+            backButton.render(buttonRenderer, hovered, clickState.waiting);
             glEnable(GL_DEPTH_TEST);
 
             if (hovered && mousePressed && !clickState.waiting) {
@@ -315,41 +373,17 @@ int MenuPrincipal() {
             }
 
             if (clickState.waiting && (glfwGetTime() - clickState.clickTime) >= 0.3) {
-                estadoActual = MENU_PRINCIPAL;
+                currentStatus = MENU_PRINCIPAL;
                 clickState.waiting = false;
             }
-
-            if (estadoActual == PANTALLA_CREDITOS) {
-                // Modelo del logo
-                float angleDegrees = sin(time * 1.5f) * 25.0f;
-
-                glm::vec3 uniPosition = glm::vec3(0.0f, -0.3f, 4.0f);
-                glm::mat4 uniTransform = glm::translate(glm::mat4(1.0f), uniPosition);
-                uniTransform = glm::rotate(uniTransform, glm::radians(angleDegrees), glm::vec3(0.0f, 1.0f, 0.0f));
-                uniTransform = glm::scale(uniTransform, glm::vec3(0.5f));
-                uni.DrawRotation(modelShader, camera, uniTransform);
-
-                glDisable(GL_DEPTH_TEST);
-                creditsRenderer.RenderText(L"Universidad Nacional de Ingenieria", 270.0f, height - 195.0f, 1.0f, glm::vec3(0.0f));
-                creditsRenderer.RenderText(L"Ingenieria en Computacion", 435.0f, height - 295.0f, 1.0f, glm::vec3(0.0f));
-                creditsRenderer.RenderText(L"Baltodano Rodriguez Carles David    2023-0663U", 245.0f, height - 645.0f, 0.75f, glm::vec3(0.0f));
-                creditsRenderer.RenderText(L"Guerrero Madrigal Joan Ulises           2023-0618U", 245.0f, height - 725.0f, 0.75f, glm::vec3(0.0f));
-                creditsRenderer.RenderText(L"Hernandez Martinez Julio Cesar        2023-0595U", 245.0f, height - 805.0f, 0.75f, glm::vec3(0.0f));
-                creditsRenderer.RenderText(L"Rodriguez Diaz Axel Josue                    2023-0758U", 245.0f, height - 885.0f, 0.75f, glm::vec3(0.0f));
-                // creditsRenderer.RenderText(L"Hola", 1675.0f, height - 600.0f, 1.0f, glm::vec3(0.0f));
-                glEnable(GL_DEPTH_TEST);
-            }
-            else if (estadoActual == PANTALLA_AYUDA) {
-
-            }
         }
-        else if (estadoActual == PANTALLA_EXPLORAR) {
+        else if (currentStatus == PANTALLA_EXPLORAR) {
             audio.stopBackgroundMusic();
-            UI_Tierra(window, modelShader, earth, lupa, animation, model);
-            estadoActual = MENU_PRINCIPAL;
+            UI_Tierra(window, modelShader, earth, glass, animation, model);
+            currentStatus = MENU_PRINCIPAL;
             audio.playBackgroundMusic("media/environment.mp3");
         }
-        else if (estadoActual == PANTALLA_SALIR) {
+        else if (currentStatus == PANTALLA_SALIR) {
             break;
         }
 

@@ -25,3 +25,6 @@ struct GLFWwindow;
 class Shader;
 class Model;
 void PantallaCarga(GLFWwindow* window, Shader& modelShader, Model& lupaModel, float duracion = 3.0f);
+
+float rgb(int color);
+float pos(int point, float base);

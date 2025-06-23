@@ -18,9 +18,9 @@ void Button::render(TextRenderer& textRenderer, bool hovered, bool clicked) cons
     if (clicked)
         color = glm::vec3(0.8f, 0.2f, 0.2f);
     else if (hovered)
-        color = glm::vec3(1.0f);
+        color = glm::vec3(0.5f);
     else
-        color = glm::vec3(0.0f);
+        color = glm::vec3(1.0f);
 
     std::wstring wideLabel(label.begin(), label.end());
     textRenderer.RenderText(wideLabel, textX, textY, 1.0f, color);
