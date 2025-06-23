@@ -1,8 +1,8 @@
-﻿// Configuraci�n de ventana
+﻿// Configuracion de ventana
 constexpr unsigned int width = 1920;
 constexpr unsigned int height = 1080;
 
-// Estados de la aplicaci�n
+// Estados de la aplicacion
 enum AppState {
     MENU_PRINCIPAL,
     PANTALLA_EXPLORAR,

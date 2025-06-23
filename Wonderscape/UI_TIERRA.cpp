@@ -24,17 +24,27 @@ std::vector<std::string> nameWonders = {
     "MACHU PICCHU",
     "ROMAN COLOSSEUM",
     "GREAT WALL OF CHINA",
-    "CHRIST THE REDEEMER"
+    "CHRIST THE REDDEMER"
 };
 
-std::vector<std::string> routesWonders = {
-    "images/petra.jpg",
-    "images/taj.jpg",
-    "images/chichen.jpg",
-    "images/machu.jpg",
-    "images/coliseo.jpg",
-    "images/wall.jpg",
-    "images/cristo.jpg"
+std::vector<std::string> routesPreviousWonders = {
+    "images/preview/petra.jpg",
+    "images/preview/taj.jpg",
+    "images/preview/chichen.jpg",
+    "images/preview/machu.jpg",
+    "images/preview/coliseo.jpg",
+    "images/preview/wall.jpg",
+    "images/preview/cristo.jpg"
+};
+
+std::vector<std::string> routesInformativeWonders = {
+    "images/info/petra.png",
+    "images/info/taj mahal.png",
+    "images/info/chichen itza.png",
+    "images/info/machu picchu.png",
+    "images/info/roman colosseum.png",
+    "images/info/great wall of china.png",
+    "images/info/christ the reddemer.png"
 };
 
 std::vector<glm::vec3> cameraPosition = {
@@ -155,7 +165,7 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
     glEnableVertexAttribArray(1);
 
     imagevaoF.Unbind(); imagevboF.Unbind(); imageeboF.Unbind();
-    TextureF previewImage(routesWonders[0].c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
+    TextureF previewImage(routesPreviousWonders[0].c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
 
     // Load localization model
     Model location("models/LocationIcon/scene.gltf", glm::vec3(1.0f));
@@ -217,12 +227,11 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
 
     while (true)
     {
-        // Detectar si se presion� ESC para volver al menu
         glfwPollEvents();
 
         // Tiempo
         float time = glfwGetTime();
-        float deltaTime = time - lastFrame;  // Tiempo real entre frames
+        float deltaTime = time - lastFrame;
         lastFrame = time;
 
         // Mouse
@@ -292,13 +301,13 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
                 camera.inputsEnabled = false;
 
                 switch (clickState.index) {
-                case 0: title = nameWonders[0]; imagePath = routesWonders[0]; cameraLoc = cameraPosition[0]; j = 2; break;
-                case 1: title = nameWonders[1]; imagePath = routesWonders[1]; cameraLoc = cameraPosition[1]; j = 7; break;
-                case 2: title = nameWonders[2]; imagePath = routesWonders[2]; cameraLoc = cameraPosition[2]; j = 5; break;
-                case 3: title = nameWonders[3]; imagePath = routesWonders[3]; cameraLoc = cameraPosition[3]; j = 4; break;
-                case 4: title = nameWonders[4]; imagePath = routesWonders[4]; cameraLoc = cameraPosition[4]; j = 6; break;
-                case 5: title = nameWonders[5]; imagePath = routesWonders[5]; cameraLoc = cameraPosition[5]; j = 1; break;
-                case 6: title = nameWonders[6]; imagePath = routesWonders[6]; cameraLoc = cameraPosition[6]; j = 3; break;
+                case 0: title = nameWonders[0]; imagePath = routesPreviousWonders[0]; cameraLoc = cameraPosition[0]; j = 2; break;
+                case 1: title = nameWonders[1]; imagePath = routesPreviousWonders[1]; cameraLoc = cameraPosition[1]; j = 7; break;
+                case 2: title = nameWonders[2]; imagePath = routesPreviousWonders[2]; cameraLoc = cameraPosition[2]; j = 5; break;
+                case 3: title = nameWonders[3]; imagePath = routesPreviousWonders[3]; cameraLoc = cameraPosition[3]; j = 4; break;
+                case 4: title = nameWonders[4]; imagePath = routesPreviousWonders[4]; cameraLoc = cameraPosition[4]; j = 6; break;
+                case 5: title = nameWonders[5]; imagePath = routesPreviousWonders[5]; cameraLoc = cameraPosition[5]; j = 1; break;
+                case 6: title = nameWonders[6]; imagePath = routesPreviousWonders[6]; cameraLoc = cameraPosition[6]; j = 3; break;
                 }
                 clickState.waiting = false;
 
@@ -377,14 +386,16 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
                 camera.inputsEnabled = false;
             }
 
-            // Dibujar panel de fondo (transparente) detr�s de la imagen
+            // Dibujar panel de fondo detras de la imagen
             glDisable(GL_DEPTH_TEST);
             panelShader.Activate();
             panelVAO.Bind();
             glUniform4f(glGetUniformLocation(panelShader.ID, "panelColor"), 0.0f, 0.0f, 0.0f, 0.55f);
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+            glEnable(GL_DEPTH_TEST);
 
             // Dibujar imagen de la maravilla
+            glDisable(GL_DEPTH_TEST);
             imageShader.Activate();
             imagevaoF.Bind();
             previewImage.Bind();
@@ -401,7 +412,7 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
             }
 
             // Actualizar camara
-            // camera.Position = cameraLoc;
+            camera.Position = cameraLoc;
             camera.OrbitInputs(window);
             camera.updateMatrixExplore(45.0f, 0.1f, 100.0f);
 
@@ -430,14 +441,12 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
             if (currentTime >= earthDuration + cloudDuration) {
                 audio.stopBackgroundMusic();
                 PantallaCarga(window, modelShader, glassModel, 5.0f);
-
-                if (SceneModels(j, window, model)) {
-                    animationStarted = false;
-                    currentState = PANTALLA_EXPLORAR;
-                    camera = Camera(width, height, glm::vec3(0.0f));
-                    camera.Position = glm::vec3(0.0f, 0.0f, camera.orbitRadius);
-                    audio.playBackgroundMusic("media/outer space.mp3");
-                }
+                SceneModels(j, window, model);
+                animationStarted = false;
+                currentState = PANTALLA_EXPLORAR;
+                camera = Camera(width, height, glm::vec3(0.0f));
+                camera.Position = glm::vec3(0.0f, 0.0f, camera.orbitRadius);
+                audio.playBackgroundMusic("media/outer space.mp3");
             }
         }
 
