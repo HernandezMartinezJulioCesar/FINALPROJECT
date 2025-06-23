@@ -252,7 +252,7 @@ bool SceneModels(int ResividaKey, GLFWwindow* window, Model& model) {
 		cameras.Inputs(window);
 		model.Draw(shaderProgram_Scene, cameras);
 		cameras.updateMatrix(45.0f, 0.1f, 30.0f);
-		if (ResividaKey == GLFW_KEY_1) {
+		if (ResividaKey == 1) {
 			renderParedes(Right_Maravilla1, 44, window, cameras, Faces[0]);
 			renderParedes(Left_Maravilla1, 44, window, cameras, Faces[0]);
 			renderParedes(Front_Maravilla1, 44, window, cameras, Faces[0]);
