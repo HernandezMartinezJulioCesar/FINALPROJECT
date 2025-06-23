@@ -1,6 +1,7 @@
 #include"Model.h"
 
-Model::Model(const char* file)
+glm::vec3 scale_model;
+Model::Model(const char* file, glm::vec3 scal)
 {
 	// Make a JSON object
 	std::string text = get_file_contents(file);
@@ -9,6 +10,7 @@ Model::Model(const char* file)
 	// Get the binary data
 	Model::file = file;
 	data = getData();
+	scale_model = scal;
 
 	// Traverse all nodes
 	traverseNode(0);
@@ -85,7 +87,7 @@ void Model::traverseNode(unsigned int nextNode, glm::mat4 matrix)
 		rotation = glm::make_quat(rotValues);
 	}
 	// Get scale if it exists
-	glm::vec3 scale = glm::vec3(1.0f, 1.0f, 1.0f);
+	glm::vec3 scale = scale_model;
 	if (node.find("scale") != node.end())
 	{
 		float scaleValues[3];

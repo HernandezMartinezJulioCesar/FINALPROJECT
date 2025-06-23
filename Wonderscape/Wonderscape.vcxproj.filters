@@ -84,6 +84,18 @@
     <ClInclude Include="Config.h">
       <Filter>Archivos de encabezado</Filter>
     </ClInclude>
+    <ClInclude Include="Texture_Scene.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneModels.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="Paredes.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
+    <ClInclude Include="ArraysFaces.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="default.frag">
@@ -92,7 +104,6 @@
     <None Include="default.vert">
       <Filter>Archivos de recursos\Shaders</Filter>
     </None>
-    <None Include=".gitignore" />
     <None Include="defaultModel.frag">
       <Filter>Archivos de recursos\Shaders</Filter>
     </None>
@@ -118,6 +129,21 @@
       <Filter>Archivos de recursos\Shaders</Filter>
     </None>
     <None Include="panel.vert">
+      <Filter>Archivos de recursos\Shaders</Filter>
+    </None>
+    <None Include="default_models.frag">
+      <Filter>Archivos de recursos\Shaders</Filter>
+    </None>
+    <None Include="default_models.vert">
+      <Filter>Archivos de recursos\Shaders</Filter>
+    </None>
+    <None Include=".gitignore">
+      <Filter>Archivos de recursos\Shaders</Filter>
+    </None>
+    <None Include="default_scenes.frag">
+      <Filter>Archivos de recursos\Shaders</Filter>
+    </None>
+    <None Include="default_scenes.vert">
       <Filter>Archivos de recursos\Shaders</Filter>
     </None>
   </ItemGroup>
@@ -189,6 +215,9 @@
       <Filter>Archivos de origen</Filter>
     </ClCompile>
     <ClCompile Include="Config.cpp">
+      <Filter>Archivos de origen</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture_Scene.cpp">
       <Filter>Archivos de origen</Filter>
     </ClCompile>
   </ItemGroup>
