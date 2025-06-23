@@ -93,3 +93,18 @@ Note: This is done to have the address of your computer.</h3>
  <img src="Pictures/Pic10.jpg" width="700"/><br>
  <h3>Verify that the addresses in the “Include Directories” and “Library Directories” fields match the names on your local disk, if so, click ‘Apply’ and “OK”.</h3>
 </div>
+
+<div align="center">
+ <img src="Pictures/Pic11.jpg" width="700"/><br>
+ <h3>Finally, click on the green button and enjoy the program.</h3>
+</div>
+<br>
+<br>
+ <h1 align="center" > 😸Developers<img width = "120px" src= "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmdjNmVtbXVucW8xZDNmbTFwYnZhNGUzeHo0bHJmOG9uZmFjY295diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/0luWy8p6oKImZt41tz/giphy.gif"/> </h1>
+
+
+| ![](Pictures/Deve1.jpg) | ![](Pictures/Deve2.jpg) | ![](Pictures/Deve3.jpg) |![](Pictures/Deve4.jpg) |
+|-------------------------|-------------------------|-------------------------|-------------------------|
+| **Jessica Walles**      | **Paul Doe**            | **Nina Collins**        | **Paul Doe** 
+| “Venus is the second planet from the Sun” | “Mercury is the closest planet to the Sun” | “Jupiter was named after a Roman god” | “Mercury is the closest planet to the Sun” | 
+

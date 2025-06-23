@@ -123,11 +123,12 @@ int MenuPrincipal() {
     glUniform4f(glGetUniformLocation(modelShader.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 
     Camera camera(width, height, glm::vec3(0.0f));
-    Model earth("models/tierra/scene.gltf");
-    Model clouds("models/nubes/scene.gltf");
-    Model uni("models/ModelUni/UNI.gltf");
-    Model lupa("models/MagnifyingGlass/scene.gltf");
-    Model animation("models/LoadingScreen/scene.gltf");
+    Model earth("models/tierra/scene.gltf", glm::vec3(1.0f));
+    Model clouds("models/nubes/scene.gltf", glm::vec3(1.0f));
+    Model uni("models/ModelUni/UNI.gltf", glm::vec3(1.0f));
+    Model lupa("models/MagnifyingGlass/scene.gltf", glm::vec3(1.0f));
+    Model animation("models/LoadingScreen/scene.gltf", glm::vec3(1.0f));
+    Model model("models/maravillas2/scene.gltf", glm::vec3(0.45f));
 
     Texture Textura("models/ModelUni/textures/Image_0.jpg", "albedo", 0);
     for (auto& mesh : uni.meshes) {
@@ -344,7 +345,7 @@ int MenuPrincipal() {
         }
         else if (estadoActual == PANTALLA_EXPLORAR) {
             audio.stopBackgroundMusic();
-            UI_Tierra(window, modelShader, earth, lupa, animation);
+            UI_Tierra(window, modelShader, earth, lupa, animation, model);
             estadoActual = MENU_PRINCIPAL;
             audio.playBackgroundMusic("media/environment.mp3");
         }

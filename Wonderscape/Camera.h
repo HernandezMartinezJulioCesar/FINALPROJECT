@@ -52,5 +52,10 @@ public:
 	void Inputs(GLFWwindow* window);
 	//
 	void OrbitInputs(GLFWwindow* window);
+	//------------------------------------
+	float clamp(float val, float minVal, float maxVal);
+	void Object(glm::vec3 position, float radius); //add object
+	bool Verify(glm::vec3 newPosition); // Verify colission
+	glm::vec3 AdjustedPosition(glm::vec3 desiredPos);
 };
 #endif
