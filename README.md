@@ -1,4 +1,4 @@
- <h1 align="center" >Welcome to Wonder Scape <img width = "70px" src= "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXY1ZjN5eDNsd2hzcHNhb25qYmUzZzVrZXBqZHU3dHR5Y2lld3RzZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kMAsQuuEeQIwm4eSVJ/giphy.gif"/> </h1>
+ <h1 align="center" >Welcome to Wonder Scapes <img width = "70px" src= "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExbXY1ZjN5eDNsd2hzcHNhb25qYmUzZzVrZXBqZHU3dHR5Y2lld3RzZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/kMAsQuuEeQIwm4eSVJ/giphy.gif"/> </h1>
 <br>
 <div align="center">
   <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExMWlsZGhjMm1mamMwbGJ4ZXZyem55d3g5eGFtbmZxdWhwbTNiOWJ5aSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/InHvdOCyh7aXMm5R3n/giphy.gif" width="150"/>
@@ -107,6 +107,6 @@ Note: This is done to have the address of your computer.</h3>
 
 | ![](Pictures/Deve1.jpg) | ![](Pictures/FOTODECENTE.jpg) | ![](Pictures/Deve3.jpg) |![](Pictures/fotoAxel.jpg) |
 |-------------------------|-------------------------|-------------------------|-------------------------|
-| **Hernández Julio**      | **Guerrero Ulises**            | **Baltodano Carles*        | **Rodríguez Axel* 
+| **Hernández Julio**      | **Guerrero Ulises**            | **Baltodano Carles**        | **Rodríguez Axel** 
 | “Interface and navigation system” | “Modeling and integration of wonders” | “Camera and environment programing” | “General desing and graphics optimization” | 
 
