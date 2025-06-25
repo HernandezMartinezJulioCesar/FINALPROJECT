@@ -8,7 +8,7 @@
 
 ## 🗝️ Keys
 
-`OpenGL`, `modelado 3D`, `Paseo virtual`, `glfw`, `glad`, `shaders`, `C++`, `glm`, `json`
+`OpenGL`, `3D Modeling`, `Virtual tour`, `glfw`, `glad`, `shaders`, `C++`, `glm`, `json`
 
 ## 🏷 Tags
 
