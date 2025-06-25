@@ -70,8 +70,9 @@ Wonder Scape arises as an academic project of the subject “Graphic Programming
 
 <div align="center">
  <img src="Pictures/Pic6.jpg" width="700"/><br>
- <h3>Verify that the “Include” folder is selected, then click on select folder.
+ <h3>Verify that the “Include” folder is selected, then click on select folder.<br>
 Note: This is done to have the address of your computer.</h3>
+ <h4 color= "red"> **Note:🔴 Go to the end of the applied address and add the following: “;(IncludePath)” this is needed to compile the program**</h4>
 </div>
 
 <div align="center">
@@ -87,6 +88,7 @@ Note: This is done to have the address of your computer.</h3>
 <div align="center">
  <img src="Pictures/Pic9.jpg" width="700"/><br>
  <h3>Verify that the “Lib” folder is selected, then click on “Select folder”.</h3>
+ <h4 color= "red"> **Note:🔴 Go to the end of the applied address and add the following: “;(LibraryPath)” this is needed to compile the program**</h4>
 </div>
 
 <div align="center">
