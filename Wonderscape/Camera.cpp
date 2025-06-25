@@ -140,13 +140,13 @@ void Camera::Inputs(GLFWwindow* window)
 		Position = desiredPosition; // Si no hay colisión, nos movemos libremente
 	}
 	//--------------------------------------------------------------
-	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
+	/*if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_PRESS)
 	{
-		speed = 0.0011f * 50;
-	}
-	else if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
+		speed = 0.0011f * 10;
+	}*/
+	if (glfwGetKey(window, GLFW_KEY_LEFT_SHIFT) == GLFW_RELEASE)
 	{
-		speed = 0.0011f * 25;
+		speed = 0.0011f * 4.5;
 	}
 
 	// Handles mouse inputs
@@ -202,7 +202,6 @@ void Camera::OrbitInputs(GLFWwindow* window, float modelRadius, glm::vec2 screen
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		return;
 	}
-
 	// Obtener posición actual del mouse
 	double mouseX, mouseY;
 	glfwGetCursorPos(window, &mouseX, &mouseY);
@@ -230,9 +229,9 @@ void Camera::OrbitInputs(GLFWwindow* window, float modelRadius, glm::vec2 screen
 		orbitAngleY = glm::clamp(orbitAngleY, -89.0f, 89.0f);
 
 		// Calcular nueva posicion orbital
-		Position.x = targetPoint.x + orbitRadius * cos(glm::radians(orbitAngleY)) * sin(glm::radians(orbitAngleX));
-		Position.y = targetPoint.y + orbitRadius * sin(glm::radians(orbitAngleY));
-		Position.z = targetPoint.z + orbitRadius * cos(glm::radians(orbitAngleY)) * cos(glm::radians(orbitAngleX));
+		Position.x = targetPoint.x + orbitRadius * cos(glm::radians(-orbitAngleY)) * sin(glm::radians(-orbitAngleX));
+		Position.y = targetPoint.y + orbitRadius * sin(glm::radians(-orbitAngleY));
+		Position.z = targetPoint.z + orbitRadius * cos(glm::radians(-orbitAngleY)) * cos(glm::radians(-orbitAngleX));
 
 		// Orientacion hacia el punto objetivo
 		Orientation = glm::normalize(targetPoint - Position);

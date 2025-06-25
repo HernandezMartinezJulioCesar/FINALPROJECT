@@ -51,6 +51,7 @@ float flashlightOuterCutOff = cos(glm::radians(17.1f));
 float flashlightIntensity = 2;
 int radieon = 1;
 int index = 0;
+AudioManager* sound;
 
 float Colors[] = {
 	rgb(220), rgb(240), rgb(247),//light normal
@@ -70,8 +71,10 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 			<< cameras.Orientation.y << ", "
 			<< cameras.Orientation.z << ")\n";
 	}
-	if (key == GLFW_KEY_F && action == GLFW_PRESS)
+	if (key == GLFW_KEY_F && action == GLFW_PRESS) {
+		sound->playClickSound("media/clicklight.mp3");
 		flashlightOn = !flashlightOn;
+	}
 	if (key == GLFW_KEY_UP && action == GLFW_PRESS && flashlightOn) {
 		if (flashlightIntensity < 5) {
 			flashlightIntensity += 2;
@@ -225,6 +228,10 @@ void ValuesOfTheLimitsOfWonder(int Tecla) {
 }
 
 bool SceneModels(int wonder, GLFWwindow* window, Model& model) {
+	AudioManager audioCLICK;
+	audioCLICK.setMusicVolume(0.3f);
+	sound = &audioCLICK;
+
 
 	// Cargar audio
 	AudioManager audio;
@@ -299,7 +306,6 @@ bool SceneModels(int wonder, GLFWwindow* window, Model& model) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
-			//cleanupWallResources();
 			shaderProgram_Scene.Activate();
 			glUniform1f(glGetUniformLocation(shaderProgram_Scene.ID, "flashlightIntensity"), 0.0f);
 			inLimitedZone = false;
