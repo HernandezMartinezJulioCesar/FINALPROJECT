@@ -94,7 +94,7 @@ void Camera::updateMatrixExplore(float FOVdeg, float nearPlane, float farPlane) 
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 projection = glm::mat4(1.0f);
 
-	// Orientaci�n siempre hacia el targetPoint
+	// Orientaci n siempre hacia el targetPoint
 	Orientation = glm::normalize(targetPoint - Position);
 	view = glm::lookAt(Position, Position + Orientation, Up);
 	projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);
@@ -197,36 +197,48 @@ void Camera::Inputs(GLFWwindow* window)
 	}
 }
 
-void Camera::OrbitInputs(GLFWwindow* window) {
+void Camera::OrbitInputs(GLFWwindow* window, float modelRadius, glm::vec2 screenCenter) {
 	if (!inputsEnabled) {
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 		return;
 	}
 
-	// Solo procesar si el bot�n izquierdo est� presionado
-	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+	// Obtener posición actual del mouse
+	double mouseX, mouseY;
+	glfwGetCursorPos(window, &mouseX, &mouseY);
+	glm::vec2 mousePos(mouseX, mouseY);
+
+	// Calcular distancia al centro
+	float distanceToCenter = glm::distance(mousePos, screenCenter);
+
+	// Solo procesar si el boton izquierdo esta presionado y el mouse esta dentro del area circular
+	if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && distanceToCenter <= modelRadius) {
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_HIDDEN);
 
-		double mouseX, mouseY;
-		glfwGetCursorPos(window, &mouseX, &mouseY);
+		// Calcular movimiento relativo al centro
+		float deltaX = mouseX - screenCenter.x;
+		float deltaY = mouseY - screenCenter.y;
 
-		// Calcular movimiento del rat�n
-		orbitAngleY -= sensitivity * (float)(mouseY - (height / 2)) / height;
-		orbitAngleX += sensitivity * (float)(mouseX - (width / 2)) / width;
+		// Ajustar sensibilidad segun el radio (opcional)
+		float sensitivityFactor = 1.0f + (1.0f - (distanceToCenter / modelRadius)); // Mas sensible cerca del borde
 
-		// Limitar �ngulo vertical para evitar volteretas
+		// Actualizar angulos orbitales
+		orbitAngleY -= sensitivity * sensitivityFactor * deltaY / height;
+		orbitAngleX += sensitivity * sensitivityFactor * deltaX / width;
+
+		// Limitar angulo vertical (evitar volteretas)
 		orbitAngleY = glm::clamp(orbitAngleY, -89.0f, 89.0f);
 
-		// Calcular nueva posici�n orbital
+		// Calcular nueva posicion orbital
 		Position.x = targetPoint.x + orbitRadius * cos(glm::radians(orbitAngleY)) * sin(glm::radians(orbitAngleX));
 		Position.y = targetPoint.y + orbitRadius * sin(glm::radians(orbitAngleY));
 		Position.z = targetPoint.z + orbitRadius * cos(glm::radians(orbitAngleY)) * cos(glm::radians(orbitAngleX));
 
-		// Orientaci�n siempre hacia el punto objetivo
+		// Orientacion hacia el punto objetivo
 		Orientation = glm::normalize(targetPoint - Position);
 
 		// Centrar cursor
-		glfwSetCursorPos(window, width / 2, height / 2);
+		glfwSetCursorPos(window, screenCenter.x, screenCenter.y);
 	}
 	else {
 		glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);

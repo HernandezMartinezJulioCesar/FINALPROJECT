@@ -1,7 +1,7 @@
 #include "Button.h"
 
-Button::Button(const glm::vec2& pos, const glm::vec2& size, const std::string& label)
-    : position(pos), size(size), label(label) {
+Button::Button(const glm::vec2& pos, const glm::vec2& size, const std::string& label, const glm::vec3& normalColor, const glm::vec3& hoverColor, const glm::vec3& clickColor)
+    : position(pos), size(size), label(label), normalColor(normalColor), hoverColor(hoverColor), clickColor(clickColor) {
 }
 
 bool Button::isHovered(double mouseX, double mouseY) const {
@@ -13,14 +13,12 @@ void Button::render(TextRenderer& textRenderer, bool hovered, bool clicked) cons
     float textX = position.x;
     float textY = position.y;
 
-    glm::vec3 color;
+    glm::vec3 color = normalColor;
 
     if (clicked)
-        color = glm::vec3(0.8f, 0.2f, 0.2f);
+        color = clickColor;
     else if (hovered)
-        color = glm::vec3(0.5f);
-    else
-        color = glm::vec3(1.0f);
+        color = hoverColor;
 
     std::wstring wideLabel(label.begin(), label.end());
     textRenderer.RenderText(wideLabel, textX, textY, 1.0f, color);

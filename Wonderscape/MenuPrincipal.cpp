@@ -61,9 +61,6 @@ int MenuPrincipal() {
         glfwSetWindowIcon(window, 1, &icon);
         stbi_image_free(iconPixels);
     }
-    else {
-        std::cerr << "No se pudo cargar el icono de la ventana." << std::endl;
-    }
 
     // Cargar audio
     AudioManager audio;
@@ -103,32 +100,9 @@ int MenuPrincipal() {
 
     vaoF.Unbind(); vboF.Unbind(); eboF.Unbind();
 
-    TextureF backgroundMenu("images/fondoMenu.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
-    TextureF backgroundHelp("images/fondoSecun.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
-    TextureF backgroundCredits("images/credits.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
-
-    // Imagen de ayuda
-    ShaderF imageShader("background.vert", "background.frag");
-
-    float imageVertices[] = {
-        pos(1109, width), pos(993, height), 0.0f, 1.0f,
-        pos(1109, width), pos(87, height), 0.0f, 0.0f,
-        pos(1771, width), pos(87, height), 1.0f, 0.0f,
-        pos(1771, width), pos(993, height), 1.0f, 1.0f
-    };
-
-    VAOF imagevaoF;
-    imagevaoF.Bind();
-    VBOF imagevboF(imageVertices, sizeof(imageVertices));
-    EBOF imageeboF(backgroundIndexes, sizeof(backgroundIndexes));
-
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
-    glEnableVertexAttribArray(1);
-
-    imagevaoF.Unbind(); imagevboF.Unbind(); imageeboF.Unbind();
-    TextureF imageHelp("images/help.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
+    TextureF backgroundMenu("images/backgrounds/menu.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
+    TextureF backgroundHelp("images/backgrounds/help.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
+    TextureF backgroundCredits("images/backgrounds/credits.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
 
     // Circulo base para la Tierra
     ShaderF circleShader("circle.vert", "circle.frag");
@@ -144,7 +118,6 @@ int MenuPrincipal() {
     Camera camera(width, height, glm::vec3(0.0f));
     Model earth("models/tierra/scene.gltf", glm::vec3(1.0f));
     Model clouds("models/nubes/scene.gltf", glm::vec3(1.0f));
-    Model brr("models/BrrBrrPatapim/scene.gltf", glm::vec3(1.0f));
     Model uni("models/ModelUni/UNI.gltf", glm::vec3(1.0f));
     Model glass("models/MagnifyingGlass/scene.gltf", glm::vec3(1.0f));
     Model animation("models/LoadingScreen/scene.gltf", glm::vec3(1.0f));
@@ -163,14 +136,14 @@ int MenuPrincipal() {
 
     // Botones del Menu Principal
     std::vector<Button> botonsMenu = {
-        Button(glm::vec2(170, 500), glm::vec2(370, 74), "Explorar"),
-        Button(glm::vec2(170, 400), glm::vec2(240, 74), "Ayuda"),
-        Button(glm::vec2(170, 300), glm::vec2(345, 74), "Creditos"),
-        Button(glm::vec2(170, 200), glm::vec2(215, 74), "Salir")
+        Button(glm::vec2(170, 500), glm::vec2(310, 74), "Explore"),
+        Button(glm::vec2(170, 400), glm::vec2(180, 74), "Help"),
+        Button(glm::vec2(170, 300), glm::vec2(295, 74), "Credits"),
+        Button(glm::vec2(170, 200), glm::vec2(160, 74), "Exit")
     };
 
     // Boton de Ayuda y Creditos
-    Button backButton = Button(glm::vec2(20, 1000), glm::vec2(235, 75), "Atras");
+    Button backButton = Button(glm::vec2(20, 1000), glm::vec2(200, 75), "Back");
 
     // Estado del menu
     AppState currentStatus = MENU_PRINCIPAL;
@@ -225,13 +198,9 @@ int MenuPrincipal() {
         glfwGetCursorPos(window, &mouseX, &mouseY);
         mouseY = height - mouseY;
 
-        float normalizedX = (mouseX / width) * 2.0f - 1.0f;
-        float normalizedY = (mouseY / height) * 2.0f - 1.0f;
-        glm::vec3 mouseWorldPos = glm::vec3(-normalizedX * (float)width / height * 3.0f, -normalizedY * 3.0f, 1.0f);
-
         if (currentStatus == MENU_PRINCIPAL) {
 
-            // Fondo con texture
+            // Fondo con textura
             glDisable(GL_DEPTH_TEST);
             backgroundShader.Activate();
             vaoF.Bind();
@@ -309,7 +278,7 @@ int MenuPrincipal() {
         else if (currentStatus == PANTALLA_AYUDA || currentStatus == PANTALLA_CREDITOS) {
 
             if (currentStatus == PANTALLA_AYUDA) {
-                // Fondo con texture
+                // Fondo con textura
                 glDisable(GL_DEPTH_TEST);
                 backgroundShader.Activate();
                 vaoF.Bind();
@@ -317,31 +286,9 @@ int MenuPrincipal() {
                 backgroundHelp.texUnit(backgroundShader.ID, "backgroundTexture", 0);
                 glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
                 glEnable(GL_DEPTH_TEST);
-
-                // Imagen de ayuda
-                glDisable(GL_DEPTH_TEST);
-                imageShader.Activate();
-                imagevaoF.Bind();
-                imageHelp.Bind();
-                imageHelp.texUnit(imageShader.ID, "backgroundTexture", 0);
-                glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
-                glEnable(GL_DEPTH_TEST);
-
-                // Modelo de ayuda
-                glm::mat4 brrTransform = glm::translate(glm::mat4(1.0f), glm::vec3(0.3f, 0.3f, 1.0f));
-                brrTransform = glm::rotate(brrTransform, glm::radians(20.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-                brrTransform = glm::scale(brrTransform, glm::vec3(0.4f));
-                brr.DrawRotation(modelShader, camera, brrTransform);
-
-                // Texto de bienvenida
-                glDisable(GL_DEPTH_TEST);
-                creditsRenderer.RenderText(L"Hello, I'm Brr Brr Patapim,", 50.0f, height - 200.0f, 0.7f, glm::vec3(0.0f));
-                creditsRenderer.RenderText(L"Welcome to the help section!", 50.0f, height - 280.0f, 0.7f, glm::vec3(0.0f));
-                creditsRenderer.RenderText(L"Here you will find guidance for your adventure", 50.0f, height - 360.0f, 0.5f, glm::vec3(0.0f));
-                glEnable(GL_DEPTH_TEST);
             }
             else if (currentStatus == PANTALLA_CREDITOS) {
-                // Fondo con texture
+                // Fondo con textura
                 glDisable(GL_DEPTH_TEST);
                 backgroundShader.Activate();
                 vaoF.Bind();
@@ -352,7 +299,7 @@ int MenuPrincipal() {
 
                 // Modelo del logo
                 float angleDegrees = sin(time * 1.5f) * 25.0f;
-                glm::mat4 uniTransform = glm::translate(glm::mat4(1.0f), glm::vec3(-0.2f, 0.0f, 4.0f));
+                glm::mat4 uniTransform = glm::translate(glm::mat4(1.0f), glm::vec3(0.1f, 0.3f, 5.0f));
                 uniTransform = glm::rotate(uniTransform, glm::radians(angleDegrees), glm::vec3(0.0f, 1.0f, 0.0f));
                 uniTransform = glm::scale(uniTransform, glm::vec3(0.5f));
                 uni.DrawRotation(modelShader, camera, uniTransform);

@@ -21,9 +21,9 @@ public:
 	glm::mat4 cameraMatrix = glm::mat4(1.0f);
 
 	glm::vec3 targetPoint = glm::vec3(0.0f); // Punto fijo de mira (B)
-	float orbitRadius = 3.7f; // Distancia entre c�mara y punto B
-	float orbitAngleX = 0.0f; // �ngulo horizontal
-	float orbitAngleY = 0.0f; // �ngulo vertical
+	float orbitRadius = 3.7f; // Distancia entre c mara y punto B
+	float orbitAngleX = 0.0f; //  ngulo horizontal
+	float orbitAngleY = 0.0f; //  ngulo vertical
 
 	// Prevents the camera from jumping around when first clicking left click
 	bool firstClick = true;
@@ -51,7 +51,7 @@ public:
 	// Handles camera inputs
 	void Inputs(GLFWwindow* window);
 	//
-	void OrbitInputs(GLFWwindow* window);
+	void OrbitInputs(GLFWwindow* window, float modelRadius, glm::vec2 screenCenter);
 	//------------------------------------
 	float clamp(float val, float minVal, float maxVal);
 	void Object(glm::vec3 position, float radius); //add object
