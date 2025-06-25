@@ -105,7 +105,7 @@ Note: This is done to have the address of your computer.</h3>
  <h1 align="center" > 😸Developers<img width = "120px" src= "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmdjNmVtbXVucW8xZDNmbTFwYnZhNGUzeHo0bHJmOG9uZmFjY295diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/0luWy8p6oKImZt41tz/giphy.gif"/> </h1>
 
 
-| ![](Pictures/Deve1.jpg) | ![](Pictures/Deve2.jpg) | ![](Pictures/Deve3.jpg) |![](Pictures/Deve4.jpg) |
+| ![](Pictures/Deve1.jpg) | ![](Pictures/FOTODECENTE.jpg) | ![](Pictures/Deve3.jpg) |![](Pictures/fotoAxel.jpg) |
 |-------------------------|-------------------------|-------------------------|-------------------------|
 | **Hernández Julio**      | **Guerrero Ulises**            | **Baltodano Carles*        | **Rodríguez Axel* 
 | “Interface and navigation system” | “Modeling and integration of wonders” | “Camera and environment programing” | “General desing and graphics optimization” | 
