@@ -106,7 +106,7 @@ Note: This is done to have the address of your computer.</h3>
 <br>
 <br>
  <h1 align="center" > 😸Developers<img width = "120px" src= "https://media3.giphy.com/media/v1.Y2lkPTc5MGI3NjExcmdjNmVtbXVucW8xZDNmbTFwYnZhNGUzeHo0bHJmOG9uZmFjY295diZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9cw/0luWy8p6oKImZt41tz/giphy.gif"/> </h1>
-
+ 
 
 | ![](Pictures/Deve1.jpg) | ![](Pictures/FOTODECENTE.jpg) | ![](Pictures/Deve3.jpg) |![](Pictures/fotoAxel.jpg) |
 |-------------------------|-------------------------|-------------------------|-------------------------|
