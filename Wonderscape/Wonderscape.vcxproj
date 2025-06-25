@@ -75,12 +75,12 @@
     <LibraryPath>C:\Users\ing\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <IncludePath>C:\Users\ing\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\ing\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>C:\Users\Ulises\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(IncludePath)</IncludePath>
-    <LibraryPath>C:\Users\Ulises\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
+    <IncludePath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\rdaxe\Documents\GitHub\FINALPROJECT\Wonderscape\Dependencies\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -149,26 +149,26 @@
     <ClInclude Include="Button.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="Circle.h" />
-    <ClInclude Include="Config.h" />
     <ClInclude Include="Dependencies\include\stb\stb_image.h" />
     <ClInclude Include="EBO.h" />
     <ClInclude Include="EBOF.h" />
-    <ClInclude Include="MenuPrincipal.h" />
+    <ClInclude Include="MainMenu.h" />
     <ClInclude Include="Mesh.h" />
     <ClInclude Include="Model.h" />
-    <ClInclude Include="Paredes.h" />
     <ClInclude Include="SceneModels.h" />
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="shaderClass.h" />
     <ClInclude Include="shaderClassF.h" />
     <ClInclude Include="TextRenderer.h" />
     <ClInclude Include="Texture.h" />
     <ClInclude Include="TextureF.h" />
     <ClInclude Include="Texture_Scene.h" />
-    <ClInclude Include="UI_TIERRA.h" />
     <ClInclude Include="VAO.h" />
     <ClInclude Include="VAOF.h" />
     <ClInclude Include="VBO.h" />
     <ClInclude Include="VBOF.h" />
+    <ClInclude Include="Walls.h" />
+    <ClInclude Include="WondersMenu.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitignore" />
@@ -193,14 +193,14 @@
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Circle.cpp" />
-    <ClCompile Include="Config.cpp" />
     <ClCompile Include="EBO.cpp" />
     <ClCompile Include="EBOF.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="Main.cpp" />
-    <ClCompile Include="MenuPrincipal.cpp" />
+    <ClCompile Include="MainMenu.cpp" />
     <ClCompile Include="Mesh.cpp" />
     <ClCompile Include="Model.cpp" />
+    <ClCompile Include="Settings.cpp" />
     <ClCompile Include="shaderClass.cpp" />
     <ClCompile Include="shaderClassF.cpp" />
     <ClCompile Include="stb.cpp" />
@@ -208,11 +208,11 @@
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureF.cpp" />
     <ClCompile Include="Texture_Scene.cpp" />
-    <ClCompile Include="UI_TIERRA.cpp" />
     <ClCompile Include="VAO.cpp" />
     <ClCompile Include="VAOF.cpp" />
     <ClCompile Include="VBO.cpp" />
     <ClCompile Include="VBOF.cpp" />
+    <ClCompile Include="WondersMenu.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="icono.rc" />

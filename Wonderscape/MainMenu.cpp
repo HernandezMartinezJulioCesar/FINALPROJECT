@@ -1,4 +1,4 @@
-﻿#include <glad/glad.h>
+#include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <GLFW/glfw3native.h>
 #include <glm/glm.hpp>
@@ -6,9 +6,9 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <stb/stb_image.h>
 
-#include "Config.h"
-#include "MenuPrincipal.h"
-#include "UI_TIERRA.h"
+#include "Settings.h"
+#include "MainMenu.h"
+#include "WondersMenu.h"
 
 #include "VAOF.h"
 #include "VBOF.h"
@@ -30,7 +30,8 @@
 #include <ctime>
 #include <Windows.h>
 
-int MenuPrincipal() {
+int MainMenu() {
+    // Initialization of the window
     glfwInit();
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
@@ -50,7 +51,7 @@ int MenuPrincipal() {
     gladLoadGL();
     glViewport(0, 0, width, height);
 
-    // Cargar icono de la ventana
+    // Load window icon
     int iconWidth, iconHeight, channels;
     unsigned char* iconPixels = stbi_load("images/icono.png", &iconWidth, &iconHeight, &channels, 4);
     if (iconPixels) {
@@ -62,26 +63,26 @@ int MenuPrincipal() {
         stbi_image_free(iconPixels);
     }
 
-    // Cargar audio
+    // Load audio
     AudioManager audio;
     audio.playBackgroundMusic("media/environment.mp3");
     audio.setMusicVolume(1.0f);
     audio.setEffectsVolume(0.4f);
 
-    // Cargar texto
+    // Load text
     TextRenderer textRenderer(width, height), buttonRenderer(width, height), creditsRenderer(width, height);
     textRenderer.Load("fonts/River Adventurer.ttf", 200);
     buttonRenderer.Load("fonts/JungleAdventurer.ttf", 100);
     creditsRenderer.Load("fonts/Cute Dino.ttf", 80);
 
-    // Cargar fondo
+    // Load backgrounds
     ShaderF backgroundShader("background.vert", "background.frag");
 
     float backgroundVertices[] = {
-        -1.0f,  1.0f,  0.0f, 1.0f,
-        -1.0f, -1.0f,  0.0f, 0.0f,
-         1.0f, -1.0f,  1.0f, 0.0f,
-         1.0f,  1.0f,  1.0f, 1.0f
+    -1.0f,  1.0f,  0.0f, 1.0f,
+    -1.0f, -1.0f,  0.0f, 0.0f,
+     1.0f, -1.0f,  1.0f, 0.0f,
+     1.0f,  1.0f,  1.0f, 1.0f
     };
     unsigned int backgroundIndexes[] = {
         0, 1, 2,
@@ -104,11 +105,11 @@ int MenuPrincipal() {
     TextureF backgroundHelp("images/backgrounds/help.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
     TextureF backgroundCredits("images/backgrounds/credits.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
 
-    // Circulo base para la Tierra
+    // Base for the model of the Earth
     ShaderF circleShader("circle.vert", "circle.frag");
     Circle circle(1.38f, 0.0f, 0.80f);
 
-    // Cargar modelos de la Tierra y las Nubes
+    // Load models to use in the program
     Shader modelShader("default.vert", "defaultModel.frag");
     glm::vec4 lightColor = glm::vec4(1.0f);
 
@@ -116,14 +117,15 @@ int MenuPrincipal() {
     glUniform4f(glGetUniformLocation(modelShader.ID, "lightColor"), lightColor.x, lightColor.y, lightColor.z, lightColor.w);
 
     Camera camera(width, height, glm::vec3(0.0f));
-    Model earth("models/tierra/scene.gltf", glm::vec3(1.0f));
-    Model clouds("models/nubes/scene.gltf", glm::vec3(1.0f));
-    Model uni("models/ModelUni/UNI.gltf", glm::vec3(1.0f));
+    Model earth("models/Earth/scene.gltf", glm::vec3(1.0f));
+    Model clouds("models/Clouds/scene.gltf", glm::vec3(1.0f));
+    Model uni("models/LogoModel/UNI.gltf", glm::vec3(1.0f));
     Model glass("models/MagnifyingGlass/scene.gltf", glm::vec3(1.0f));
     Model animation("models/LoadingScreen/scene.gltf", glm::vec3(1.0f));
-    Model model("models/maravillas/scene.gltf", glm::vec3(0.45f));
+    Model model("models/Wonders/scene.gltf", glm::vec3(0.45f));
 
-    Texture texture("models/ModelUni/textures/Image_0.jpg", "albedo", 0);
+    // Manually load textures for the Logo and the Magnifying Glass
+    Texture texture("models/LogoModel/textures/Image_0.jpg", "albedo", 0);
     for (auto& mesh : uni.meshes) {
         mesh.textures.clear();
         mesh.textures.push_back(texture);
@@ -134,7 +136,7 @@ int MenuPrincipal() {
         mesh.textures.push_back(texture);
     }
 
-    // Botones del Menu Principal
+    // Buttons
     std::vector<Button> botonsMenu = {
         Button(glm::vec2(170, 500), glm::vec2(310, 74), "Explore"),
         Button(glm::vec2(170, 400), glm::vec2(180, 74), "Help"),
@@ -142,48 +144,47 @@ int MenuPrincipal() {
         Button(glm::vec2(170, 200), glm::vec2(160, 74), "Exit")
     };
 
-    // Boton de Ayuda y Creditos
     Button backButton = Button(glm::vec2(20, 1000), glm::vec2(200, 75), "Back");
 
-    // Estado del menu
-    AppState currentStatus = MENU_PRINCIPAL;
     ButtonClick clickState;
     bool mousePressed = false;
     bool mouseReleased = false;
 
-    glEnable(GL_DEPTH_TEST);
-    glEnable(GL_BLEND);
-    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
-    // Logica de las nubes
+    // Logic of the clouds
     srand(static_cast<unsigned int>(time(0)));
 
     std::vector<glm::vec3> fixedPositions = {
-        glm::vec3(1.6f,  -0.8f, 4.0f),  // esquina superior izquierda
-        glm::vec3(-1.6f,  -0.8f, 4.0f), // esquina superior derecha
-        glm::vec3(1.6f, 0.8f, 4.0f),    // esquina inferior izquierda
-        glm::vec3(-1.6f, 0.8f, 4.0f),   // esquina inferior derecha
-        glm::vec3(0.0f,  0.1f, 4.0f),   // centro
-        glm::vec3(1.6f,  0.1f, 4.0f),   // centro izquierda
-        glm::vec3(0.0f,  -0.8f, 4.0f),  // centro arriba
-        glm::vec3(0.0f, 0.8f, 4.0f)     // centro abajo
+        glm::vec3(1.6f,  -0.8f, 4.0f),  // top left corner
+        glm::vec3(-1.6f,  -0.8f, 4.0f), // top right corner
+        glm::vec3(1.6f, 0.8f, 4.0f),    // bottom left corner
+        glm::vec3(-1.6f, 0.8f, 4.0f),   // bottom right corner
+        glm::vec3(0.0f,  0.1f, 4.0f),   // center
+        glm::vec3(1.6f,  0.1f, 4.0f),   // centro left
+        glm::vec3(0.0f,  -0.8f, 4.0f),  // top center
+        glm::vec3(0.0f, 0.8f, 4.0f)     // bottom center
     };
 
-    // Posicion inicial y objetivo de la nube
+    // Initial position and target of the cloud
     glm::vec3 cloudPosition = fixedPositions[rand() % fixedPositions.size()];
     glm::vec3 cloudEndPosition = fixedPositions[rand() % fixedPositions.size()];
     float cloudSpeed = 0.05f;
+
+    // Menu status
+    AppState currentStatus = MAIN_MENU;
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     while (!glfwWindowShouldClose(window)) {
 
         glfwPollEvents();
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Camara y modelos
+        // Camera and models
         modelShader.Activate();
         camera.updateMatrix(45.0f, 0.1f, 100.0f);
 
-        // Tiempo
+        // Time
         float time = glfwGetTime();
         float deltaTime = 0.016f;
 
@@ -198,9 +199,9 @@ int MenuPrincipal() {
         glfwGetCursorPos(window, &mouseX, &mouseY);
         mouseY = height - mouseY;
 
-        if (currentStatus == MENU_PRINCIPAL) {
+        if (currentStatus == MAIN_MENU) {
 
-            // Fondo con textura
+            // Background with texture
             glDisable(GL_DEPTH_TEST);
             backgroundShader.Activate();
             vaoF.Bind();
@@ -209,7 +210,7 @@ int MenuPrincipal() {
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
             glEnable(GL_DEPTH_TEST);
 
-            // Nubes
+            // Cloud animation
             glm::vec3 direction = cloudEndPosition - cloudPosition;
             float distance = glm::length(direction);
 
@@ -224,7 +225,7 @@ int MenuPrincipal() {
 
             clouds.DrawRotation(modelShader, camera, cloudTransform);
 
-            // Base y Tierra
+            // Base and Earth
             glDisable(GL_DEPTH_TEST);
             glm::mat4 ortho = glm::ortho(-1.0f * (float)width / height, 1.0f * (float)width / height, -1.0f, 1.0f);
             circleShader.Activate();
@@ -238,15 +239,15 @@ int MenuPrincipal() {
             earthTransform = glm::rotate(earthTransform, glm::radians(time * 20.0f), glm::vec3(1.0f, 1.0f, 1.0f));
             earth.DrawRotation(modelShader, camera, earthTransform);
 
-            // Titulo
+            // Title
             glDisable(GL_DEPTH_TEST);
-            textRenderer.RenderText(L"Wonder", 138.0f, height - 219.0f, 1.04f, glm::vec3(0.2f));
-            textRenderer.RenderText(L"Scapes", 138.0f, height - 399.0f, 1.04f, glm::vec3(0.2f));
-            textRenderer.RenderText(L"Wonder", 150.0f, height - 220.0f, 1.0f, glm::vec3(rgb(230), rgb(57), rgb(70)));
-            textRenderer.RenderText(L"Scapes", 150.0f, height - 400.0f, 1.0f, glm::vec3(rgb(244), rgb(162), rgb(97)));
+            textRenderer.RenderText("Wonder", 138.0f, height - 219.0f, 1.04f, glm::vec3(0.2f));
+            textRenderer.RenderText("Scapes", 138.0f, height - 399.0f, 1.04f, glm::vec3(0.2f));
+            textRenderer.RenderText("Wonder", 150.0f, height - 220.0f, 1.0f, glm::vec3(rgb(230), rgb(57), rgb(70)));
+            textRenderer.RenderText("Scapes", 150.0f, height - 400.0f, 1.0f, glm::vec3(rgb(244), rgb(162), rgb(97)));
             glEnable(GL_DEPTH_TEST);
 
-            // Logica de botones
+            // Button logic
             glDisable(GL_DEPTH_TEST);
             for (int i = 0; i < botonsMenu.size(); ++i) {
                 bool hovered = botonsMenu[i].isHovered(mouseX, mouseY);
@@ -267,18 +268,18 @@ int MenuPrincipal() {
 
             if (clickState.waiting && (glfwGetTime() - clickState.clickTime) >= 0.3) {
                 switch (clickState.index) {
-                case 0: currentStatus = PANTALLA_EXPLORAR; break;
-                case 1: currentStatus = PANTALLA_AYUDA; break;
-                case 2: currentStatus = PANTALLA_CREDITOS; break;
-                case 3: currentStatus = PANTALLA_SALIR; break;
+                case 0: currentStatus = EXPLORE_SCREEN; break;
+                case 1: currentStatus = HELP_SCREEN; break;
+                case 2: currentStatus = CREDITS_SCREEN; break;
+                case 3: currentStatus = EXIT; break;
                 }
                 clickState.waiting = false;
             }
         }
-        else if (currentStatus == PANTALLA_AYUDA || currentStatus == PANTALLA_CREDITOS) {
+        else if (currentStatus == HELP_SCREEN || currentStatus == CREDITS_SCREEN) {
 
-            if (currentStatus == PANTALLA_AYUDA) {
-                // Fondo con textura
+            if (currentStatus == HELP_SCREEN) {
+                // Background with texture
                 glDisable(GL_DEPTH_TEST);
                 backgroundShader.Activate();
                 vaoF.Bind();
@@ -287,8 +288,8 @@ int MenuPrincipal() {
                 glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
                 glEnable(GL_DEPTH_TEST);
             }
-            else if (currentStatus == PANTALLA_CREDITOS) {
-                // Fondo con textura
+            else if (currentStatus == CREDITS_SCREEN) {
+                // Background with texture
                 glDisable(GL_DEPTH_TEST);
                 backgroundShader.Activate();
                 vaoF.Bind();
@@ -297,7 +298,7 @@ int MenuPrincipal() {
                 glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
                 glEnable(GL_DEPTH_TEST);
 
-                // Modelo del logo
+                // Logo model
                 float angleDegrees = sin(time * 1.5f) * 25.0f;
                 glm::mat4 uniTransform = glm::translate(glm::mat4(1.0f), glm::vec3(0.1f, 0.3f, 5.0f));
                 uniTransform = glm::rotate(uniTransform, glm::radians(angleDegrees), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -305,7 +306,7 @@ int MenuPrincipal() {
                 uni.DrawRotation(modelShader, camera, uniTransform);
             }
 
-            // Boton
+            // Button logic
             bool hovered = backButton.isHovered(mouseX, mouseY);
             bool clicked = false;
             glDisable(GL_DEPTH_TEST);
@@ -320,17 +321,20 @@ int MenuPrincipal() {
             }
 
             if (clickState.waiting && (glfwGetTime() - clickState.clickTime) >= 0.3) {
-                currentStatus = MENU_PRINCIPAL;
+                currentStatus = MAIN_MENU;
                 clickState.waiting = false;
             }
         }
-        else if (currentStatus == PANTALLA_EXPLORAR) {
+        else if (currentStatus == EXPLORE_SCREEN) {
             audio.stopBackgroundMusic();
-            UI_Tierra(window, modelShader, earth, glass, animation, model);
-            currentStatus = MENU_PRINCIPAL;
+
+            // Next part of the program (Wonder Choice)
+            WondersMenu(window, modelShader, earth, glass, animation, model);
+
+            currentStatus = MAIN_MENU;
             audio.playBackgroundMusic("media/environment.mp3");
         }
-        else if (currentStatus == PANTALLA_SALIR) {
+        else if (currentStatus == EXIT) {
             break;
         }
 
@@ -338,6 +342,9 @@ int MenuPrincipal() {
         glfwSwapBuffers(window);
     }
 
+    audio.stopBackgroundMusic();
+
+    // Disposal of used objects
     circle.Delete();
     vaoF.Delete(); vboF.Delete(); eboF.Delete();
     circleShader.Delete(); backgroundShader.Delete(); modelShader.Delete();

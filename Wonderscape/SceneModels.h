@@ -1,7 +1,7 @@
-#include "Config.h"
+#include "Settings.h"
 #include "Model.h"
 #include "Texture.h"
-#include "Paredes.h"
+#include "Walls.h"
 #include "ShaderClassF.h"
 #include "VAOF.h"
 #include "VBOF.h"
@@ -19,13 +19,13 @@ glm::vec3 maxLimite = glm::vec3(0.0f);
 glm::vec3 centerCubo = glm::vec3(0.0f);
 
 const char* Models[] = {
-	"models/maravillas/textures/base_baseColor.png",//ColiseoRomano
-	"models/maravillas/textures/Material.002_baseColor.png",//TajMajal
-	"models/maravillas/textures/Material.003_baseColor.png",//MachuPichu
-	"models/maravillas/textures/Material.005_baseColor.png",//CristoRedentor
-	"models/maravillas/textures/Material.007_baseColor.png",//Petra
-	"models/maravillas/textures/Material.010_baseColor.png",//MurallaChina
-	"models/maravillas/textures/Material.016_baseColor.png"//ChichenItza
+	"models/Wonders/textures/base_baseColor.png",         // roman colosseum
+	"models/Wonders/textures/Material.002_baseColor.png", // taj mahal
+	"models/Wonders/textures/Material.003_baseColor.png", // machu picchu
+	"models/Wonders/textures/Material.005_baseColor.png", // christ the reddemer
+	"models/Wonders/textures/Material.007_baseColor.png", // petra
+	"models/Wonders/textures/Material.010_baseColor.png", // great wall of china
+	"models/Wonders/textures/Material.016_baseColor.png"  // chichen itza
 };
 
 const char* Faces[] = {
@@ -51,12 +51,12 @@ float flashlightOuterCutOff = cos(glm::radians(17.1f));
 float flashlightIntensity = 2;
 int radieon = 1;
 int index = 0;
-AudioManager* sound;
+AudioManager sound;
 
 float Colors[] = {
-	rgb(220), rgb(240), rgb(247),//light normal
-	rgb(102), rgb(102), rgb(204),//Nocturn
-	rgb(135), rgb(46), rgb(230),//ultra violet
+	rgb(220), rgb(240), rgb(247), // light normal
+	rgb(102), rgb(102), rgb(204), // nocturn
+	rgb(135), rgb(46), rgb(230),  // ultra violet
 };
 
 void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods) {
@@ -72,7 +72,7 @@ void keyCallback(GLFWwindow* window, int key, int scancode, int action, int mods
 			<< cameras.Orientation.z << ")\n";
 	}
 	if (key == GLFW_KEY_F && action == GLFW_PRESS) {
-		sound->playClickSound("media/clicklight.mp3");
+		sound.playClickSound("media/clickLight.mp3");
 		flashlightOn = !flashlightOn;
 	}
 	if (key == GLFW_KEY_UP && action == GLFW_PRESS && flashlightOn) {
@@ -165,7 +165,7 @@ void ValuesOfTheLimitsOfWonder(int Tecla) {
 	if (Tecla == 1) {
 		cameras.Position = glm::vec3(-22.6626, 4.41481, 34.4906);
 		cameras.Orientation = glm::normalize(glm::vec3(0.773963, 0.0138641, 0.633079));
-		centerCubo = glm::vec3(-20.1976, 3.79907, 36.9556);//aprobado
+		centerCubo = glm::vec3(-20.1976, 3.79907, 36.9556); // approved
 		minLimite = centerCubo - glm::vec3(r, r, r);
 		maxLimite = centerCubo + glm::vec3(r, r + 2.5, r);
 		minLimite.y = centerCubo.y + 0.5;
@@ -174,7 +174,7 @@ void ValuesOfTheLimitsOfWonder(int Tecla) {
 	if (Tecla == 2) {
 		cameras.Position = glm::vec3(-23.7076, 5.78611, -36.0866);
 		cameras.Orientation = glm::normalize(glm::vec3(0.593846, -0.105432, -0.797643));
-		centerCubo = glm::vec3(-21.2426, 3.64704, -38.5516);//aprobado
+		centerCubo = glm::vec3(-21.2426, 3.64704, -38.5516); // approved
 		minLimite = centerCubo - glm::vec3(r, r, r);
 		maxLimite = centerCubo + glm::vec3(r, r + 2.5, r);
 		minLimite.y = centerCubo.y + 0.5;
@@ -184,8 +184,8 @@ void ValuesOfTheLimitsOfWonder(int Tecla) {
 		cameras.Position = glm::vec3(-38.8936, 7.2532, 2.02814);
 		cameras.Orientation = glm::normalize(glm::vec3(0.707867, 0.319353, -0.630033));
 		centerCubo = glm::vec3(-36.6286, 6.55324, -0.436863);
-		minLimite = centerCubo - glm::vec3(r - 0.2, r, r - 0.2);  // Y no se reduce
-		maxLimite = centerCubo + glm::vec3(r, r + 1.6, r);  // Y s  sube
+		minLimite = centerCubo - glm::vec3(r - 0.2, r, r - 0.2);  // Y-axis is not reduced
+		maxLimite = centerCubo + glm::vec3(r, r + 1.6, r);  // Y-axis increases
 		minLimite.y = centerCubo.y + 0.5;
 		cameras.Object(centerCubo, 2.43f);
 	}
@@ -193,8 +193,8 @@ void ValuesOfTheLimitsOfWonder(int Tecla) {
 		cameras.Position = glm::vec3(18.9332, 4.41443, -32.6582);
 		cameras.Orientation = glm::normalize(glm::vec3(0.67258, -0.0583779, -0.737719));
 		centerCubo = glm::vec3(21.2034, 3.90242, -35.1232);
-		minLimite = centerCubo - glm::vec3(r, r, r);  // Y no se reduce
-		maxLimite = centerCubo + glm::vec3(r, r + 1.75, r);  // Y s  sube
+		minLimite = centerCubo - glm::vec3(r, r, r);  // Y-axis is not reduced
+		maxLimite = centerCubo + glm::vec3(r, r + 1.75, r);  // Y-axis increases
 		minLimite.y = centerCubo.y + 0.5;
 		cameras.Object(centerCubo, 2.40f);
 	}
@@ -202,8 +202,8 @@ void ValuesOfTheLimitsOfWonder(int Tecla) {
 		cameras.Position = glm::vec3(34.1383, 2.94504, 2.51183);
 		cameras.Orientation = glm::normalize(glm::vec3(0.62735, -0.0215879, -0.778436));
 		centerCubo = glm::vec3(36.3341, 2.43712, 0.046831);
-		minLimite = centerCubo - glm::vec3(r, r, r);  // Y no se reduce
-		maxLimite = centerCubo + glm::vec3(r, r + 2.5, r);  // Y s  sube
+		minLimite = centerCubo - glm::vec3(r, r, r);  // Y-axis is not reduced
+		maxLimite = centerCubo + glm::vec3(r, r + 2.5, r);  // Y-axis increases
 		minLimite.y = centerCubo.y + 0.5;
 		cameras.Object(centerCubo, 2.35f);
 	}
@@ -211,8 +211,8 @@ void ValuesOfTheLimitsOfWonder(int Tecla) {
 		cameras.Position = glm::vec3(18.6961, 2.33117, 38.102);
 		cameras.Orientation = glm::normalize(glm::vec3(0.823214, -0.0226236, -0.56728));
 		centerCubo = glm::vec3(21.1115, 1.83117, 35.8408);
-		minLimite = centerCubo - glm::vec3(r, r, r);  // Y no se reduce
-		maxLimite = centerCubo + glm::vec3(r, r + 2.2, r);  // Y s  sube
+		minLimite = centerCubo - glm::vec3(r, r, r);  // Y-axis is not reduced
+		maxLimite = centerCubo + glm::vec3(r, r + 2.2, r);  // Y-axis increases
 		minLimite.y = centerCubo.y + 0.5;
 		cameras.Object(centerCubo, 2.32f);
 	}
@@ -220,26 +220,22 @@ void ValuesOfTheLimitsOfWonder(int Tecla) {
 		cameras.Position = glm::vec3(2.19636, 2.53347, -0.59396);
 		cameras.Orientation = glm::normalize(glm::vec3(-0.84389, 0.0674655, 0.532258));
 		centerCubo = glm::vec3(-0.0592385, 2.03347, 1.87104);
-		minLimite = centerCubo - glm::vec3(r, r, r);  // Y no se reduce
-		maxLimite = centerCubo + glm::vec3(r, r + 2.5, r);  // Y s  sube
+		minLimite = centerCubo - glm::vec3(r, r, r);  // Y-axis is not reduced
+		maxLimite = centerCubo + glm::vec3(r, r + 2.5, r);  // Y-axis increases
 		minLimite.y = centerCubo.y + 0.5;
 		cameras.Object(centerCubo, 2.32f);
 	}
 }
 
 bool SceneModels(int wonder, GLFWwindow* window, Model& model) {
-	AudioManager audioCLICK;
-	audioCLICK.setMusicVolume(0.3f);
-	sound = &audioCLICK;
-
-
-	// Cargar audio
+	// Load audio
 	AudioManager audio;
 	audio.playBackgroundMusic("media/exploration.mp3");
 	audio.setMusicVolume(0.3f);
 	audio.setEffectsVolume(0.4f);
+	sound.setMusicVolume(0.3f);
 
-	// Imagen informativa
+	// Informative image
 	ShaderF backgroundShader("background.vert", "background.frag");
 
 	float backgroundVertices[] = {
@@ -267,18 +263,18 @@ bool SceneModels(int wonder, GLFWwindow* window, Model& model) {
 	vaoF.Unbind(); vboF.Unbind(); eboF.Unbind();
 
 	std::vector<std::string> routesWonders = {
-	   "images/info/great wall of china.jpg",
-	   "images/info/petra.jpg",
-	   "images/info/christ the reddemer.jpg",
-	   "images/info/machu picchu.jpg",
-	   "images/info/chichen itza.jpg",
-	   "images/info/roman colosseum.jpg",
-	   "images/info/taj mahal.jpg"
+	   "images/information/great wall of china.jpg",
+	   "images/information/petra.jpg",
+	   "images/information/christ the reddemer.jpg",
+	   "images/information/machu picchu.jpg",
+	   "images/information/chichen itza.jpg",
+	   "images/information/roman colosseum.jpg",
+	   "images/information/taj mahal.jpg"
 	};
 
 	TextureF backgroundInfo(routesWonders[wonder - 1].c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
 
-	// Modelos
+	// Models
 	glfwMakeContextCurrent(window);
 	gladLoadGL();
 
@@ -305,6 +301,7 @@ bool SceneModels(int wonder, GLFWwindow* window, Model& model) {
 	while (!glfwWindowShouldClose(window)) {
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
+		// Validate cycle exit
 		if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
 			shaderProgram_Scene.Activate();
 			glUniform1f(glGetUniformLocation(shaderProgram_Scene.ID, "flashlightIntensity"), 0.0f);
@@ -318,17 +315,15 @@ bool SceneModels(int wonder, GLFWwindow* window, Model& model) {
 			return true;
 		}
 
-		// Logica para el panel de informacion
+		// Logic for the information panel
 		bool keyIIsPressed = glfwGetKey(window, GLFW_KEY_I) == GLFW_PRESS;
-
-		// Solo cambia el estado cuando la tecla pasa de no presionada a presionada
 		if (keyIIsPressed && !keyIWasPressed) {
-			information = !information; // Alternar estado
+			information = !information;
 		}
 		keyIWasPressed = keyIIsPressed;
 
 		if (information) {
-			// Fondo con textura
+			// Backgroudn with texture
 			glDisable(GL_DEPTH_TEST);
 			backgroundShader.Activate();
 			vaoF.Bind();

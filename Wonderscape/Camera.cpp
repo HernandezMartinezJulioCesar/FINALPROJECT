@@ -94,7 +94,7 @@ void Camera::updateMatrixExplore(float FOVdeg, float nearPlane, float farPlane) 
 	glm::mat4 view = glm::mat4(1.0f);
 	glm::mat4 projection = glm::mat4(1.0f);
 
-	// Orientaci n siempre hacia el targetPoint
+	// Orientacion siempre hacia el targetPoint
 	Orientation = glm::normalize(targetPoint - Position);
 	view = glm::lookAt(Position, Position + Orientation, Up);
 	projection = glm::perspective(glm::radians(FOVdeg), (float)width / height, nearPlane, farPlane);

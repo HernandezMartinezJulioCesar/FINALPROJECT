@@ -20,6 +20,5 @@ void Button::render(TextRenderer& textRenderer, bool hovered, bool clicked) cons
     else if (hovered)
         color = hoverColor;
 
-    std::wstring wideLabel(label.begin(), label.end());
-    textRenderer.RenderText(wideLabel, textX, textY, 1.0f, color);
+    textRenderer.RenderText(label, textX, textY, 1.0f, color);
 }

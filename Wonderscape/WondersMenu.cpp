@@ -1,8 +1,8 @@
-﻿#include <glad/glad.h>
+#include <glad/glad.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "UI_TIERRA.h"
+#include "WondersMenu.h"
 #include "SceneModels.h"
 
 #include "Model.h"
@@ -67,15 +67,10 @@ std::vector<glm::vec3> indicatorRotation = {
     glm::vec3(-11.2f, 41.8f, 8.9f)
 };
 
-std::wstring convertToWideString(const std::string& str) {
-    return std::wstring(str.begin(), str.end());
-}
-
-void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& glassModel, Model& animation, Model& model)
-{
-    // background audio
+void WondersMenu(GLFWwindow* window, Shader& modelShader, Model& earth, Model& glassModel, Model& animation, Model& model) {
+    // Load audio
     AudioManager audio;
-    audio.playBackgroundMusic("media/outer space.mp3");
+    audio.playBackgroundMusic("media/outerSpace.mp3");
     audio.setMusicVolume(0.05f);
     audio.setEffectsVolume(0.4f);
 
@@ -86,13 +81,7 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
     buttonRenderer.Load("fonts/JungleAdventurer.ttf", 70);
     principalRenderer.Load("fonts/JungleAdventurer.ttf", 100);
 
-    // Image for previews
-    unsigned int indexes[] = {
-        0, 1, 2,
-        2, 3, 0
-    };
-
-    // Fondo
+    // Load background
     ShaderF imageShader("background.vert", "background.frag");
 
     float backgroundVertices[] = {
@@ -101,11 +90,15 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
      1.0f, -1.0f,  1.0f, 0.0f,
      1.0f,  1.0f,  1.0f, 1.0f
     };
+    unsigned int Indexes[] = {
+        0, 1, 2,
+        2, 3, 0
+    };
 
     VAOF vaoF;
     vaoF.Bind();
     VBOF vboF(backgroundVertices, sizeof(backgroundVertices));
-    EBOF eboF(indexes, sizeof(indexes));
+    EBOF eboF(Indexes, sizeof(Indexes));
 
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -115,7 +108,7 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
     vaoF.Unbind(); vboF.Unbind(); eboF.Unbind();
     TextureF backgroundExplore("images/backgrounds/prueba.jpg", GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
 
-    // Image panel
+    // Load panel
     ShaderF panelShader("panel.vert", "panel.frag");
 
     float panelVertices[] = {
@@ -128,7 +121,7 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
     VAOF panelVAO;
     panelVAO.Bind();
     VBOF panelVBO(panelVertices, sizeof(panelVertices));
-    EBOF panelEBO(indexes, sizeof(indexes));
+    EBOF panelEBO(Indexes, sizeof(Indexes));
 
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 2 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -137,7 +130,7 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
     panelVBO.Unbind();
     panelEBO.Unbind();
 
-    // Image
+    // Load image
     float imageVertices[] = {
         pos(60, width), pos(780, height), 0.0f, 1.0f,
         pos(60, width), pos(300, height), 0.0f, 0.0f,
@@ -148,7 +141,7 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
     VAOF imagevaoF;
     imagevaoF.Bind();
     VBOF imagevboF(imageVertices, sizeof(imageVertices));
-    EBOF imageeboF(indexes, sizeof(indexes));
+    EBOF imageeboF(Indexes, sizeof(Indexes));
 
     glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
@@ -158,16 +151,16 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
     imagevaoF.Unbind(); imagevboF.Unbind(); imageeboF.Unbind();
     TextureF previewImage(routesWonders[0].c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
 
-    // Load localization model
+    // Load indicator model
     Model location("models/LocationIcon/scene.gltf", glm::vec3(1.0f));
-    Texture texture("models/LocationIcon/textures/rojo.jpg", "albedo", 0);
+    Texture texture("models/LocationIcon/textures/red.jpg", "albedo", 0);
     for (auto& mesh : location.meshes)
     {
         mesh.textures.clear();
         mesh.textures.push_back(texture);
     }
 
-    // Botones de la pantalla Explore
+    // Explore screen buttons
     glm::vec3 normal = glm::vec3(1.0f);
     glm::vec3 hover = glm::vec3(0.5f);
     std::vector<Button> botonsExplore = {
@@ -181,48 +174,49 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
         Button(glm::vec2(20, 20), glm::vec2(200, 65), "Back", normal, hover)
     };
 
-    // Botones de la pantalla Vista Previa
+    // Preview screen buttons
     std::vector<Button> botonsPreview = {
         Button(glm::vec2(1484, 436), glm::vec2(200, 74), "Back", normal, hover),
         Button(glm::vec2(1429, 570), glm::vec2(310, 74), "Explore", normal, hover)
     };
 
-    // Estado del panel
-    AppState currentState = PANTALLA_EXPLORAR;
     ButtonClick clickState;
     bool mousePressed = false;
     bool mouseReleased = false;
 
-    std::string title, imagePath;
-    glm::vec3 cameraLoc = glm::vec3(0.0f);
-    int wonder = 0, j = 0;
-
-    // Camara orbital
+    // Orbital camera
     Camera camera(width, height, glm::vec3(0.0f));
     camera.Position = glm::vec3(0.0f, 0.0f, camera.orbitRadius);
 
-    // Animacion inmersion
+    // Model immersion animation
     bool animationStarted = false;
     float initialAnimationTime = 0.0f;
     float lastFrame = 0.0f;
 
-    // Tierra
+    // Earth
     float earthDuration = 2.0f;
     float initialScaleEarth = 1.0f;
     float finalScaleEarth = 3.6f;
     float earthProgress = initialScaleEarth;
 
-    // Nubes
+    // Clouds
     float cloudDuration = 1.0f;
     float initialScaleClouds = 0.007f;
     float finalScaleClouds = 0.009f;
     float cloudsProgress = initialScaleClouds;
 
+    // Menu status
+    AppState currentState = EXPLORE_SCREEN;
+    std::string title, imagePath;
+    glm::vec3 cameraLoc = glm::vec3(0.0f);
+    int wonder = 0, order = 0;
+
     while (true)
     {
         glfwPollEvents();
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Tiempo
+        // Time
         float time = glfwGetTime();
         float deltaTime = time - lastFrame;
         lastFrame = time;
@@ -238,11 +232,7 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
         glfwGetCursorPos(window, &mouseX, &mouseY);
         mouseY = height - mouseY;
 
-        // Limpiar pantalla
-        glClearColor(0.07f, 0.13f, 0.17f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
-        // Fondo con texture
+        // Background with texture
         glDisable(GL_DEPTH_TEST);
         imageShader.Activate();
         vaoF.Bind();
@@ -251,22 +241,21 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glEnable(GL_DEPTH_TEST);
 
-        // Titulo
-        if (currentState != PANTALLA_VIAJAR) {
+        // Title (except in the model immersion animation)
+        if (currentState != TRAVEL_SCREEN) {
             glDisable(GL_DEPTH_TEST);
-            textRenderer.RenderText(L"THE 7 WONDERS OF THE MODERN WEST", 110.0f, height - 120.0f, 1.0f, glm::vec3(rgb(103), rgb(255), rgb(45)));
+            textRenderer.RenderText("THE 7 WONDERS OF THE MODERN WEST", 110.0f, 960.0f, 1.0f, glm::vec3(rgb(103), rgb(255), rgb(45)));
             glEnable(GL_DEPTH_TEST);
         }
 
-        if (currentState == PANTALLA_EXPLORAR) {
+        if (currentState == EXPLORE_SCREEN) {
+            // Computer input reading is allowed
             camera.inputsEnabled = true;
 
-            // Botones de maravillas
+            // Button logic
             glDisable(GL_DEPTH_TEST);
             for (int i = 0; i < botonsExplore.size(); ++i) {
-                if (i != 7) botonsExplore[i].position.y -= 12;
                 bool hovered = botonsExplore[i].isHovered(mouseX, mouseY);
-                if (i != 7) botonsExplore[i].position.y += 12;
                 bool clicked = false;
                 botonsExplore[i].render(((i == 7) ? principalRenderer : buttonRenderer), hovered, false);
 
@@ -290,46 +279,46 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
                 camera.inputsEnabled = false;
 
                 switch (clickState.index) {
-                case 0: title = nameWonders[0]; imagePath = routesWonders[0]; cameraLoc = cameraPosition[0]; j = 2; break;
-                case 1: title = nameWonders[1]; imagePath = routesWonders[1]; cameraLoc = cameraPosition[1]; j = 7; break;
-                case 2: title = nameWonders[2]; imagePath = routesWonders[2]; cameraLoc = cameraPosition[2]; j = 5; break;
-                case 3: title = nameWonders[3]; imagePath = routesWonders[3]; cameraLoc = cameraPosition[3]; j = 4; break;
-                case 4: title = nameWonders[4]; imagePath = routesWonders[4]; cameraLoc = cameraPosition[4]; j = 6; break;
-                case 5: title = nameWonders[5]; imagePath = routesWonders[5]; cameraLoc = cameraPosition[5]; j = 1; break;
-                case 6: title = nameWonders[6]; imagePath = routesWonders[6]; cameraLoc = cameraPosition[6]; j = 3; break;
+                case 0: title = nameWonders[0]; imagePath = routesWonders[0]; cameraLoc = cameraPosition[0]; order = 2; break;
+                case 1: title = nameWonders[1]; imagePath = routesWonders[1]; cameraLoc = cameraPosition[1]; order = 7; break;
+                case 2: title = nameWonders[2]; imagePath = routesWonders[2]; cameraLoc = cameraPosition[2]; order = 5; break;
+                case 3: title = nameWonders[3]; imagePath = routesWonders[3]; cameraLoc = cameraPosition[3]; order = 4; break;
+                case 4: title = nameWonders[4]; imagePath = routesWonders[4]; cameraLoc = cameraPosition[4]; order = 6; break;
+                case 5: title = nameWonders[5]; imagePath = routesWonders[5]; cameraLoc = cameraPosition[5]; order = 1; break;
+                case 6: title = nameWonders[6]; imagePath = routesWonders[6]; cameraLoc = cameraPosition[6]; order = 3; break;
                 }
                 clickState.waiting = false;
 
                 if (clickState.index == 7) break;
 
                 previewImage = TextureF(imagePath.c_str(), GL_TEXTURE_2D, GL_TEXTURE0, GL_RGB, GL_UNSIGNED_BYTE);
-                currentState = PANTALLA_VISTA_PREVIA;
+                currentState = PREVIEW_SCREEN;
                 wonder = clickState.index;
             }
 
-            // Dibujar Tierra
+            // Earth
             glm::mat4 earthTransform = glm::mat4(1.0f);
             earthTransform = glm::rotate(earthTransform, glm::radians(time * 20.0f), glm::vec3(0.0f, 0.8f, 0.1f));
             earthTransform = glm::translate(earthTransform, glm::vec3(0.0f));
             earthTransform = glm::scale(earthTransform, glm::vec3(1.0f));
             earth.DrawRotation(modelShader, camera, earthTransform);
 
-            // Actualizar camara
+            // Upgrade camera
             camera.OrbitInputs(window, 367.0f, glm::vec2(width / 2, height / 2));
             camera.updateMatrixExplore(45.0f, 0.1f, 100.0f);
         }
-        else if (currentState == PANTALLA_VISTA_PREVIA) {
-            // Actualizar camara
+        else if (currentState == PREVIEW_SCREEN) {
+            // Upgrade camera
             camera.Position = cameraLoc;
             camera.OrbitInputs(window, 367.0f, glm::vec2(width / 2, height / 2));
             camera.updateMatrixExplore(45.0f, 0.1f, 100.0f);
 
-            // Dibujar Tierra
+            // Earth
             modelShader.Activate();
             glm::mat4 earthTransform = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f));
             earth.DrawRotation(modelShader, camera, earthTransform);
 
-            // Dibujar marcador de ubicacion en la Tierra
+            // Drawing the indicator model near the Earth
             glm::mat4 locationTransform = glm::translate(glm::mat4(1.0f), indicatorPosition[wonder]);
 
             locationTransform = glm::rotate(locationTransform, glm::radians(indicatorRotation[wonder].x), glm::vec3(1.0f, 0.0f, 0.0f));
@@ -339,13 +328,13 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
             locationTransform = glm::scale(locationTransform, glm::vec3(0.025f));
             location.DrawRotation(modelShader, camera, locationTransform);
 
-            // Dibujar title
+            // Title
             float here = 1248.0f + ((672.0f - botonsExplore[wonder].size.x) / 2);
             glDisable(GL_DEPTH_TEST);
-            titleRenderer.RenderText(convertToWideString(title), here, 770.0f, 1.0f, glm::vec3(1.0f));
+            titleRenderer.RenderText(title, here, 770.0f, 1.0f, glm::vec3(1.0f));
             glEnable(GL_DEPTH_TEST);
 
-            // Logica de botones
+            // Button logic
             glDisable(GL_DEPTH_TEST);
             for (int i = 0; i < botonsPreview.size(); ++i) {
                 bool hovered = botonsPreview[i].isHovered(mouseX, mouseY);
@@ -354,7 +343,7 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
 
                 if (hovered && mousePressed && !clickState.waiting) {
                     clicked = true;
-                    audio.playClickSound((i == 0) ? "media/click.mp3" : "media/clickViaje.mp3");
+                    audio.playClickSound((i == 0) ? "media/click.mp3" : "media/clickTravel.mp3");
                     clickState.index = i;
                     clickState.clickTime = glfwGetTime();
                     clickState.waiting = true;
@@ -366,8 +355,8 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
 
             if (clickState.waiting && (glfwGetTime() - clickState.clickTime) >= 0.3) {
                 switch (clickState.index) {
-                case 0: currentState = PANTALLA_EXPLORAR; break;
-                case 1: currentState = PANTALLA_VIAJAR; break;
+                case 0: currentState = EXPLORE_SCREEN; break;
+                case 1: currentState = TRAVEL_SCREEN; break;
                 }
                 camera = Camera(width, height, glm::vec3(0.0f));
                 camera.Position = glm::vec3(0.0f, 0.0f, camera.orbitRadius);
@@ -375,7 +364,7 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
                 camera.inputsEnabled = false;
             }
 
-            // Dibujar panel de fondo detras de la imagen
+            // Draw background panel behind image
             glDisable(GL_DEPTH_TEST);
             panelShader.Activate();
             panelVAO.Bind();
@@ -383,7 +372,7 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
             glEnable(GL_DEPTH_TEST);
 
-            // Dibujar imagen de la maravilla
+            // Draw wonder image
             glDisable(GL_DEPTH_TEST);
             imageShader.Activate();
             imagevaoF.Bind();
@@ -392,7 +381,9 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
             glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
             glEnable(GL_DEPTH_TEST);
         }
-        else if (currentState == PANTALLA_VIAJAR) {
+        else if (currentState == TRAVEL_SCREEN) {
+
+            // Animation logic
             if (!animationStarted) {
                 animationStarted = true;
                 initialAnimationTime = glfwGetTime();
@@ -400,14 +391,14 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
                 cloudsProgress = initialScaleClouds;
             }
 
-            // Actualizar camara
+            // Upgrade camera
             camera.Position = cameraLoc;
             camera.OrbitInputs(window, 367.0f, glm::vec2(width / 2, height / 2));
             camera.updateMatrixExplore(45.0f, 0.1f, 100.0f);
 
             float currentTime = glfwGetTime() - initialAnimationTime;
 
-            // Animacion de la Tierra
+            // Earth animation
             if (currentTime <= earthDuration) {
                 modelShader.Activate();
                 earthProgress = initialScaleEarth + (finalScaleEarth - initialScaleEarth) * (currentTime / earthDuration);
@@ -416,7 +407,7 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
                 earth.DrawRotation(modelShader, camera, earthTransform);
             }
 
-            // Animacion de las nubes
+            // Clouds animation
             if (currentTime > earthDuration && currentTime < (earthDuration + cloudDuration)) {
                 modelShader.Activate();
                 float tiempoNubes = currentTime - earthDuration;
@@ -426,22 +417,24 @@ void UI_Tierra(GLFWwindow* window, Shader& modelShader, Model& earth, Model& gla
                 animation.DrawRotation(modelShader, camera, animationTransform);
             }
 
-            // Finalizar animacion despues de los segundos
+            // End animation after seconds
             if (currentTime >= earthDuration + cloudDuration) {
                 audio.stopBackgroundMusic();
-                PantallaCarga(window, modelShader, glassModel, 5.0f);
+                LoadingScreen(window, modelShader, glassModel, 5.0f);
 
+                // Next part of the program (Exploration of the Wonder)
                 glDisable(GL_BLEND);
                 glEnable(GL_DEPTH_TEST);
-                SceneModels(j, window, model);
+                SceneModels(order, window, model);
                 glEnable(GL_BLEND);
                 glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
+                // Return to the initial state
                 animationStarted = false;
-                currentState = PANTALLA_EXPLORAR;
+                currentState = EXPLORE_SCREEN;
                 camera = Camera(width, height, glm::vec3(0.0f));
                 camera.Position = glm::vec3(0.0f, 0.0f, camera.orbitRadius);
-                audio.playBackgroundMusic("media/outer space.mp3");
+                audio.playBackgroundMusic("media/outerSpace.mp3");
             }
         }
 

@@ -22,6 +22,6 @@ public:
 
     TextRenderer(unsigned int width, unsigned int height);
     void Load(std::string fontPath, unsigned int fontSize);
-    void RenderText(std::wstring text, float x, float y, float scale, glm::vec3 color);
+    void RenderText(std::string text, float x, float y, float scale, glm::vec3 color);
 
 };

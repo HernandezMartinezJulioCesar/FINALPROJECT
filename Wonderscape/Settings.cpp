@@ -9,7 +9,7 @@
 #include "VBOF.h"
 #include "EBOF.h"
 #include "TextureF.h"
-#include "Config.h"
+#include "Settings.h"
 #include "Model.h"
 #include "Camera.h"
 
@@ -18,9 +18,9 @@
 float rgb(int color) { return color / 255.0f; }
 float pos(int point, float base) { return (point / base) * 2.0f - 1.0f; }
 
-void PantallaCarga(GLFWwindow* window, Shader& modelShader, Model& lupaModel, float duracion)
+void LoadingScreen(GLFWwindow* window, Shader& modelShader, Model& lupaModel, float duracion)
 {
-    // Cargar fondo
+    // Load background
     ShaderF backgroundShader("background.vert", "background.frag");
 
     float backgroundVertices[] = {
@@ -59,11 +59,11 @@ void PantallaCarga(GLFWwindow* window, Shader& modelShader, Model& lupaModel, fl
         glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-        // Tiempo
+        // Time
         float time = glfwGetTime();
         float deltaTime = 0.016f;
 
-        // Fondo con textura
+        // Backgroudn with texture
         glDisable(GL_DEPTH_TEST);
         backgroundShader.Activate();
         vaoF.Bind();
@@ -72,7 +72,7 @@ void PantallaCarga(GLFWwindow* window, Shader& modelShader, Model& lupaModel, fl
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
         glEnable(GL_DEPTH_TEST);
 
-        // Modelo de la lupa
+        // Magnifying glass
         float angleDegrees = sin(time * 2.5f) * 45.0f;
         glm::vec3 lupaPosition = glm::vec3(0.0f, 0.0f, 4.0f);
         glm::mat4 lupaTransform = glm::translate(glm::mat4(1.0f), lupaPosition);

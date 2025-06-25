@@ -72,14 +72,14 @@ void TextRenderer::Load(std::string fontPath, unsigned int fontSize) {
     FT_Done_FreeType(ft);
 }
 
-void TextRenderer::RenderText(std::wstring text, float x, float y, float scale, glm::vec3 color) {
+void TextRenderer::RenderText(std::string text, float x, float y, float scale, glm::vec3 color) {
     shader.Activate();
     glUniform3f(glGetUniformLocation(shader.ID, "textColor"), color.x, color.y, color.z);
     glActiveTexture(GL_TEXTURE0);
     glBindVertexArray(VAO);
 
     for (wchar_t c : text) {
-        if (c >= 128) continue; // Limitado al ASCII básico para esta implementación
+        if (c >= 128) continue;
         Character ch = Characters[c];
 
         float xpos = x + ch.Bearing.x * scale;
