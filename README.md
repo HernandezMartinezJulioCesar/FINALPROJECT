@@ -28,7 +28,7 @@ Wonder Scape arises as an academic project of the subject “Graphic Programming
 
 ## 👻 Preview
 <div align="center">
- <img src="Pictures/Gif1.gif" width="400"/>
+ <img src="Pictures/gif2.gif" width="400"/>
 </div>
 
 ## 🧩 Requirements
